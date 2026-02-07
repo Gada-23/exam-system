@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Online Exam System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- HOME -->
+<section id="home" class="page active">
+    <div class="card">
+        <h1>Computer Science Exit Exam Practice</h1>
+        <p>
+            Practice multiple choice questions generated randomly from the pool.
+            The exam contains 100 questions with a timer.
+            After submission, you can review your answers with explanations.
+        </p>
+        <button id="startBtn">Start Exam</button>
+    </div>
+</section>
+
+
+<!-- EXAM -->
+<section id="exam" class="page">
+
+    <div class="exam-header">
+        <h2>Exam in Progress</h2>
+        <div id="timer">00:00</div>
+    </div>
+
+    <div id="progress"></div>
+
+    <div id="questionBox" class="question-card"></div>
+
+    <div class="navigation">
+        <button id="prevBtn">Previous</button>
+        <button id="nextBtn">Next</button>
+    </div>
+
+    <div class="submit-area">
+        <button id="submitBtn">Submit Exam</button>
+    </div>
+
+</section>
+
+
+<!-- RESULT -->
+<section id="result" class="page">
+    <div class="card">
+        <h2>Your Result</h2>
+        <p id="scoreText"></p>
+        <button id="reviewBtn">Review Questions</button>
+        <button onclick="location.reload()">Go Home</button>
+    </div>
+</section>
+
+
+<!-- REVIEW -->
+<section id="review" class="page">
+    <h2>Review</h2>
+    <div id="reviewContainer"></div>
+    <button onclick="location.reload()">Finish</button>
+</section>
+
+
+<!-- IMPORTANT: questions first -->
+<script src="questions.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

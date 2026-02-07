@@ -1,0 +1,96 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background: #f4f6f8;
+}
+
+/* pages */
+.page {
+    display: none;
+    padding: 20px;
+}
+
+.page.active {
+    display: block;
+}
+
+/* card */
+.card {
+    max-width: 700px;
+    margin: 60px auto;
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+/* exam header */
+.exam-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+#timer {
+    font-weight: bold;
+    font-size: 18px;
+    color: #e63946;
+}
+
+/* question */
+.question-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px auto;
+    max-width: 800px;
+}
+
+/* options */
+.option {
+    margin: 8px 0;
+}
+
+/* navigation */
+.navigation {
+    display: flex;
+    justify-content: space-between;
+    max-width: 800px;
+    margin: auto;
+}
+
+/* submit */
+.submit-area {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* buttons */
+button {
+    padding: 10px 20px;
+    border: none;
+    background: #2b7cff;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    background: #1a5edb;
+}
+
+/* review */
+.correct {
+    color: green;
+}
+
+.wrong {
+    color: red;
+}
+
+/* progress */
+#progress {
+    text-align: center;
+    font-weight: bold;
+}
