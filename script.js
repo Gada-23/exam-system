@@ -5,7 +5,7 @@ let examQuestions = [];
 let userAnswers = {};
 let currentQuestion = 0;
 
-let timeLeft = 60 * 60; // 1 hour
+let timeLeft = 60 * 60 * 2; // 2 hours
 let timerInterval;
 
 
