@@ -2,65 +2,122 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Online Exam System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <!-- HOME -->
 <section id="home" class="page active">
-    <div class="card">
-        <h1>Computer Science Exit Exam Practice</h1>
-        <p>
-            Practice multiple choice questions generated randomly from the pool.
-            The exam contains 100 questions with a timer.
-            After submission, you can review your answers with explanations.
-        </p>
-        <button id="startBtn">Start Exam</button>
+    <div class="home-container">
+        <div class="floating-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+        </div>
+        <div class="card card-home">
+            <div class="home-icon">
+                <i class="fas fa-book-open"></i>
+            </div>
+            <h1>Computer Science Exit Exam Practice</h1>
+            <p class="subtitle">Master the fundamentals with our comprehensive exam preparation</p>
+            <div class="features">
+                <div class="feature-item">
+                    <i class="fas fa-random"></i>
+                    <span>100 Random Questions</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-clock"></i>
+                    <span>1 Hour Time Limit</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-lightbulb"></i>
+                    <span>Detailed Explanations</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Score Analysis</span>
+                </div>
+            </div>
+            <button id="startBtn" class="btn-primary">
+                <i class="fas fa-play"></i> Start Exam
+            </button>
+        </div>
     </div>
 </section>
 
 
 <!-- EXAM -->
 <section id="exam" class="page">
+    <div class="exam-container">
+        <div class="exam-header">
+            <div class="header-left">
+                <h2><i class="fas fa-clipboard-list"></i> Exam in Progress</h2>
+                <div class="progress-info" id="progress"></div>
+            </div>
+            <div class="header-right">
+                <div class="timer-box" id="timer">00:00</div>
+            </div>
+        </div>
 
-    <div class="exam-header">
-        <h2>Exam in Progress</h2>
-        <div id="timer">00:00</div>
+        <div class="exam-content">
+            <div id="questionBox" class="question-card"></div>
+
+            <div class="question-counter">
+                <span id="questionNum"></span>
+            </div>
+        </div>
+
+        <div class="navigation-buttons">
+            <button id="prevBtn" class="btn-secondary">
+                <i class="fas fa-chevron-left"></i> Previous
+            </button>
+            <button id="submitBtn" class="btn-danger">
+                <i class="fas fa-paper-plane"></i> Submit Exam
+            </button>
+            <button id="nextBtn" class="btn-secondary">
+                Next <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
     </div>
-
-    <div id="progress"></div>
-
-    <div id="questionBox" class="question-card"></div>
-
-    <div class="navigation">
-        <button id="prevBtn">Previous</button>
-        <button id="nextBtn">Next</button>
-    </div>
-
-    <div class="submit-area">
-        <button id="submitBtn">Submit Exam</button>
-    </div>
-
 </section>
 
 
 <!-- RESULT -->
 <section id="result" class="page">
-    <div class="card">
-        <h2>Your Result</h2>
-        <p id="scoreText"></p>
-        <button id="reviewBtn">Review Questions</button>
-        <button onclick="location.reload()">Go Home</button>
+    <div class="result-container">
+        <div class="result-card">
+            <div class="result-icon">
+                <i class="fas fa-trophy"></i>
+            </div>
+            <h2>Exam Completed!</h2>
+            <div class="score-display" id="scoreText"></div>
+            <div class="result-buttons">
+                <button id="reviewBtn" class="btn-primary">
+                    <i class="fas fa-redo"></i> Review Questions
+                </button>
+                <button onclick="location.reload()" class="btn-secondary">
+                    <i class="fas fa-home"></i> Go Home
+                </button>
+            </div>
+        </div>
     </div>
 </section>
 
 
 <!-- REVIEW -->
 <section id="review" class="page">
-    <h2>Review</h2>
-    <div id="reviewContainer"></div>
-    <button onclick="location.reload()">Finish</button>
+    <div class="review-container">
+        <h2><i class="fas fa-list-check"></i> Review Your Answers</h2>
+        <div id="reviewContainer" class="review-content"></div>
+        <div class="review-footer">
+            <button onclick="location.reload()" class="btn-primary">
+                <i class="fas fa-home"></i> Finish & Go Home
+            </button>
+        </div>
+    </div>
 </section>
 
 

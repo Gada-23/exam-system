@@ -42,15 +42,16 @@ function loadQuestion() {
     document.getElementById("progress").textContent =
         `Question ${currentQuestion + 1} of ${examQuestions.length}`;
 
+    document.getElementById("questionNum").textContent =
+        `${currentQuestion + 1} / ${examQuestions.length}`;
+
     box.innerHTML = `
         <p><b>${currentQuestion + 1}. ${q.question}</b></p>
         ${q.options.map((opt, i) => `
             <div class="option">
-                <label>
-                    <input type="radio" name="answer" value="${i}"
-                        ${userAnswers[currentQuestion] === i ? "checked" : ""}>
-                    ${opt}
-                </label>
+                <input type="radio" name="answer" value="${i}" id="opt-${i}"
+                    ${userAnswers[currentQuestion] === i ? "checked" : ""}>
+                <label for="opt-${i}">${opt}</label>
             </div>
         `).join("")}
     `;
@@ -109,7 +110,15 @@ function startTimer() {
 function updateTimer() {
     const min = String(Math.floor(timeLeft / 60)).padStart(2, "0");
     const sec = String(timeLeft % 60).padStart(2, "0");
-    document.getElementById("timer").textContent = `${min}:${sec}`;
+    const timerBox = document.getElementById("timer");
+    timerBox.textContent = `${min}:${sec}`;
+    
+    // Add warning style when time is running out
+    if (timeLeft <= 300) { // 5 minutes
+        timerBox.classList.add("warning");
+    } else {
+        timerBox.classList.remove("warning");
+    }
 }
 
 
@@ -128,8 +137,19 @@ function submitExam() {
         if (userAnswers[i] === q.answer) score++;
     });
 
-    document.getElementById("scoreText").textContent =
-        `You scored ${score} out of ${examQuestions.length}`;
+    const percentage = Math.round((score / examQuestions.length) * 100);
+    const performanceText = percentage >= 80 ? "Excellent!" : 
+                           percentage >= 60 ? "Good Job!" : 
+                           percentage >= 40 ? "Keep Practicing!" : "Study More!";
+
+    document.getElementById("scoreText").innerHTML =
+        `<div><strong>${performanceText}</strong></div>
+         <div style="font-size: 36px; font-weight: 700; margin: 15px 0; color: #667eea;">
+            ${score} / ${examQuestions.length}
+         </div>
+         <div style="font-size: 18px; color: #666;">
+            Score: ${percentage}%
+         </div>`;
 
     showPage("result");
 }
@@ -154,15 +174,21 @@ function loadReview() {
         const div = document.createElement("div");
         div.className = "question-card";
 
+        const statusIcon = user === correct ? 
+            '<i class="fas fa-check-circle" style="color: #22c55e; margin-right: 8px;"></i>' : 
+            '<i class="fas fa-times-circle" style="color: #f5576c; margin-right: 8px;"></i>';
+
         div.innerHTML = `
-            <p><b>${i + 1}. ${q.question}</b></p>
-            <p>Your answer:
+            <p><b>${statusIcon}${i + 1}. ${q.question}</b></p>
+            <p><strong>Your answer:</strong>
                 <span class="${user === correct ? "correct" : "wrong"}">
                     ${user !== undefined ? q.options[user] : "Not answered"}
                 </span>
             </p>
-            <p class="correct">Correct answer: ${q.options[correct]}</p>
-            <p><i>Explanation: ${q.explanation}</i></p>
+            <p><strong style="color: #22c55e;">✓ Correct answer:</strong> ${q.options[correct]}</p>
+            <i style="display: block; margin-top: 15px; padding-top: 15px; border-top: 1px solid #eee; color: #666;">
+                <strong>📚 Explanation:</strong> ${q.explanation}
+            </i>
         `;
 
         container.appendChild(div);
