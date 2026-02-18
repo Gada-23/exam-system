@@ -500,7 +500,43 @@
         </div>
     </div>
 </section>
+<!-- Add this right before the questions.js script -->
+<script>
+// Store questions in session storage when leaving the page
+window.addEventListener('beforeunload', function() {
+    if (window.allQuestions && window.allQuestions.length > 0) {
+        sessionStorage.setItem('cachedQuestions', JSON.stringify({
+            timestamp: Date.now(),
+            questions: window.allQuestions
+        }));
+    }
+});
 
+// Check for cached questions on load
+(function() {
+    const cached = sessionStorage.getItem('cachedQuestions');
+    if (cached) {
+        try {
+            const data = JSON.parse(cached);
+            // Only use cache if less than 5 minutes old
+            if (Date.now() - data.timestamp < 300000) {
+                window.allQuestions = data.questions;
+                window.questionsLoaded = true;
+                console.log('Loaded questions from session cache');
+            } else {
+                sessionStorage.removeItem('cachedQuestions');
+            }
+        } catch (e) {
+            console.warn('Failed to parse cached questions');
+            sessionStorage.removeItem('cachedQuestions');
+        }
+    }
+})();
+</script>
+
+<!-- IMPORTANT: questions first -->
+<script src="questions.js"></script>
+<script src="script.js"></script>
 <!-- IMPORTANT: questions first -->
 <script src="questions.js"></script>
 <script src="script.js"></script>

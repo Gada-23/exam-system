@@ -5,9 +5,77 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Study Viewer - Computer Science</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='grad' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:%23667eea;stop-opacity:1' /><stop offset='100%' style='stop-color:%23764ba2;stop-opacity:1' /></linearGradient></defs><rect width='100' height='100' fill='url(%23grad)' rx='15'/><path d='M25 30 L25 75 Q25 80 30 80 L70 80 Q75 80 75 75 L75 30 Q75 25 70 25 L30 25 Q25 25 25 30' fill='white' opacity='0.9'/><path d='M45 35 L45 70' stroke='%23667eea' stroke-width='2' fill='none'/><circle cx='35' cy='45' r='3' fill='%23667eea'/><circle cx='55' cy='45' r='3' fill='%23667eea'/><circle cx='35' cy='58' r='3' fill='%23764ba2'/><circle cx='55' cy='58' r='3' fill='%23764ba2'/><path d='M40 20 L35 15 L30 20 L32 25 L38 25 Z' fill='white' stroke='%23764ba2' stroke-width='1.5'/></svg>">
     <link rel="stylesheet" href="../style.css">
     <link rel="stylesheet" href="viewer.css">
+    <style>
+        /* Additional viewer-specific styles */
+        .loading-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
+            text-align: center;
+            color: #666;
+        }
+        
+        .loading-container i {
+            font-size: 50px;
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+        
+        .error-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
+            text-align: center;
+            color: #f5576c;
+        }
+        
+        .error-container i {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+        
+        .error-details {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            max-width: 600px;
+            text-align: left;
+            font-family: monospace;
+            font-size: 14px;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 25px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .back-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .content-container {
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
 <body>
 
@@ -17,7 +85,7 @@
     <!-- Header with navigation -->
     <div class="viewer-header">
         <div class="header-left">
-            <a href="../study.html" class="back-to-courses">
+            <a href="../study.html" class="back-to-courses" id="backToCourses">
                 <i class="fas fa-arrow-left"></i> Back to Courses
             </a>
             <h1 id="courseTitle">Loading...</h1>
@@ -34,7 +102,7 @@
         <div class="selector-row">
             <div class="selector-group">
                 <label for="chapterSelector"><i class="fas fa-book"></i> Chapter:</label>
-                <select id="chapterSelector" class="chapter-selector">
+                <select id="chapterSelector" class="chapter-selector" disabled>
                     <option value="">Loading chapters...</option>
                 </select>
             </div>
@@ -50,9 +118,10 @@
 
     <!-- Main content area -->
     <div class="viewer-content" id="viewerContent">
-        <div class="loading-chapter">
+        <div class="loading-container">
             <i class="fas fa-circle-notch fa-spin"></i>
-            <p>Loading content...</p>
+            <h3>Loading Study Materials</h3>
+            <p>Please wait while we load your course content...</p>
         </div>
     </div>
 

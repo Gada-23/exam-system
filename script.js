@@ -23,30 +23,53 @@ let availableCourses = [];
 document.addEventListener('DOMContentLoaded', function() {
     console.log("DOM loaded, initializing app...");
     
-    // Wait a moment for questions to load
-    setTimeout(function() {
+    // Show loading state
+    showLoadingState();
+    
+    // Check if questions are already loaded
+    if (window.questionsLoaded) {
         initializeApp();
-    }, 100);
+    } else {
+        // Wait for questions to load
+        window.addEventListener('questionsLoaded', function() {
+            console.log("Questions loaded event received");
+            initializeApp();
+        });
+        
+        // Fallback timeout
+        setTimeout(function() {
+            if (typeof window.allQuestions !== 'undefined' && window.allQuestions.length > 0) {
+                console.log("Questions available via timeout");
+                initializeApp();
+            } else {
+                console.error("Questions still not loaded after timeout");
+                showError("Failed to load questions. Please refresh the page.");
+            }
+        }, 5000);
+    }
 });
+
+function showLoadingState() {
+    const homeStats = document.getElementById('homeStats');
+    if (homeStats) {
+        homeStats.innerHTML = `
+            <div style="padding: 20px; text-align: center;">
+                <i class="fas fa-circle-notch fa-spin" style="font-size: 30px; color: #667eea;"></i>
+                <p style="margin-top: 10px;">Loading questions...</p>
+            </div>
+        `;
+    }
+}
 
 function initializeApp() {
     // Check if allQuestions exists
-    if (typeof allQuestions === 'undefined') {
-        console.error("allQuestions is not defined! Check questions.js file.");
-        console.log("Available global variables:", Object.keys(window));
+    if (typeof window.allQuestions === 'undefined' || window.allQuestions.length === 0) {
+        console.error("allQuestions is not defined or empty! Check questions.js file.");
         showError("Error loading questions. Please refresh the page.");
         return;
     }
     
-    console.log(`✅ Loaded ${allQuestions.length} questions successfully`);
-    
-    if (allQuestions.length === 0) {
-        showError("No questions found. Please check the course question files.");
-        return;
-    }
-    
-    // Log first few questions to verify structure
-    console.log("Sample question:", allQuestions[0]);
+    console.log(`✅ Loaded ${window.allQuestions.length} questions successfully`);
     
     // Extract unique courses from questions
     extractCourses();
@@ -66,6 +89,8 @@ function initializeApp() {
     // Update total questions count in modal
     updateTotalQuestionsCount();
 }
+
+// ... rest of your script.js code remains the same ...
 
 // ===============================
 // Error Handling

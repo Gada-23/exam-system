@@ -1,17 +1,31 @@
 // ===============================
 // MAIN QUESTIONS FILE
+// Imports all course question files from the courseQuestions folder
 // ===============================
 
-// Create a global array for all questions
+// Global array for all questions
 window.allQuestions = [];
 
+// Track loading status
+window.questionsLoaded = false;
+window.questionsLoadCallbacks = [];
+
+// Function to call when questions are loaded
+function onQuestionsLoaded(callback) {
+    if (window.questionsLoaded) {
+        callback(window.allQuestions);
+    } else {
+        window.questionsLoadCallbacks.push(callback);
+    }
+}
+
 // Function to load scripts sequentially
-function loadScript(url, callback) {
+function loadScript(src, callback) {
     const script = document.createElement('script');
-    script.src = url;
+    script.src = src + '?t=' + Date.now(); // Cache busting
     script.onload = callback;
     script.onerror = function() {
-        console.error('Failed to load:', url);
+        console.warn('Failed to load:', src);
         callback(); // Continue even if one fails
     };
     document.head.appendChild(script);
@@ -40,15 +54,16 @@ const courseFiles = [
 ];
 
 let loadedCount = 0;
+const totalFiles = courseFiles.length;
 
 // Load each file
 courseFiles.forEach(file => {
     loadScript(file, function() {
         loadedCount++;
-        console.log(`Loaded ${file} (${loadedCount}/${courseFiles.length})`);
+        console.log(`Loaded ${file} (${loadedCount}/${totalFiles})`);
         
         // After all files are loaded, combine questions
-        if (loadedCount === courseFiles.length) {
+        if (loadedCount === totalFiles) {
             combineAllQuestions();
         }
     });
@@ -77,6 +92,7 @@ function combineAllQuestions() {
     ];
     
     window.allQuestions = allQuestions;
+    window.questionsLoaded = true;
     
     console.log(`✅ Total questions loaded: ${allQuestions.length}`);
     
@@ -98,12 +114,23 @@ function combineAllQuestions() {
     console.log(`   Automata & Complexity Theory: ${window.automataQuestions?.length || 0}`);
     console.log(`   Compiler Design: ${window.compilerDesignQuestions?.length || 0}`);
     
+    // Notify all waiting callbacks
+    window.questionsLoadCallbacks.forEach(callback => callback(window.allQuestions));
+    window.questionsLoadCallbacks = [];
+    
     // Dispatch event that questions are ready
     window.dispatchEvent(new Event('questionsLoaded'));
 }
 
-// Make allQuestions available globally
+// Make allQuestions available globally with a getter that waits for loading
 Object.defineProperty(window, 'allQuestions', {
-    get: function() { return window._allQuestions || []; },
-    set: function(value) { window._allQuestions = value; }
+    get: function() { 
+        return window._allQuestions || []; 
+    },
+    set: function(value) { 
+        window._allQuestions = value; 
+    }
 });
+
+// Store the original array internally
+window._allQuestions = [];
