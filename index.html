@@ -3,12 +3,379 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Online Exam System</title>
+    <title>Online Exam System - Computer Science Exit Exam</title>
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='grad' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:%23667eea;stop-opacity:1' /><stop offset='100%' style='stop-color:%23764ba2;stop-opacity:1' /></linearGradient></defs><rect width='100' height='100' fill='url(%23grad)' rx='15'/><path d='M25 30 L25 75 Q25 80 30 80 L70 80 Q75 80 75 75 L75 30 Q75 25 70 25 L30 25 Q25 25 25 30' fill='white' opacity='0.9'/><path d='M45 35 L45 70' stroke='%23667eea' stroke-width='2' fill='none'/><circle cx='35' cy='45' r='3' fill='%23667eea'/><circle cx='55' cy='45' r='3' fill='%23667eea'/><circle cx='35' cy='58' r='3' fill='%23764ba2'/><circle cx='55' cy='58' r='3' fill='%23764ba2'/><path d='M40 20 L35 15 L30 20 L32 25 L38 25 Z' fill='white' stroke='%23764ba2' stroke-width='1.5'/></svg>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Additional styles for question quantity selection */
+        .quantity-section {
+            margin: 25px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border: 2px solid #e0e0e0;
+        }
+        
+        .quantity-section h5 {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .quantity-section h5 i {
+            color: #667eea;
+        }
+        
+        .quantity-options {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .quantity-option {
+            flex: 1;
+            min-width: 70px;
+            padding: 12px 8px;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        .quantity-option:hover {
+            border-color: #667eea;
+            color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(102, 126, 234, 0.2);
+        }
+        
+        .quantity-option.selected {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-color: transparent;
+            color: white;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .quantity-option:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+        
+        .quantity-note {
+            font-size: 12px;
+            color: #999;
+            margin-top: 12px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+        
+        .quantity-note i {
+            color: #667eea;
+        }
+        
+        .selected-course-info {
+            background: #e8ebff;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .selected-course-name {
+            font-weight: 700;
+            color: #667eea;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .selected-course-stats {
+            display: flex;
+            gap: 15px;
+            font-size: 13px;
+        }
+        
+        .selected-course-stats span {
+            background: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        /* Loading indicator */
+        .loading-courses {
+            text-align: center;
+            padding: 50px;
+            color: #666;
+            grid-column: 1 / -1;
+        }
+        
+        .loading-courses i {
+            font-size: 50px;
+            color: #667eea;
+            margin-bottom: 15px;
+            animation: spin 1.5s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* No courses message */
+        .no-courses {
+            text-align: center;
+            padding: 50px;
+            color: #999;
+            font-style: italic;
+            grid-column: 1 / -1;
+        }
+        
+        /* Total Stats */
+        .total-stats {
+            background: linear-gradient(135deg, #667eea0d, #764ba20d);
+            padding: 20px;
+            border-radius: 12px;
+            margin: 0 0 20px 0;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+            border: 1px solid #667eea30;
+        }
+        
+        .total-stat-item {
+            text-align: center;
+            flex: 1;
+            min-width: 100px;
+        }
+        
+        .total-stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: #667eea;
+            line-height: 1.2;
+        }
+        
+        .total-stat-label {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+        
+        /* Course note */
+        .course-note {
+            font-size: 13px;
+            color: #666;
+            margin-top: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .course-note i {
+            color: #667eea;
+            font-size: 16px;
+        }
+        
+        /* Action Buttons Container */
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 25px;
+        }
+        
+        .action-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 30px;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            min-width: 180px;
+            justify-content: center;
+        }
+        
+        .action-btn.exam {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        
+        .action-btn.study {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+        
+        .action-btn.study:hover {
+            box-shadow: 0 6px 20px rgba(245, 87, 108, 0.6);
+        }
+        
+        .action-btn:active {
+            transform: translateY(0);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .quantity-options {
+                gap: 8px;
+            }
+            
+            .quantity-option {
+                min-width: 50px;
+                padding: 10px 5px;
+                font-size: 14px;
+            }
+            
+            .selected-course-info {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .total-stats {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px;
+            }
+            
+            .total-stat-item {
+                min-width: auto;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .action-btn {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
+
+<!-- COURSE SELECTION MODAL -->
+<div id="courseModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2><i class="fas fa-graduation-cap"></i> Select Exam Mode</h2>
+            <p class="modal-subtitle">Choose how you want to practice for your Computer Science Exit Exam</p>
+        </div>
+        
+        <div class="modal-body">
+            <!-- Comprehensive Mode (100 Random Questions) -->
+            <div class="mode-card" id="randomModeCard">
+                <div class="mode-icon">
+                    <i class="fas fa-random"></i>
+                </div>
+                <h3>Comprehensive Mode</h3>
+                <p>100 random questions from ALL courses</p>
+                <div class="mode-badge" id="totalQuestionsCount">Loading...</div>
+            </div>
+
+            <div class="divider">
+                <span>OR</span>
+            </div>
+
+            <!-- Course Selection -->
+            <div class="course-selection">
+                <h4><i class="fas fa-filter"></i> Focus on Specific Course</h4>
+                
+                <!-- Total Stats -->
+                <div class="total-stats" id="totalStats">
+                    <div class="loading-courses" style="padding: 10px;">
+                        <i class="fas fa-circle-notch"></i>
+                        <p>Loading stats...</p>
+                    </div>
+                </div>
+                
+                <div class="course-grid" id="courseGrid">
+                    <div class="loading-courses">
+                        <i class="fas fa-circle-notch"></i>
+                        <p>Loading courses...</p>
+                    </div>
+                </div>
+                
+                <!-- Selected Course Info (hidden initially) -->
+                <div id="selectedCourseInfo" class="selected-course-info" style="display: none;">
+                    <div class="selected-course-name">
+                        <i class="fas fa-book-open"></i>
+                        <span id="selectedCourseName"></span>
+                    </div>
+                    <div class="selected-course-stats">
+                        <span><i class="fas fa-question-circle"></i> <span id="selectedCourseTotal">0</span> available</span>
+                    </div>
+                </div>
+                
+                <!-- Question Quantity Selection (hidden initially) -->
+                <div id="quantitySection" class="quantity-section" style="display: none;">
+                    <h5><i class="fas fa-sliders-h"></i> Number of Questions:</h5>
+                    <div class="quantity-options" id="quantityOptions">
+                        <div class="quantity-option" data-quantity="10">10</div>
+                        <div class="quantity-option" data-quantity="20">20</div>
+                        <div class="quantity-option" data-quantity="30">30</div>
+                        <div class="quantity-option" data-quantity="40">40</div>
+                        <div class="quantity-option" data-quantity="50">50</div>
+                    </div>
+                    <div class="quantity-note">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Select how many questions you want to practice</span>
+                    </div>
+                </div>
+                
+                <div class="course-note">
+                    <i class="fas fa-info-circle"></i>
+                    <span>Select a course to practice specific topics, then choose the number of questions (max available).</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button id="startSelectedBtn" class="btn-primary" disabled>
+                <i class="fas fa-play"></i> Start Exam
+            </button>
+            <button id="cancelModalBtn" class="btn-secondary">
+                <i class="fas fa-times"></i> Cancel
+            </button>
+        </div>
+    </div>
+</div>
 
 <!-- HOME -->
 <section id="home" class="page active">
@@ -20,31 +387,43 @@
         </div>
         <div class="card card-home">
             <div class="home-icon">
-                <i class="fas fa-book-open"></i>
+                <i class="fas fa-laptop-code"></i>
             </div>
             <h1>Computer Science Exit Exam Practice</h1>
-            <p class="subtitle">Master the fundamentals with our comprehensive exam preparation</p>
+            <p class="subtitle">Master all courses with our comprehensive exam preparation platform</p>
+            
             <div class="features">
                 <div class="feature-item">
-                    <i class="fas fa-random"></i>
-                    <span>100 Random Questions</span>
+                    <i class="fas fa-database"></i>
+                    <span id="totalQuestionsFeature">Loading...</span>
+                </div>
+                <div class="feature-item">
+                    <i class="fas fa-book"></i>
+                    <span id="totalCoursesFeature">Loading...</span>
                 </div>
                 <div class="feature-item">
                     <i class="fas fa-clock"></i>
-                    <span>2 Hour Time Limit</span>
+                    <span>2 Hours</span>
                 </div>
                 <div class="feature-item">
-                    <i class="fas fa-lightbulb"></i>
-                    <span>Detailed Explanations</span>
-                </div>
-                <div class="feature-item">
-                    <i class="fas fa-chart-line"></i>
-                    <span>Score Analysis</span>
+                    <i class="fas fa-sliders-h"></i>
+                    <span>10-50 Q/Exam</span>
                 </div>
             </div>
-            <button id="startBtn" class="btn-primary">
-                <i class="fas fa-play"></i> Start Exam
-            </button>
+            
+            <div class="action-buttons">
+                <button id="startBtn" class="action-btn exam">
+                    <i class="fas fa-play"></i> Start Exam
+                </button>
+                <a href="study.html" class="action-btn study">
+                    <i class="fas fa-book-open"></i> Study Materials
+                </a>
+            </div>
+            
+            <div class="home-stats" id="homeStats">
+                <!-- Stats will be populated by JavaScript -->
+            </div>
+            
             <div style="margin-top: 25px;">
                 <a href="about-developer.html" class="about-link">
                     <i class="fas fa-user-circle"></i> About Developer
@@ -54,23 +433,21 @@
     </div>
 </section>
 
-
 <!-- EXAM -->
 <section id="exam" class="page">
     <div class="exam-container">
         <div class="exam-header">
             <div class="header-left">
-                <h2><i class="fas fa-clipboard-list"></i> Exam in Progress</h2>
+                <h2><i class="fas fa-clipboard-list"></i> <span id="examModeTitle">Exam in Progress</span></h2>
                 <div class="progress-info" id="progress"></div>
             </div>
             <div class="header-right">
-                <div class="timer-box" id="timer">00:00</div>
+                <div class="timer-box" id="timer">02:00:00</div>
             </div>
         </div>
 
         <div class="exam-content">
             <div id="questionBox" class="question-card"></div>
-
             <div class="question-counter">
                 <span id="questionNum"></span>
             </div>
@@ -89,7 +466,6 @@
         </div>
     </div>
 </section>
-
 
 <!-- RESULT -->
 <section id="result" class="page">
@@ -112,7 +488,6 @@
     </div>
 </section>
 
-
 <!-- REVIEW -->
 <section id="review" class="page">
     <div class="review-container">
@@ -126,9 +501,41 @@
     </div>
 </section>
 
-
 <!-- IMPORTANT: questions first -->
 <script src="questions.js"></script>
 <script src="script.js"></script>
+
+<!-- Quick verification on load (console only) -->
+<script>
+    setTimeout(function() {
+        console.log("=== VERIFICATION ===");
+        console.log("allQuestions exists:", typeof allQuestions !== 'undefined');
+        if (typeof allQuestions !== 'undefined') {
+            console.log("Total questions:", allQuestions.length);
+            
+            // Get unique courses
+            const courses = [...new Set(allQuestions.map(q => q.course).filter(c => c))];
+            console.log("Courses found:", courses);
+            
+            if (courses.length === 0) {
+                console.warn("⚠️ No courses found! Check that questions have a 'course' property.");
+            } else {
+                console.log("✅ Courses loaded successfully!");
+            }
+        }
+        console.log("===================");
+        
+        // Update feature counts
+        if (typeof allQuestions !== 'undefined') {
+            const totalQuestions = document.getElementById('totalQuestionsFeature');
+            const totalCourses = document.getElementById('totalCoursesFeature');
+            const courses = [...new Set(allQuestions.map(q => q.course).filter(c => c))];
+            
+            if (totalQuestions) totalQuestions.textContent = allQuestions.length + ' Questions';
+            if (totalCourses) totalCourses.textContent = courses.length + ' Courses';
+        }
+    }, 1000);
+</script>
+
 </body>
 </html>

@@ -1,0 +1,269 @@
+// ===============================
+// COMPUTER SECURITY
+// ===============================
+window.computerSecurityQuestions = [
+    {
+        "question": "What is the primary goal of computer security?",
+        "options": [
+            "Confidentiality",
+            "Integrity",
+            "Availability",
+            "All of the above"
+        ],
+        "answer": 3,
+        "explanation": "Computer security aims to protect the confidentiality (preventing unauthorized access), integrity (maintaining data accuracy and reliability), and availability (ensuring system functionality) of computer systems and data.",
+        "course": "Computer Security"
+    },
+    {
+        "question": "What is the term used for a software program that attempts to gain unauthorized access to computer systems?",
+        "options": [
+            "Firewall",
+            "Malware",
+            "Encryption",
+            "VPN"
+        ],
+        "answer": 1,
+        "explanation": "Malware refers to any malicious software designed to disrupt, damage, or gain unauthorized access to computer systems. Examples include viruses, worms, trojans, and spyware.",
+        "course": "Computer Security"
+    },
+    {
+        "question": "What is the practice of hiding confidential data within other data called?",
+        "options": [
+            "Encryption",
+            "Decryption",
+            "Steganography",
+            "Intrusion detection"
+        ],
+        "answer": 2,
+        "explanation": "Steganography is the practice of concealing secret or sensitive information within other non-secret data, such as hiding text within an image or audio file.",
+        "course": "Computer Security"
+    },
+    {
+        "question": "Which of the following authentication methods verifies a user's identity based on a unique physical characteristic?",
+        "options": [
+            "Password authentication",
+            "Biometric authentication",
+            "Token authentication",
+            "Two-factor authentication"
+        ],
+        "answer": 1,
+        "explanation": "Biometric authentication uses unique physical characteristics, such as fingerprints, iris patterns, or facial features, to verify a user's identity.",
+        "course": "Computer Security"
+    },
+    {
+        "question": "What is the process of converting plaintext into ciphertext called?",
+        "options": [
+            "Encryption",
+            "Decryption",
+            "Hashing",
+            "Key exchange"
+        ],
+        "answer": 0,
+        "explanation": "Encryption is the process of converting readable plaintext into unreadable ciphertext using an encryption algorithm and a secret encryption key.",
+        "course": "Computer Security"
+    },
+    {
+        "question": "What is the term for a software vulnerability that allows an attacker to execute arbitrary code on a target system?",
+        "options": [
+            "Phishing",
+            "Buffer overflow",
+            "SQL injection",
+            "Cross-site scripting"
+        ],
+        "answer": 1,
+        "explanation": "A buffer overflow is a software vulnerability where an attacker can overwrite the buffer's boundary, causing the execution of arbitrary code and potentially compromising the system.",
+        "course": "Computer Security"
+    },
+    {
+        "question": "Which of the following is an example of a social engineering attack?",
+        "options": [
+            "Denial-of-Service (DoS) attack",
+            "Distributed Denial-of-Service (DDoS) attack",
+            "Phishing attack",
+            "Brute-force attack"
+        ],
+        "answer": 2,
+        "explanation": "Phishing is a social engineering attack where attackers impersonate legitimate entities to trick users into revealing sensitive information, such as passwords or credit card details, through deceptive emails or websites.",
+        "course": "Computer Security"
+    },
+    {
+        "question": "What is the purpose of a firewall in computer security?",
+        "options": [
+            "To encrypt network traffic",
+            "To monitor and control network traffic",
+            "To detect and remove malware",
+            "To authenticate users"
+        ],
+        "answer": 1,
+        "explanation": "A firewall acts as a barrier between an internal network and external networks, monitoring and controlling incoming and outgoing network traffic based on predefined security rules.",
+        "course": "Computer Security"
+    },
+    {
+        "question": "Which of the following is a common authentication factor used in two-factor authentication?",
+        "options": [
+            "Username",
+            "Password",
+            "Security question",
+            "One-time password (OTP)"
+        ],
+        "answer": 3,
+        "explanation": "Two-factor authentication combines two different authentication factors, such as a password and a one-time password (OTP) generated by a mobile app or sent via SMS, to provide an additional layer of security.",
+        "course": "Computer Security"
+    },
+    {
+        "question": "What is the term for a malicious activity where an attacker tries all possible combinations of passwords to gain unauthorized access?",
+        "options": [
+            "Brute-force attack",
+            "Denial-of-Service (DoS) attack",
+            "SQL injection",
+            "Man-in-the-middle (MITM) attack"
+        ],
+        "answer": 0,
+        "explanation": "A brute-force attack is a method where an attacker systematically tries all possible combinations of passwords until the correct one is found.",
+        "course": "Computer Security"
+    },
+    {
+        "question": "What is a buffer overflow vulnerability?",
+        "options": [
+            "A vulnerability that allows unauthorized access to a system's memory",
+            "A vulnerability that allows attackers to intercept network traffic",
+            "A vulnerability that allows attackers to execute arbitrary code",
+            "A vulnerability that allows unauthorized access to a system's files"
+        ],
+        "answer": 2,
+        "explanation": "A buffer overflow vulnerability occurs when a program writes data beyond the bounds of a fixed-size buffer, potentially overwriting adjacent memory locations and allowing an attacker to execute malicious code.",
+        "course": "Computer Security"
+    },
+    {
+        "question": "What is SQL injection?",
+        "options": [
+            "A vulnerability that allows attackers to intercept network traffic",
+            "A vulnerability that allows attackers to execute arbitrary code",
+            "A vulnerability that allows unauthorized access to a system's memory",
+            "A vulnerability that allows unauthorized access to a database"
+        ],
+        "answer": 3,
+        "explanation": "SQL injection is a technique where an attacker injects malicious SQL statements into a database query, potentially gaining unauthorized access to the database or manipulating its contents.",
+        "course": "Computer Security"
+    },
+    {
+        "question": "What is cross-site scripting (XSS)?",
+        "options": [
+            "A vulnerability that allows unauthorized access to a system's memory",
+            "A vulnerability that allows attackers to execute arbitrary code",
+            "A vulnerability that allows attackers to manipulate web page content",
+            "A vulnerability that allows unauthorized access to a database"
+        ],
+        "answer": 2,
+        "explanation": "Cross-site scripting (XSS) is a vulnerability that allows attackers to inject malicious scripts into web pages viewed by other users, enabling them to manipulate the page's content or steal sensitive information.",
+        "course": "Computer Security"
+    },
+    {
+        "question": "What is the purpose of input validation in program security?",
+        "options": [
+            "To ensure the confidentiality of data",
+            "To prevent unauthorized access to a system",
+            "To detect and block malicious input",
+            "To encrypt sensitive data during transmission"
+        ],
+        "answer": 2,
+        "explanation": "Input validation is the process of inspecting and filtering user input to ensure that it meets specific criteria, thereby preventing the execution of malicious commands or the introduction of harmful data into a program.",
+        "course": "Computer Security"
+    },
+    {
+        "question": "What is the role of secure coding practices in program security?",
+        "options": [
+            "To prevent code duplication and improve program efficiency",
+            "To ensure compliance with industry standards and regulations",
+            "To minimize the number of bugs and vulnerabilities in code",
+            "To facilitate code collaboration among developers"
+        ],
+        "answer": 2,
+        "explanation": "Secure coding practices aim to reduce the number of bugs and vulnerabilities in software by following established coding standards, using secure programming techniques, and adopting defensive coding practices.",
+        "course": "Computer Security"
+    },
+    {
+        "question": "What is the purpose of access control mechanisms in program security?",
+        "options": [
+            "To prevent unauthorized access to sensitive resources",
+            "To monitor and log system activities for auditing purposes",
+            "To encrypt data during storage and transmission",
+            "To protect against malware and viruses"
+        ],
+        "answer": 0,
+        "explanation": "Access control mechanisms are used to restrict and regulate user access to sensitive resources, ensuring that only authorized users can access and modify them.",
+        "course": "Computer Security"
+    },
+    {
+        "question": "What is a race condition vulnerability?",
+        "options": [
+            "A vulnerability that allows unauthorized access to a system's memory",
+            "A vulnerability that allows attackers to intercept network traffic",
+            "A vulnerability that allows attackers to execute arbitrary code",
+            "A vulnerability that occurs when the timing of program execution leads to unexpected behavior"
+        ],
+        "answer": 3,
+        "explanation": "A race condition vulnerability occurs when the outcome of a program depends on the relative timing of different threads or processes, potentially leading to unexpected or insecure behavior.",
+        "course": "Computer Security"
+    },
+    {
+        "question": "What is the principle of least privilege in program security?",
+        "options": [
+            "The principle of giving users the minimum necessary permissions to perform their tasks",
+            "The principle of encrypting all data stored in a system",
+            "The principle of regularly updating software to patch vulnerabilities",
+            "The principle of blocking all incoming network connections by default"
+        ],
+        "answer": 0,
+        "explanation": "The principle of least privilege states that users should be granted only the minimum privileges necessary to perform their tasks, reducing the potential impact of a security breach or unauthorized access.",
+        "course": "Computer Security"
+    },
+    {
+        "question": "What is the purpose of code obfuscation in program security?",
+        "options": [
+            "To enhance program performance and execution speed",
+            "To make the code more difficult to understand and analyze",
+            "To encrypt sensitive data stored in the program",
+            "To detect and block malicious code during program execution"
+        ],
+        "answer": 1,
+        "explanation": "Code obfuscation is a technique used to make the source code of a program more difficult to understand and analyze, making it harder for attackers to reverse engineer or exploit vulnerabilities in the code.",
+        "course": "Computer Security"
+    },
+    {
+        "question": "What is a security patch in program security?",
+        "options": [
+            "A technique used to prevent buffer overflow vulnerabilities",
+            "A software update released to fix known security vulnerabilities",
+            "A hardware device used to monitor network traffic for malicious activities",
+            "A set of security policies implemented by an organization"
+        ],
+        "answer": 1,
+        "explanation": "A security patch is a software update released by a vendor to address known security vulnerabilities in a program or system, ensuring that users are protected against potential threats.",
+        "course": "Computer Security"
+    },
+    {
+        "question": "Which technique is used to protect web applications against common security vulnerabilities, such as cross-site scripting (XSS) and SQL injection?",
+        "options": [
+            "Encryption",
+            "Authentication",
+            "Authorization",
+            "Web application security testing"
+        ],
+        "answer": 3,
+        "explanation": "Web application security testing is used to identify and protect web applications against common security vulnerabilities, such as cross-site scripting (XSS) and SQL injection. It involves various testing techniques to identify and fix potential security flaws.",
+        "course": "Computer Security"
+    },
+    {
+        "question": "In a healthcare system, which database design consideration is crucial for maintaining patient privacy?",
+        "options": [
+            "Database normalization",
+            "Data encryption",
+            "Role-based access control",
+            "Database indexing"
+        ],
+        "answer": 1,
+        "explanation": "In a healthcare system, data encryption is crucial for maintaining patient privacy. Encryption techniques can be applied to sensitive data fields, ensuring that unauthorized individuals cannot access or decipher the data.",
+        "course": "Computer Security"
+    }
+];

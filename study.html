@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Materials - Computer Science</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='grad' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:%23667eea;stop-opacity:1' /><stop offset='100%' style='stop-color:%23764ba2;stop-opacity:1' /></linearGradient></defs><rect width='100' height='100' fill='url(%23grad)' rx='15'/><path d='M25 30 L25 75 Q25 80 30 80 L70 80 Q75 80 75 75 L75 30 Q75 25 70 25 L30 25 Q25 25 25 30' fill='white' opacity='0.9'/><path d='M45 35 L45 70' stroke='%23667eea' stroke-width='2' fill='none'/><circle cx='35' cy='45' r='3' fill='%23667eea'/><circle cx='55' cy='45' r='3' fill='%23667eea'/><circle cx='35' cy='58' r='3' fill='%23764ba2'/><circle cx='55' cy='58' r='3' fill='%23764ba2'/><path d='M40 20 L35 15 L30 20 L32 25 L38 25 Z' fill='white' stroke='%23764ba2' stroke-width='1.5'/></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Study Page Specific Styles */
+        .study-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .study-header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+            animation: fadeIn 0.6s ease-in;
+        }
+
+        .study-header h1 {
+            font-size: 36px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .study-header .subtitle {
+            font-size: 18px;
+            opacity: 0.95;
+            font-weight: 300;
+        }
+
+        /* Course Grid */
+        .course-grid-study {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .course-card-study {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid transparent;
+        }
+
+        .course-card-study:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.3);
+            border-color: #667eea;
+        }
+
+        .course-card-study::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+
+        .course-icon-study {
+            font-size: 48px;
+            color: #667eea;
+            margin-bottom: 15px;
+        }
+
+        .course-card-study h3 {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .course-card-study p {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+            min-height: 60px;
+        }
+
+        .course-meta-study {
+            display: flex;
+            justify-content: space-between;
+            color: #999;
+            font-size: 13px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #f0f2f5;
+        }
+
+        .chapter-count {
+            background: #e8ebff;
+            color: #667eea;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .status-badge {
+            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .status-ready {
+            background: #22c55e20;
+            color: #22c55e;
+        }
+
+        .status-soon {
+            background: #f59e0b20;
+            color: #f59e0b;
+        }
+
+        /* Loading indicator */
+        .loading-courses {
+            text-align: center;
+            padding: 60px;
+            color: white;
+            grid-column: 1 / -1;
+        }
+
+        .loading-courses i {
+            font-size: 50px;
+            margin-bottom: 15px;
+            animation: spin 1.5s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Navigation back to exam */
+        .back-to-exam {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .back-to-exam a {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 30px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .back-to-exam a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Debug panel (temporary) */
+        .debug-info {
+            background: #f8f9fa;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            font-family: monospace;
+            font-size: 14px;
+            display: none;
+        }
+        
+        .debug-info.visible {
+            display: block;
+        }
+        
+        .debug-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 10px 20px;
+            cursor: pointer;
+            z-index: 1000;
+            font-size: 14px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        .debug-toggle:hover {
+            background: #764ba2;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .study-header h1 {
+                font-size: 28px;
+            }
+
+            .course-grid-study {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Debug Toggle (temporary) -->
+<button class="debug-toggle" onclick="toggleDebug()">
+    <i class="fas fa-bug"></i> Debug
+</button>
+
+<!-- Debug Panel (temporary) -->
+<div class="debug-info" id="debugPanel">
+    <h4 style="margin-top: 0;">🔍 Debug Information</h4>
+    <div id="debugContent">Loading...</div>
+</div>
+
+<!-- STUDY PAGE -->
+<div class="study-container">
+    
+    <!-- Header -->
+    <div class="study-header">
+        <h1><i class="fas fa-book-open"></i> Study Materials</h1>
+        <p class="subtitle">Comprehensive course notes for Computer Science Exit Exam</p>
+    </div>
+
+    <!-- Course Grid -->
+    <div id="courseGridStudy" class="course-grid-study">
+        <div class="loading-courses">
+            <i class="fas fa-circle-notch fa-spin"></i>
+            <p>Loading courses...</p>
+        </div>
+    </div>
+
+    <!-- Navigation back to exam -->
+    <div class="back-to-exam">
+        <a href="index.html">
+            <i class="fas fa-arrow-left"></i> Back to Exam
+        </a>
+    </div>
+</div>
+
+<!-- Study data script -->
+<script>
+    // ===============================
+    // STUDY MATERIALS - COURSE LIST
+    // ===============================
+
+    // Debug function
+    window.toggleDebug = function() {
+        const panel = document.getElementById('debugPanel');
+        panel.classList.toggle('visible');
+        updateDebugInfo();
+    };
+    
+    window.updateDebugInfo = function() {
+        const debugContent = document.getElementById('debugContent');
+        if (!debugContent) return;
+        
+        let html = '<div style="max-height: 300px; overflow-y: auto;">';
+        html += '<p><strong>Current Directory:</strong> ' + window.location.pathname + '</p>';
+        html += '<p><strong>Testing Computer Programming:</strong></p>';
+        
+        // Test if we can load the file
+        const testScript = document.createElement('script');
+        testScript.src = 'studyCourses/computer-programming/chapter1/ch1-1.js?t=' + Date.now();
+        
+        testScript.onload = function() {
+            html += '<p style="color: green;">✅ SUCCESS: Found chapter1/ch1-1.js</p>';
+            if (window.currentSubsectionData) {
+                html += '<p style="color: green;">✅ Data loaded: ' + window.currentSubsectionData.title + '</p>';
+            }
+            debugContent.innerHTML = html + '</div>';
+        };
+        
+        testScript.onerror = function() {
+            html += '<p style="color: red;">❌ FAILED: Could not find studyCourses/computer-programming/chapter1/ch1-1.js</p>';
+            html += '<p>Check that the file exists at: <strong>studyCourses/computer-programming/chapter1/ch1-1.js</strong></p>';
+            html += '<p>Make sure the folder structure is exactly:</p>';
+            html += '<pre>studyCourses/<br>  computer-programming/<br>    chapter1/<br>      ch1-1.js</pre>';
+            debugContent.innerHTML = html + '</div>';
+        };
+        
+        document.head.appendChild(testScript);
+    };
+
+    // Course data with icons and descriptions
+    const courseData = [
+        {
+            id: 'computer-programming',
+            name: 'Computer Programming',
+            icon: 'fa-code',
+            description: 'Learn programming fundamentals using C++, including variables, data types, control structures, functions, and object-oriented programming.',
+            chapters: 8,
+            color: '#667eea',
+            available: 0 // Will be updated after checking
+        },
+        {
+            id: 'database-systems',
+            name: 'Database Systems',
+            icon: 'fa-database',
+            description: 'Master database design, SQL, normalization, transactions, and database management systems.',
+            chapters: 10,
+            color: '#764ba2',
+            available: 0
+        },
+        {
+            id: 'object-oriented-programming',
+            name: 'Object Oriented Programming',
+            icon: 'fa-cubes',
+            description: 'Understand classes, objects, inheritance, polymorphism, encapsulation, and design patterns in C++.',
+            chapters: 7,
+            color: '#f093fb',
+            available: 0
+        },
+        {
+            id: 'computer-organization-architecture',
+            name: 'Computer Organization & Architecture',
+            icon: 'fa-microchip',
+            description: 'Explore CPU design, memory hierarchy, I/O systems, pipelining, and assembly language.',
+            chapters: 9,
+            color: '#f5576c',
+            available: 0
+        },
+        {
+            id: 'data-communication-networking',
+            name: 'Data Communication & Networking',
+            icon: 'fa-network-wired',
+            description: 'Study OSI model, TCP/IP, protocols, routing, switching, and network security.',
+            chapters: 8,
+            color: '#4facfe',
+            available: 0
+        },
+        {
+            id: 'data-structures-algorithms',
+            name: 'Data Structures & Algorithms',
+            icon: 'fa-sitemap',
+            description: 'Learn arrays, linked lists, stacks, queues, trees, graphs, and algorithm analysis.',
+            chapters: 10,
+            color: '#43e97b',
+            available: 0
+        },
+        {
+            id: 'web-programming',
+            name: 'Web Programming',
+            icon: 'fa-globe',
+            description: 'Master HTML, CSS, JavaScript, and modern web development frameworks.',
+            chapters: 8,
+            color: '#fa709a',
+            available: 0
+        },
+        {
+            id: 'operating-system',
+            name: 'Operating System',
+            icon: 'fa-windows',
+            description: 'Understand process management, memory management, file systems, and scheduling.',
+            chapters: 9,
+            color: '#30cfd0',
+            available: 0
+        },
+        {
+            id: 'software-engineering',
+            name: 'Software Engineering',
+            icon: 'fa-cog',
+            description: 'Learn SDLC, agile methodologies, testing, and software design patterns.',
+            chapters: 8,
+            color: '#a18cd1',
+            available: 0
+        },
+        {
+            id: 'design-analysis-algorithms',
+            name: 'Design & Analysis of Algorithms',
+            icon: 'fa-chart-line',
+            description: 'Study algorithm design techniques, complexity analysis, and optimization.',
+            chapters: 7,
+            color: '#fbc2eb',
+            available: 0
+        },
+        {
+            id: 'artificial-intelligence',
+            name: 'Artificial Intelligence',
+            icon: 'fa-robot',
+            description: 'Explore machine learning, neural networks, expert systems, and NLP.',
+            chapters: 8,
+            color: '#a6c1ee',
+            available: 0
+        },
+        {
+            id: 'computer-security',
+            name: 'Computer Security',
+            icon: 'fa-shield-alt',
+            description: 'Learn cryptography, network security, authentication, and security protocols.',
+            chapters: 7,
+            color: '#84fab0',
+            available: 0
+        },
+        {
+            id: 'network-system-administration',
+            name: 'Network & System Administration',
+            icon: 'fa-server',
+            description: 'Master system configuration, network management, and troubleshooting.',
+            chapters: 6,
+            color: '#fccb90',
+            available: 0
+        },
+        {
+            id: 'automata-complexity-theory',
+            name: 'Automata & Complexity Theory',
+            icon: 'fa-infinity',
+            description: 'Study formal languages, automata, Turing machines, and computational complexity.',
+            chapters: 7,
+            color: '#ff9a9e',
+            available: 0
+        },
+        {
+            id: 'compiler-design',
+            name: 'Compiler Design',
+            icon: 'fa-file-code',
+            description: 'Understand lexical analysis, parsing, semantic analysis, and code generation.',
+            chapters: 7,
+            color: '#4facfe',
+            available: 0
+        }
+    ];
+
+    // Function to check available chapters for a course
+    function checkAvailableChapters(courseId) {
+        return new Promise((resolve) => {
+            console.log(`Checking course: ${courseId}`);
+            
+            // Try to load chapter 1, subsection 1
+            const script = document.createElement('script');
+            script.src = `studyCourses/${courseId}/chapter1/ch1-1.js?t=${Date.now()}`;
+            
+            script.onload = function() {
+                console.log(`✅ Found: ${courseId}/chapter1/ch1-1.js`);
+                
+                // Chapter 1 exists, let's count how many subsections in chapter 1
+                let subsectionCount = 1;
+                
+                // Check for more subsections in chapter 1 (up to 20)
+                const checkSubsections = (subNum) => {
+                    if (subNum > 20) {
+                        // We have at least chapter 1 with 'subsectionCount' subsections
+                        resolve(1); // Return 1 chapter available
+                        return;
+                    }
+                    
+                    const subScript = document.createElement('script');
+                    subScript.src = `studyCourses/${courseId}/chapter1/ch1-${subNum}.js?t=${Date.now()}`;
+                    
+                    subScript.onload = function() {
+                        subsectionCount = subNum;
+                        checkSubsections(subNum + 1);
+                        document.head.removeChild(subScript);
+                    };
+                    
+                    subScript.onerror = function() {
+                        // No more subsections, we have 'subsectionCount' subsections
+                        console.log(`📚 Chapter 1 has ${subsectionCount} subsections`);
+                        resolve(1); // Return 1 chapter available
+                        document.head.removeChild(subScript);
+                    };
+                    
+                    document.head.appendChild(subScript);
+                };
+                
+                // Start checking from subsection 2
+                checkSubsections(2);
+                
+                document.head.removeChild(script);
+            };
+            
+            script.onerror = function() {
+                console.log(`❌ Not found: ${courseId}/chapter1/ch1-1.js`);
+                resolve(0); // No chapters available
+                document.head.removeChild(script);
+            };
+            
+            document.head.appendChild(script);
+        });
+    }
+
+    // Display courses in grid
+    async function displayCourses() {
+        const grid = document.getElementById('courseGridStudy');
+        if (!grid) return;
+        
+        grid.innerHTML = '';
+        
+        // Check available chapters for each course
+        for (const course of courseData) {
+            try {
+                const availableChapters = await checkAvailableChapters(course.id);
+                course.available = availableChapters;
+                console.log(`${course.name}: ${availableChapters} chapters available`);
+            } catch (error) {
+                console.error(`Error checking ${course.id}:`, error);
+                course.available = 0;
+            }
+            
+            const card = document.createElement('div');
+            card.className = 'course-card-study';
+            card.onclick = () => {
+                if (course.available > 0) {
+                    // Redirect to viewer with course ID and default to chapter 1, subsection 1
+                    window.location.href = `study-viewer/viewer.html?course=${course.id}&chapter=1&subsection=1`;
+                } else {
+                    alert(`Study materials for ${course.name} are coming soon!`);
+                }
+            };
+            
+            // Status badge
+            const statusBadge = course.available > 0 
+                ? `<span class="status-badge status-ready"><i class="fas fa-check-circle"></i> ${course.available} Chapter${course.available > 1 ? 's' : ''}</span>`
+                : `<span class="status-badge status-soon"><i class="fas fa-clock"></i> Coming Soon</span>`;
+            
+            card.innerHTML = `
+                <div class="course-icon-study">
+                    <i class="fas ${course.icon}" style="color: ${course.color};"></i>
+                </div>
+                <h3>${course.name}</h3>
+                <p>${course.description}</p>
+                <div class="course-meta-study">
+                    <span><i class="far fa-file-alt"></i> ${course.chapters} Total Chapters</span>
+                    ${statusBadge}
+                </div>
+            `;
+            
+            grid.appendChild(card);
+        }
+    }
+
+    // Initialize on load
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log("Study page loaded, checking courses...");
+        displayCourses();
+        
+        // Auto-show debug panel if computer programming not found
+        setTimeout(() => {
+            if (courseData[0].available === 0) {
+                document.getElementById('debugPanel').classList.add('visible');
+                updateDebugInfo();
+            }
+        }, 2000);
+    });
+</script>
+
+</body>
+</html>

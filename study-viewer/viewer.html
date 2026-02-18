@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Viewer - Computer Science</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="viewer.css">
+</head>
+<body>
+
+<!-- Study Viewer Container -->
+<div class="viewer-container">
+    
+    <!-- Header with navigation -->
+    <div class="viewer-header">
+        <div class="header-left">
+            <a href="../study.html" class="back-to-courses">
+                <i class="fas fa-arrow-left"></i> Back to Courses
+            </a>
+            <h1 id="courseTitle">Loading...</h1>
+        </div>
+        <div class="header-right">
+            <div class="chapter-progress">
+                <span id="currentChapter">1</span> / <span id="totalChapters">1</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chapter and Subsection selector -->
+    <div class="selector-container">
+        <div class="selector-row">
+            <div class="selector-group">
+                <label for="chapterSelector"><i class="fas fa-book"></i> Chapter:</label>
+                <select id="chapterSelector" class="chapter-selector">
+                    <option value="">Loading chapters...</option>
+                </select>
+            </div>
+            <div class="selector-group">
+                <label for="subsectionSelector"><i class="fas fa-file-alt"></i> Subsection:</label>
+                <select id="subsectionSelector" class="subsection-selector" disabled>
+                    <option value="">Select a chapter first</option>
+                </select>
+            </div>
+        </div>
+        <div class="subsection-title" id="subsectionTitle"></div>
+    </div>
+
+    <!-- Main content area -->
+    <div class="viewer-content" id="viewerContent">
+        <div class="loading-chapter">
+            <i class="fas fa-circle-notch fa-spin"></i>
+            <p>Loading content...</p>
+        </div>
+    </div>
+
+    <!-- Navigation buttons -->
+    <div class="viewer-navigation">
+        <button id="prevBtn" class="nav-btn prev" disabled>
+            <i class="fas fa-chevron-left"></i> Previous
+        </button>
+        <button id="nextBtn" class="nav-btn next" disabled>
+            Next <i class="fas fa-chevron-right"></i>
+        </button>
+    </div>
+</div>
+
+<script src="viewer.js"></script>
+</body>
+</html>

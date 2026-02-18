@@ -1,0 +1,340 @@
+/* Study Viewer Styles */
+.viewer-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 30px 20px;
+}
+
+.viewer-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 30px;
+    border-radius: 15px 15px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.back-to-courses {
+    color: white;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 8px 15px;
+    border-radius: 30px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    margin-bottom: 10px;
+}
+
+.back-to-courses:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: translateX(-3px);
+}
+
+.viewer-header h1 {
+    font-size: 28px;
+    margin: 0;
+}
+
+.chapter-progress {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 8px 20px;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.selector-container {
+    background: white;
+    padding: 20px 30px;
+    border-bottom: 1px solid #f0f2f5;
+}
+
+.selector-row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.selector-group {
+    flex: 1;
+    min-width: 200px;
+}
+
+.selector-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #667eea;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.chapter-selector, .subsection-selector {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 15px;
+    color: #333;
+    background: #f8f9fa;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.chapter-selector:hover, .subsection-selector:hover:not(:disabled) {
+    border-color: #667eea;
+}
+
+.chapter-selector:focus, .subsection-selector:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.chapter-selector:disabled, .subsection-selector:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background: #f0f0f0;
+}
+
+.subsection-title {
+    margin-top: 15px;
+    padding: 10px 15px;
+    background: #e8ebff;
+    border-radius: 8px;
+    color: #667eea;
+    font-weight: 600;
+    font-size: 16px;
+    text-align: center;
+    border-left: 4px solid #667eea;
+}
+
+.viewer-content {
+    background: white;
+    padding: 40px;
+    min-height: 600px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Chapter content styling */
+.chapter-content {
+    line-height: 1.8;
+    color: #333;
+    font-size: 16px;
+}
+
+.chapter-content h2 {
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 3px solid #667eea;
+}
+
+.chapter-content h3 {
+    font-size: 22px;
+    color: #667eea;
+    margin: 30px 0 20px;
+}
+
+.chapter-content h4 {
+    font-size: 18px;
+    color: #764ba2;
+    margin: 25px 0 15px;
+}
+
+.chapter-content p {
+    margin-bottom: 15px;
+    line-height: 1.8;
+}
+
+.chapter-content ul, .chapter-content ol {
+    margin: 15px 0 15px 30px;
+}
+
+.chapter-content li {
+    margin-bottom: 8px;
+}
+
+.chapter-content code {
+    background: #f0f2f5;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    color: #e83e8c;
+    font-size: 14px;
+}
+
+.chapter-content pre {
+    background: #2d2d2d;
+    color: #f8f8f2;
+    padding: 20px;
+    border-radius: 10px;
+    overflow-x: auto;
+    font-family: 'Courier New', monospace;
+    margin: 20px 0;
+    line-height: 1.5;
+}
+
+.chapter-content pre code {
+    background: none;
+    color: inherit;
+    padding: 0;
+}
+
+.chapter-content .highlight-box {
+    background: #e8ebff;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px 0;
+    border-left: 5px solid #667eea;
+}
+
+.chapter-content .tip-box {
+    background: #fff3cd;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px 0;
+    border-left: 5px solid #ffc107;
+}
+
+.chapter-content .warning-box {
+    background: #ffe8e8;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px 0;
+    border-left: 5px solid #f5576c;
+}
+
+.chapter-content .objective-box {
+    background: #e8ebff;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px 0;
+}
+
+.chapter-content .exercise-box {
+    background: #e8ebff;
+    padding: 25px;
+    border-radius: 10px;
+    margin: 30px 0;
+    border: 2px solid #667eea;
+}
+
+.chapter-content .summary-box {
+    background: #f0f2f5;
+    padding: 25px;
+    border-radius: 10px;
+    margin: 30px 0;
+    border-left: 5px solid #667eea;
+}
+
+.chapter-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+.chapter-content th {
+    background: #667eea;
+    color: white;
+    padding: 12px;
+    text-align: left;
+}
+
+.chapter-content td {
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+.chapter-content tr:nth-child(even) {
+    background: #f8f9fa;
+}
+
+.loading-chapter {
+    text-align: center;
+    padding: 100px 20px;
+    color: #999;
+}
+
+.loading-chapter i {
+    font-size: 50px;
+    color: #667eea;
+    margin-bottom: 20px;
+}
+
+.viewer-navigation {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 30px;
+    background: #f8f9fa;
+    border-radius: 0 0 15px 15px;
+}
+
+.nav-btn {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+    font-size: 16px;
+    min-width: 150px;
+    justify-content: center;
+}
+
+.nav-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.nav-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: #999;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .viewer-header {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+    }
+    
+    .viewer-header h1 {
+        font-size: 22px;
+    }
+    
+    .selector-row {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .selector-group {
+        min-width: 100%;
+    }
+    
+    .viewer-content {
+        padding: 20px;
+    }
+    
+    .viewer-navigation {
+        flex-direction: column;
+    }
+    
+    .nav-btn {
+        width: 100%;
+    }
+}

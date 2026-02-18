@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Path Test</title>
+</head>
+<body>
+    <h1>Testing File Paths</h1>
+    <div id="output"></div>
+    
+    <script>
+        const output = document.getElementById('output');
+        
+        function testPath(path) {
+            const script = document.createElement('script');
+            script.src = path + '?t=' + Date.now();
+            
+            script.onload = function() {
+                output.innerHTML += `<p style="color: green;">✅ FOUND: ${path}</p>`;
+            };
+            
+            script.onerror = function() {
+                output.innerHTML += `<p style="color: red;">❌ NOT FOUND: ${path}</p>`;
+            };
+            
+            document.head.appendChild(script);
+        }
+        
+        output.innerHTML = '<h3>Testing different paths:</h3>';
+        
+        // Test different possible locations
+        testPath('ch1-1.js');
+        testPath('studyCourses/computer-programming/chapter1/ch1-1.js');
+        testPath('computer-programming/chapter1/ch1-1.js');
+        testPath('./ch1-1.js');
+        testPath('./studyCourses/computer-programming/chapter1/ch1-1.js');
+    </script>
+</body>
+</html>
