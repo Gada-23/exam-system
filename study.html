@@ -9,6 +9,13 @@
     <link rel="stylesheet" href="style.css">
     <style>
         /* Study Page Specific Styles */
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
         .study-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -26,12 +33,20 @@
             font-size: 36px;
             margin-bottom: 15px;
             font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .study-header .subtitle {
             font-size: 18px;
-            opacity: 0.95;
             font-weight: 300;
+            color: #ffd700; /* Gold color for better visibility */
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.2);
+            display: inline-block;
+            padding: 8px 25px;
+            border-radius: 40px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         /* Course Grid */
@@ -46,7 +61,7 @@
             background: white;
             border-radius: 15px;
             padding: 25px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             transition: all 0.3s ease;
             cursor: pointer;
             position: relative;
@@ -56,7 +71,7 @@
 
         .course-card-study:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
             border-color: #667eea;
         }
 
@@ -84,7 +99,7 @@
         }
 
         .course-card-study p {
-            color: #666;
+            color: #555;
             font-size: 14px;
             line-height: 1.6;
             margin-bottom: 15px;
@@ -94,7 +109,8 @@
         .course-meta-study {
             display: flex;
             justify-content: space-between;
-            color: #999;
+            align-items: center;
+            color: #666;
             font-size: 13px;
             margin-top: 15px;
             padding-top: 15px;
@@ -119,11 +135,13 @@
         .status-ready {
             background: #22c55e20;
             color: #22c55e;
+            border: 1px solid #22c55e40;
         }
 
         .status-soon {
             background: #f59e0b20;
             color: #f59e0b;
+            border: 1px solid #f59e0b40;
         }
 
         /* Loading indicator */
@@ -156,58 +174,75 @@
             align-items: center;
             gap: 8px;
             padding: 14px 30px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
+            background: white;
+            color: #667eea;
             text-decoration: none;
             border-radius: 8px;
             font-weight: 600;
             transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
         }
 
         .back-to-exam a:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+            background: #f8f9fa;
         }
 
-        /* Debug panel (temporary) */
-        .debug-info {
-            background: #f8f9fa;
-            border: 2px solid #667eea;
-            border-radius: 10px;
-            padding: 20px;
-            margin: 20px 0;
-            font-family: monospace;
-            font-size: 14px;
-            display: none;
+        /* No courses message */
+        .no-courses {
+            text-align: center;
+            padding: 60px;
+            background: white;
+            border-radius: 15px;
+            color: #666;
+            grid-column: 1 / -1;
         }
-        
-        .debug-info.visible {
-            display: block;
+
+        .no-courses i {
+            font-size: 60px;
+            color: #667eea;
+            margin-bottom: 20px;
         }
-        
-        .debug-toggle {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: #667eea;
+
+        /* Coming soon overlay for courses without content */
+        .course-card-study.coming-soon {
+            opacity: 0.8;
+            cursor: not-allowed;
+        }
+
+        .course-card-study.coming-soon:hover {
+            transform: none;
+            border-color: #f59e0b;
+        }
+
+        .course-card-study.coming-soon::before {
+            background: linear-gradient(135deg, #f59e0b, #f97316);
+        }
+
+        .coming-soon-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #f59e0b;
             color: white;
-            border: none;
-            border-radius: 30px;
-            padding: 10px 20px;
-            cursor: pointer;
-            z-index: 1000;
-            font-size: 14px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-        }
-        
-        .debug-toggle:hover {
-            background: #764ba2;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            z-index: 1;
         }
 
         /* Responsive */
         @media (max-width: 768px) {
             .study-header h1 {
                 font-size: 28px;
+            }
+
+            .study-header .subtitle {
+                font-size: 16px;
+                padding: 6px 15px;
             }
 
             .course-grid-study {
@@ -217,17 +252,6 @@
     </style>
 </head>
 <body>
-
-<!-- Debug Toggle (temporary) -->
-<button class="debug-toggle" onclick="toggleDebug()">
-    <i class="fas fa-bug"></i> Debug
-</button>
-
-<!-- Debug Panel (temporary) -->
-<div class="debug-info" id="debugPanel">
-    <h4 style="margin-top: 0;">🔍 Debug Information</h4>
-    <div id="debugContent">Loading...</div>
-</div>
 
 <!-- STUDY PAGE -->
 <div class="study-container">
@@ -259,44 +283,6 @@
     // ===============================
     // STUDY MATERIALS - COURSE LIST
     // ===============================
-
-    // Debug function
-    window.toggleDebug = function() {
-        const panel = document.getElementById('debugPanel');
-        panel.classList.toggle('visible');
-        updateDebugInfo();
-    };
-    
-    window.updateDebugInfo = function() {
-        const debugContent = document.getElementById('debugContent');
-        if (!debugContent) return;
-        
-        let html = '<div style="max-height: 300px; overflow-y: auto;">';
-        html += '<p><strong>Current Directory:</strong> ' + window.location.pathname + '</p>';
-        html += '<p><strong>Testing Computer Programming:</strong></p>';
-        
-        // Test if we can load the file
-        const testScript = document.createElement('script');
-        testScript.src = 'studyCourses/computer-programming/chapter1/ch1-1.js?t=' + Date.now();
-        
-        testScript.onload = function() {
-            html += '<p style="color: green;">✅ SUCCESS: Found chapter1/ch1-1.js</p>';
-            if (window.currentSubsectionData) {
-                html += '<p style="color: green;">✅ Data loaded: ' + window.currentSubsectionData.title + '</p>';
-            }
-            debugContent.innerHTML = html + '</div>';
-        };
-        
-        testScript.onerror = function() {
-            html += '<p style="color: red;">❌ FAILED: Could not find studyCourses/computer-programming/chapter1/ch1-1.js</p>';
-            html += '<p>Check that the file exists at: <strong>studyCourses/computer-programming/chapter1/ch1-1.js</strong></p>';
-            html += '<p>Make sure the folder structure is exactly:</p>';
-            html += '<pre>studyCourses/<br>  computer-programming/<br>    chapter1/<br>      ch1-1.js</pre>';
-            debugContent.innerHTML = html + '</div>';
-        };
-        
-        document.head.appendChild(testScript);
-    };
 
     // Course data with icons and descriptions
     const courseData = [
@@ -437,58 +423,67 @@
         }
     ];
 
+    // Cache for chapter availability
+    let chapterCache = {};
+
     // Function to check available chapters for a course
-    function checkAvailableChapters(courseId) {
+    async function checkAvailableChapters(courseId) {
+        // Return cached result if available
+        if (chapterCache[courseId] !== undefined) {
+            return chapterCache[courseId];
+        }
+
         return new Promise((resolve) => {
-            console.log(`Checking course: ${courseId}`);
-            
             // Try to load chapter 1, subsection 1
             const script = document.createElement('script');
             script.src = `studyCourses/${courseId}/chapter1/ch1-1.js?t=${Date.now()}`;
             
             script.onload = function() {
-                console.log(`✅ Found: ${courseId}/chapter1/ch1-1.js`);
+                // Clean up
+                document.head.removeChild(script);
+                if (window.currentSubsectionData) {
+                    delete window.currentSubsectionData;
+                }
                 
-                // Chapter 1 exists, let's count how many subsections in chapter 1
-                let subsectionCount = 1;
+                // Chapter 1 exists, check how many chapters by trying up to 20
+                let availableChapters = 1;
+                let checkedChapters = 1;
                 
-                // Check for more subsections in chapter 1 (up to 20)
-                const checkSubsections = (subNum) => {
-                    if (subNum > 20) {
-                        // We have at least chapter 1 with 'subsectionCount' subsections
-                        resolve(1); // Return 1 chapter available
+                const checkChapter = (chapterNum) => {
+                    if (chapterNum > 20) {
+                        chapterCache[courseId] = availableChapters;
+                        resolve(availableChapters);
                         return;
                     }
                     
-                    const subScript = document.createElement('script');
-                    subScript.src = `studyCourses/${courseId}/chapter1/ch1-${subNum}.js?t=${Date.now()}`;
+                    const checkScript = document.createElement('script');
+                    checkScript.src = `studyCourses/${courseId}/chapter${chapterNum}/ch${chapterNum}-1.js?t=${Date.now()}`;
                     
-                    subScript.onload = function() {
-                        subsectionCount = subNum;
-                        checkSubsections(subNum + 1);
-                        document.head.removeChild(subScript);
+                    checkScript.onload = () => {
+                        availableChapters++;
+                        document.head.removeChild(checkScript);
+                        if (window.currentSubsectionData) {
+                            delete window.currentSubsectionData;
+                        }
+                        checkChapter(chapterNum + 1);
                     };
                     
-                    subScript.onerror = function() {
-                        // No more subsections, we have 'subsectionCount' subsections
-                        console.log(`📚 Chapter 1 has ${subsectionCount} subsections`);
-                        resolve(1); // Return 1 chapter available
-                        document.head.removeChild(subScript);
+                    checkScript.onerror = () => {
+                        document.head.removeChild(checkScript);
+                        checkChapter(chapterNum + 1);
                     };
                     
-                    document.head.appendChild(subScript);
+                    document.head.appendChild(checkScript);
                 };
                 
-                // Start checking from subsection 2
-                checkSubsections(2);
-                
-                document.head.removeChild(script);
+                // Start checking from chapter 2
+                checkChapter(2);
             };
             
             script.onerror = function() {
-                console.log(`❌ Not found: ${courseId}/chapter1/ch1-1.js`);
-                resolve(0); // No chapters available
                 document.head.removeChild(script);
+                chapterCache[courseId] = 0;
+                resolve(0); // No chapters available
             };
             
             document.head.appendChild(script);
@@ -500,63 +495,73 @@
         const grid = document.getElementById('courseGridStudy');
         if (!grid) return;
         
-        grid.innerHTML = '';
+        grid.innerHTML = '<div class="loading-courses"><i class="fas fa-circle-notch fa-spin"></i><p>Loading courses...</p></div>';
         
         // Check available chapters for each course
         for (const course of courseData) {
             try {
                 const availableChapters = await checkAvailableChapters(course.id);
                 course.available = availableChapters;
-                console.log(`${course.name}: ${availableChapters} chapters available`);
             } catch (error) {
                 console.error(`Error checking ${course.id}:`, error);
                 course.available = 0;
             }
-            
+        }
+        
+        // Clear grid
+        grid.innerHTML = '';
+        
+        // Display ALL courses
+        courseData.forEach(course => {
             const card = document.createElement('div');
             card.className = 'course-card-study';
-            card.onclick = () => {
-                if (course.available > 0) {
-                    // Redirect to viewer with course ID and default to chapter 1, subsection 1
+            
+            const hasContent = course.available > 0;
+            
+            if (!hasContent) {
+                card.classList.add('coming-soon');
+                card.onclick = (e) => {
+                    e.preventDefault();
+                    // Optional: Show a toast or alert
+                    // alert(`Study materials for ${course.name} are coming soon!`);
+                };
+            } else {
+                card.onclick = () => {
                     window.location.href = `study-viewer/viewer.html?course=${course.id}&chapter=1&subsection=1`;
-                } else {
-                    alert(`Study materials for ${course.name} are coming soon!`);
-                }
-            };
+                };
+            }
             
             // Status badge
-            const statusBadge = course.available > 0 
-                ? `<span class="status-badge status-ready"><i class="fas fa-check-circle"></i> ${course.available} Chapter${course.available > 1 ? 's' : ''}</span>`
-                : `<span class="status-badge status-soon"><i class="fas fa-clock"></i> Coming Soon</span>`;
+            let statusBadge = '';
+            if (hasContent) {
+                statusBadge = `<span class="status-badge status-ready"><i class="fas fa-check-circle"></i> ${course.available} Chapter${course.available > 1 ? 's' : ''}</span>`;
+            } else {
+                statusBadge = `<span class="status-badge status-soon"><i class="fas fa-clock"></i> Coming Soon</span>`;
+            }
+            
+            // Add coming soon badge for courses without content
+            const comingSoonBadge = !hasContent ? '<div class="coming-soon-badge"><i class="fas fa-hourglass-half"></i> Coming Soon</div>' : '';
             
             card.innerHTML = `
+                ${comingSoonBadge}
                 <div class="course-icon-study">
                     <i class="fas ${course.icon}" style="color: ${course.color};"></i>
                 </div>
                 <h3>${course.name}</h3>
                 <p>${course.description}</p>
                 <div class="course-meta-study">
-                    <span><i class="far fa-file-alt"></i> ${course.chapters} Total Chapters</span>
+                    <span class="chapter-count"><i class="far fa-file-alt"></i> ${course.chapters} Total</span>
                     ${statusBadge}
                 </div>
             `;
             
             grid.appendChild(card);
-        }
+        });
     }
 
     // Initialize on load
     document.addEventListener('DOMContentLoaded', function() {
-        console.log("Study page loaded, checking courses...");
         displayCourses();
-        
-        // Auto-show debug panel if computer programming not found
-        setTimeout(() => {
-            if (courseData[0].available === 0) {
-                document.getElementById('debugPanel').classList.add('visible');
-                updateDebugInfo();
-            }
-        }, 2000);
     });
 </script>
 
