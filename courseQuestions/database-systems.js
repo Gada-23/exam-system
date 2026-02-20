@@ -2,6 +2,8 @@
 // DATABASE SYSTEMS
 // ===============================
 window.databaseSystemsQuestions = [
+
+    // ORIGINAL QUESTIONS (Preserved exactly as they were)
     {
         "question": "What is the purpose of normalization in database design?",
         "options": [
@@ -481,5 +483,470 @@ window.databaseSystemsQuestions = [
         "answer": 0,
         "explanation": "Data replication involves storing multiple copies of data at different sites in a distributed database system. It improves data availability and fault tolerance.",
         "course": "Database Systems"
+    },
+
+    // NEW VERIFIED QUESTIONS FROM EXAMS
+    {
+        "question": "Which of the following statement best describe relational data model?",
+        "options": [
+            "A. It is a database model that allows multiple records to be linked to the same owner file.",
+            "B. It structures data in a tree like structure using parent to child relationship.",
+            "C. It is a database model to manage data as tuples grouped into relations",
+            "D. It is a model that use concepts such as entities, attributes, and relationships",
+            "E. Describe how data is stored in the computer, representing information such as record structures, record ordering, and access paths."
+        ],
+        "answer": 2,
+        "explanation": "The relational data model manages data as tuples (rows) grouped into relations (tables). Option A describes network model, B describes hierarchical model, D describes entity-relationship model, E describes physical storage.",
+        "course": "Database Systems"
+    },
+    {
+        "question": "Which of the following constraint will violate when a data base administrator try to execute the following SQL statement?\n\nINSERT INTO Department (Dept_Name, Manager) VALUES (null, 107);",
+        "options": [
+            "A. Domain constraint",
+            "B. Key constraint",
+            "C. Entity Integrity constraint",
+            "D. Referential Integrity constraint"
+        ],
+        "answer": 2,
+        "explanation": "Entity Integrity constraint requires that the primary key cannot be null. Since Dept_Name is likely the primary key, inserting null violates entity integrity.",
+        "course": "Database Systems"
+    },
+    {
+        "question": "Consider a relation R (A,B,C,D) with set of functional dependencies F={C->D, C->B, B->C}. Which of the following statement is true about R?",
+        "options": [
+            "A. The relation R is in second normal form",
+            "B. The relation R is in third normal form",
+            "C. The candidate key for R is BC",
+            "D. The relation R is in second normal form",
+            "E. None"
+        ],
+        "answer": 4,
+        "explanation": "From FDs, candidate keys are A and combinations with A. Since A is not on right side of any FD, A must be part of any candidate key. The relation is at least in 1NF, but without knowing FDs involving A, we cannot determine higher normal forms.",
+        "course": "Database Systems"
+    },
+    {
+        "question": "Which schema of the three-schema Architecture describe the structure of the whole database?",
+        "options": [
+            "A. Internal schema",
+            "B. Conceptual schema",
+            "C. External schema",
+            "D. schema"
+        ],
+        "answer": 1,
+        "explanation": "The conceptual schema describes the structure of the whole database for a community of users. Internal schema describes physical storage, external schemas describe user views.",
+        "course": "Database Systems"
+    },
+    {
+        "question": "Which of the following is the disadvantage of a database approach?",
+        "options": [
+            "A. Data consistency",
+            "B. Sharing of data",
+            "C. Improved data integrity",
+            "D. Increased concurrency",
+            "E. Enforcement of standards",
+            "F. Complexity"
+        ],
+        "answer": 5,
+        "explanation": "Complexity is a disadvantage of database approach. The other options (consistency, sharing, integrity, concurrency, standards) are all advantages.",
+        "course": "Database Systems"
+    },
+    {
+        "question": "Which of the following is a correct statement about relation? (Choose all that applies)",
+        "options": [
+            "A. Values of each columns is a repeating group/array",
+            "B. Values in a column can be from different domain",
+            "C. A relation is in the 1NF",
+            "D. Two rows in a relational table can be identical",
+            "E. The sequence of columns and rows is insignificant",
+            "F. None"
+        ],
+        "answer": 4,
+        "explanation": "In a relation, the sequence of columns and rows is insignificant (unordered). 1NF requires atomic values, so A is false. Columns must have same domain, so B false. Relations in 1NF by definition, but not all relations are necessarily in 1NF, so C is not always true. Two identical rows are not allowed in a relation, so D false.",
+        "course": "Database Systems"
+    },
+    {
+        "question": "In which database security measure is aggregate data are accessible to users by hiding details from users?",
+        "options": [
+            "A. Inference control",
+            "B. Access control",
+            "C. Integrity control",
+            "E. None of the above"
+        ],
+        "answer": 0,
+        "explanation": "Inference control prevents users from deducing sensitive information from aggregate queries by hiding detailed data while providing statistical summaries.",
+        "course": "Database Systems"
+    },
+    {
+        "question": "Which of the following query optimization technique used to modify the internal representation of query?",
+        "options": [
+            "A. Systematically estimation",
+            "B. Semantic query optimization",
+            "C. Cost Estimation",
+            "D. Heuristic rules",
+            "E. A and C"
+        ],
+        "answer": 3,
+        "explanation": "Heuristic rules are used to transform the query into a more efficient internal representation by applying transformation rules.",
+        "course": "Database Systems"
+    },
+    {
+        "question": "Which of the following is not true about locks?",
+        "options": [
+            "A. Locks with large granularity are easier for the DBMS to administer.",
+            "B. Locks with small granularity cause more conflicts.",
+            "C. Locks with large granularity produce fewer details for the DBMS to track.",
+            "D. Locks may have a table-level granularity.",
+            "E. Locks may have a database-level granularity"
+        ],
+        "answer": 1,
+        "explanation": "Locks with small granularity (like row-level) cause fewer conflicts, not more. Small granularity allows more concurrency and reduces conflicts.",
+        "course": "Database Systems"
+    },
+    {
+        "question": "For every transaction T participating in the schedule, if all the operations of T are executed consecutively in the schedule. The schedule is",
+        "options": [
+            "A. Cascaded schedule",
+            "B. Serial schedule",
+            "C. Cascadeless schedule",
+            "D. Recoverable schedule",
+            "E. None"
+        ],
+        "answer": 1,
+        "explanation": "A serial schedule executes transactions one after another without interleaving operations from different transactions.",
+        "course": "Database Systems"
+    },
+    {
+        "question": "A transaction property state about changes applied to the database by a committed transaction must persist in the database?",
+        "options": [
+            "A. Isolation",
+            "B. Durability or permanency",
+            "C. Atomicity",
+            "D. Consistency preservation",
+            "E. None"
+        ],
+        "answer": 1,
+        "explanation": "Durability guarantees that once a transaction commits, its changes persist even in case of system failure.",
+        "course": "Database Systems"
+    },
+    {
+        "question": "If a transaction does not modify the database until it has committed, it is said to use the ______ technique.",
+        "options": [
+            "A. Undo",
+            "B. Late-modification",
+            "C. Immediate-modification",
+            "D. Deferred-modification"
+        ],
+        "answer": 3,
+        "explanation": "Deferred-modification (or deferred update) technique only writes to the database after the transaction commits.",
+        "course": "Database Systems"
+    },
+    {
+        "question": "Which one of the following is false?",
+        "options": [
+            "A. In object-oriented database, data are stored as collections of rows and tables",
+            "B. In relational database, data are perceived by users as tables",
+            "C. Object oriented database allows object identification and communication",
+            "D. Object oriented database allows reusability of objects",
+            "E. None of the above"
+        ],
+        "answer": 0,
+        "explanation": "Option A is false because object-oriented databases store data as objects, not as rows and tables. Rows and tables are characteristic of relational databases.",
+        "course": "Database Systems"
+    },
+    {
+        "question": "What is the primary purpose of concurrency control protocols?",
+        "options": [
+            "A. To increase transaction speed",
+            "B. To guarantee serializability",
+            "C. To reduce data redundancy",
+            "D. To enhance data security"
+        ],
+        "answer": 1,
+        "explanation": "Concurrency control protocols ensure serializability of concurrent transactions, maintaining database consistency.",
+        "course": "Database Systems"
+    },
+    {
+        "question": "In the context of concurrency control, what is a deadlock?",
+        "options": [
+            "A. A situation where two or more transactions are waiting for each other to release locks",
+            "B. A situation where a transaction is unable to acquire a lock because of it is busy nature",
+            "C. A situation where a transaction is rolled back due to a conflict executions occurred",
+            "D. A situation where a transaction is committed successfully but rolled back"
+        ],
+        "answer": 0,
+        "explanation": "Deadlock occurs when two or more transactions are each waiting for locks held by the others, creating a circular wait condition.",
+        "course": "Database Systems"
+    },
+    {
+        "question": "If A1 wants to grant A2 the privilege to insert and delete rows in the EMPLOYEE and DEPARTMENT relations without allowing A2 to propagate these privileges, what command should A1 issue?",
+        "options": [
+            "A. GRANT INSERT, DELETE ON EMPLOYEE, DEPARTMENT TO A2 WITH GRANT OPTION.",
+            "B. GRANT INSERT, DELETE ON EMPLOYEE, DEPARTMENT TO A2;",
+            "C. GRANT SELECT ON EMPLOYEE, DEPARTMENT TO A2 WITH REVOKE OPTION;",
+            "D. GRANT UPDATE ON EMPLOYEE, DEPARTMENT TO A2 WITH ALLOW OPTION;"
+        ],
+        "answer": 1,
+        "explanation": "Without the WITH GRANT OPTION clause, the granted privileges cannot be propagated to other users.",
+        "course": "Database Systems"
+    },
+    {
+        "question": "Which of the following statements about database recovery strategies is correct?",
+        "options": [
+            "A. The 'Force' strategy simplifies recovery by ensuring that all cache updates are immediately flushed to disk when a transaction commits.",
+            "B. The 'No-Steal' strategy allows cache to be flushed before transaction commits, reducing memory needs but leading to complex recovery.",
+            "C. The 'Steal' strategy maintains data integrity by ensuring that cache cannot be flushed before transaction commit.",
+            "D. The 'No-Force' strategy reduces I/O cost by allowing updated pages of a committed transaction to remain in the buffer when another transaction needs to update them."
+        ],
+        "answer": 0,
+        "explanation": "Force strategy writes all updates to disk at commit time, simplifying recovery because committed transactions are already on disk.",
+        "course": "Database Systems"
+    },
+    {
+        "question": "What is the impact of larger data item size (coarse granularity) on concurrency?",
+        "options": [
+            "A. It increases the degree of concurrency permitted",
+            "B. It eliminates the need for locks",
+            "C. It reduces the degree of concurrency permitted",
+            "D. It has no impact on concurrency"
+        ],
+        "answer": 2,
+        "explanation": "Coarse granularity (like table-level locks) reduces concurrency because more data is locked, causing more transactions to wait.",
+        "course": "Database Systems"
+    },
+    {
+        "question": "What must be obtained before performing a deletion operation on an existing data item?",
+        "options": [
+            "A. Shared lock",
+            "B. Intention lock",
+            "C. Write lock",
+            "D. Read lock"
+        ],
+        "answer": 2,
+        "explanation": "A write (exclusive) lock must be obtained before deleting a data item to prevent other transactions from accessing it during the deletion.",
+        "course": "Database Systems"
+    },
+    {
+        "question": "Which type of backup copies only the data that has changed since the last backup?",
+        "options": [
+            "A. Full Backup",
+            "B. Incremental Backup",
+            "C. Differential Backup",
+            "D. Snapshot Backup"
+        ],
+        "answer": 1,
+        "explanation": "Incremental backup copies only data changed since the last backup (whether full or incremental).",
+        "course": "Database Systems"
+    },
+    {
+        "question": "What is the primary purpose of database recovery?",
+        "options": [
+            "A. To increase transaction speed and performance",
+            "B. To reduce data redundancy and save storage",
+            "C. To enhance data security and prevent failure",
+            "D. To bring the database into the last consistent state"
+        ],
+        "answer": 3,
+        "explanation": "Database recovery restores the database to the most recent consistent state after a failure.",
+        "course": "Database Systems"
+    },
+    {
+        "question": "What is the primary notion of Role-Based Access Control (RBAC)?",
+        "options": [
+            "A. Permissions are associated with individual users, and roles created per user",
+            "B. Permissions are associated with roles, and users are assigned to appropriate roles.",
+            "C. Permissions are granted based on user requests and administrative approvals",
+            "D. Permissions are automatically assigned by the system for each user"
+        ],
+        "answer": 1,
+        "explanation": "In RBAC, permissions are associated with roles, and users are assigned to roles based on their responsibilities.",
+        "course": "Database Systems"
+    },
+    {
+        "question": "Which principle of data integrity states that all data must be recorded at the time an action is performed, not retroactively?",
+        "options": [
+            "A. Contemporaneous",
+            "B. Attributable",
+            "C. Legible",
+            "D. Original"
+        ],
+        "answer": 0,
+        "explanation": "Contemporaneous principle requires data to be recorded at the time of the action, not later.",
+        "course": "Database Systems"
+    },
+    {
+        "question": "If the owner account A revokes the privilege granted to B, what happens to the privileges that B propagated based on that privilege?",
+        "options": [
+            "A. They remain active.",
+            "B. They are automatically revoked by the system.",
+            "C. They are transferred to another account.",
+            "D. They are converted to read-only privileges."
+        ],
+        "answer": 1,
+        "explanation": "When a privilege is revoked, any privileges that were granted based on that privilege are also automatically revoked (cascading revoke).",
+        "course": "Database Systems"
+    },
+    {
+        "question": "In nested transactions, what is the purpose of using savepoints?",
+        "options": [
+            "A. To encrypt data during transmission",
+            "B. To create roll back points in case of error",
+            "C. To compress data to save storage space",
+            "D. To duplicate data for backup purposes"
+        ],
+        "answer": 1,
+        "explanation": "Savepoints allow partial rollback within a transaction, creating points to which you can roll back without aborting the entire transaction.",
+        "course": "Database Systems"
+    },
+    {
+        "question": "Which feature is unique to object-oriented databases compared to relational databases?",
+        "options": [
+            "A. Use SQL for data querying.",
+            "B. Ability to handle large amounts of data.",
+            "C. Storing data in objects and classes.",
+            "D. Organizing data into rows and columns."
+        ],
+        "answer": 2,
+        "explanation": "Object-oriented databases store data as objects and classes, while relational databases use rows and columns.",
+        "course": "Database Systems"
+    },
+    {
+        "question": "What is a key advantage of relational databases over object-oriented databases?",
+        "options": [
+            "A. Simple and widespread SQL use.",
+            "B. Compatibility with NoSQL.",
+            "C. Supports complex data types.",
+            "D. Handles hierarchical data."
+        ],
+        "answer": 0,
+        "explanation": "Relational databases have the advantage of using SQL, which is simple, standardized, and widely adopted.",
+        "course": "Database Systems"
+    },
+    {
+        "question": "What is information about data called?",
+        "options": [
+            "A. Hyper data",
+            "B. Tera data",
+            "C. Meta data",
+            "D. Relations"
+        ],
+        "answer": 2,
+        "explanation": "Metadata is data about data, describing the structure, constraints, and other properties of the data.",
+        "course": "Database Systems"
+    },
+    {
+        "question": "What does an RDBMS consist of?",
+        "options": [
+            "A. Collection of Records",
+            "B. Collection of Keys",
+            "C. Collection of Tables",
+            "D. Collection of Fields"
+        ],
+        "answer": 2,
+        "explanation": "A Relational Database Management System (RDBMS) consists of a collection of tables (relations) that store data.",
+        "course": "Database Systems"
+    },
+    {
+        "question": "The ability to query data, as well as insert, delete, and alter tuples, is offered by",
+        "options": [
+            "A. TCL (Transaction Control Language)",
+            "B. DCL (Data Control Language)",
+            "C. DDL (Data Definition Language)",
+            "D. DML (Data Manipulation Language)"
+        ],
+        "answer": 3,
+        "explanation": "Data Manipulation Language (DML) provides operations to query, insert, delete, and modify data.",
+        "course": "Database Systems"
+    },
+    {
+        "question": "What happens if a piece of data is stored in two places in the database?",
+        "options": [
+            "A. Storage space is wasted & changing the data in one spot will cause data inconsistency"
+        ],
+        "answer": 0,
+        "explanation": "Data redundancy wastes storage space and can lead to inconsistency if updates are not applied to all copies.",
+        "course": "Database Systems"
+    },
+    {
+        "question": "In E-R diagram derived attribute are represented by",
+        "options": [
+            "A. Ellipse",
+            "B. Dashed ellipse",
+            "C. Rectangle",
+            "D. Triangle"
+        ],
+        "answer": 1,
+        "explanation": "Derived attributes in E-R diagrams are represented by dashed ellipses.",
+        "course": "Database Systems"
+    },
+    {
+        "question": "Various concurrency-control schemes are used to ensure",
+        "options": [
+            "A. Serializability",
+            "B. Deadlock prevention",
+            "C. Timeouts",
+            "D. Locking states"
+        ],
+        "answer": 0,
+        "explanation": "Concurrency control schemes primarily ensure serializability of concurrent transactions.",
+        "course": "Database Systems"
+    },
+    {
+        "question": "The most common concurrency-control schemes include locking protocols and",
+        "options": [
+            "A. Timestamp-ordering schemes",
+            "B. Validation techniques",
+            "C. Multiversion schemes",
+            "D. All of the Above"
+        ],
+        "answer": 3,
+        "explanation": "Common concurrency control schemes include locking, timestamp ordering, validation, and multiversion techniques.",
+        "course": "Database Systems"
+    },
+    {
+        "question": "An integral part of database that can restore the database to the consistent state of before failure is called",
+        "options": [
+            "A. Recovery Manager"
+        ],
+        "answer": 0,
+        "explanation": "The recovery manager is responsible for restoring the database to a consistent state after a failure.",
+        "course": "Database Systems"
+    },
+    {
+        "question": "Which of the following is a basic form of grant statement?",
+        "options": [
+            "A. GRANT 'privilege list' ON 'relation name or view name' TO 'user/role list';",
+            "B. GRANT 'privilege list' ON 'user/role list' TO 'relation name or view name';",
+            "C. GRANT 'privilege list' TO 'user/role list';",
+            "D. GRANT 'privilege list' ON 'relation name or view name' ON 'user/role list';"
+        ],
+        "answer": 0,
+        "explanation": "The basic GRANT syntax is: GRANT privileges ON object TO users/roles.",
+        "course": "Database Systems"
+    },
+    {
+        "question": "An autonomous homogenous environment is which of the following?",
+        "options": [
+            "A. The same DBMS is at each node and each DBMS works independently.",
+            "B. The same DBMS is at each node and a central DBMS coordinates database access.",
+            "C. A different DBMS is at each node and each DBMS works independently.",
+            "D. A different DBMS is at each node and a central DBMS coordinates database access."
+        ],
+        "answer": 0,
+        "explanation": "Autonomous homogenous: same DBMS at each node with independent control.",
+        "course": "Database Systems"
+    },
+    {
+        "question": "A heterogeneous distributed database is which of the following?",
+        "options": [
+            "A. The same DBMS is used at each location and data are not distributed across all nodes.",
+            "B. The same DBMS is used at each location and data are distributed across all nodes.",
+            "C. A different DBMS is used at each location and data are not distributed across all nodes.",
+            "D. A different DBMS is used at each location and data are distributed across all nodes."
+        ],
+        "answer": 3,
+        "explanation": "Heterogeneous distributed databases use different DBMS at different locations with data distributed across nodes.",
+        "course": "Database Systems"
     }
 ];
+
+console.log(`✅ Loaded ${window.databaseSystemsQuestions.length} Database Systems questions`);

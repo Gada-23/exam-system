@@ -1,6 +1,7 @@
 // ===============================
 // MAIN QUESTIONS FILE
 // Imports all course question files from the courseQuestions folder
+// and previous exam files from the previous-exam folder
 // ===============================
 
 // Global array for all questions
@@ -23,9 +24,12 @@ function onQuestionsLoaded(callback) {
 function loadScript(src, callback) {
     const script = document.createElement('script');
     script.src = src + '?t=' + Date.now(); // Cache busting
-    script.onload = callback;
+    script.onload = function() {
+        console.log(`✅ Successfully loaded: ${src}`);
+        callback();
+    };
     script.onerror = function() {
-        console.warn('Failed to load:', src);
+        console.warn(`❌ Failed to load: ${src} - Check if file exists at this path`);
         callback(); // Continue even if one fails
     };
     document.head.appendChild(script);
@@ -53,17 +57,43 @@ const courseFiles = [
     'courseQuestions/compiler-design.js'
 ];
 
-let loadedCount = 0;
-const totalFiles = courseFiles.length;
+// List of previous exam files - UPDATED with 2017
+const previousExamFiles = [
+    'previous-exam/2016/exit-exam-2016.js',
+    'previous-exam/2017/exit-exam-2017.js'
+    // Add more years here as they become available:
+    // 'previous-exam/2018/exit-exam-2018.js',
+    // etc.
+];
 
-// Load each file
+let loadedCount = 0;
+const totalFiles = courseFiles.length + previousExamFiles.length;
+
+console.log(`📊 Total files to load: ${totalFiles}`);
+
+// Load all course files
 courseFiles.forEach(file => {
     loadScript(file, function() {
         loadedCount++;
-        console.log(`Loaded ${file} (${loadedCount}/${totalFiles})`);
+        console.log(`📈 Progress: ${loadedCount}/${totalFiles} - ${file}`);
         
         // After all files are loaded, combine questions
         if (loadedCount === totalFiles) {
+            console.log('🎯 All files loaded, combining questions...');
+            combineAllQuestions();
+        }
+    });
+});
+
+// Load all previous exam files
+previousExamFiles.forEach(file => {
+    loadScript(file, function() {
+        loadedCount++;
+        console.log(`📈 Progress: ${loadedCount}/${totalFiles} - ${file}`);
+        
+        // After all files are loaded, combine questions
+        if (loadedCount === totalFiles) {
+            console.log('🎯 All files loaded, combining questions...');
             combineAllQuestions();
         }
     });
@@ -71,8 +101,24 @@ courseFiles.forEach(file => {
 
 // Function to combine all questions
 function combineAllQuestions() {
-    console.log('Combining all questions...');
+    console.log('🔍 Checking available question arrays:');
+    console.log(`   computerProgrammingQuestions: ${window.computerProgrammingQuestions ? window.computerProgrammingQuestions.length : 'undefined'}`);
+    console.log(`   databaseSystemsQuestions: ${window.databaseSystemsQuestions ? window.databaseSystemsQuestions.length : 'undefined'}`);
+    console.log(`   oopQuestions: ${window.oopQuestions ? window.oopQuestions.length : 'undefined'}`);
+    console.log(`   computerOrganizationQuestions: ${window.computerOrganizationQuestions ? window.computerOrganizationQuestions.length : 'undefined'}`);
+    console.log(`   networkingQuestions: ${window.networkingQuestions ? window.networkingQuestions.length : 'undefined'}`);
+    console.log(`   dataStructuresQuestions: ${window.dataStructuresQuestions ? window.dataStructuresQuestions.length : 'undefined'}`);
+    console.log(`   webProgrammingQuestions: ${window.webProgrammingQuestions ? window.webProgrammingQuestions.length : 'undefined'}`);
+    console.log(`   operatingSystemQuestions: ${window.operatingSystemQuestions ? window.operatingSystemQuestions.length : 'undefined'}`);
+    console.log(`   softwareEngineeringQuestions: ${window.softwareEngineeringQuestions ? window.softwareEngineeringQuestions.length : 'undefined'}`);
+    console.log(`   algorithmQuestions: ${window.algorithmQuestions ? window.algorithmQuestions.length : 'undefined'}`);
+    console.log(`   aiQuestions: ${window.aiQuestions ? window.aiQuestions.length : 'undefined'}`);
+    console.log(`   computerSecurityQuestions: ${window.computerSecurityQuestions ? window.computerSecurityQuestions.length : 'undefined'}`);
+    console.log(`   networkAdminQuestions: ${window.networkAdminQuestions ? window.networkAdminQuestions.length : 'undefined'}`);
+    console.log(`   automataQuestions: ${window.automataQuestions ? window.automataQuestions.length : 'undefined'}`);
+    console.log(`   compilerDesignQuestions: ${window.compilerDesignQuestions ? window.compilerDesignQuestions.length : 'undefined'}`);
     
+    // Start with course questions
     const allQuestions = [
         ...(window.computerProgrammingQuestions || []),
         ...(window.databaseSystemsQuestions || []),
@@ -91,10 +137,30 @@ function combineAllQuestions() {
         ...(window.compilerDesignQuestions || [])
     ];
     
+    console.log(`📦 After combining course questions: ${allQuestions.length} questions`);
+    
+    // Add previous exam questions
+    if (window.exitExam2016 && window.exitExam2016.length > 0) {
+        allQuestions.push(...window.exitExam2016);
+        console.log(`✅ Added ${window.exitExam2016.length} questions from 2016 Exit Exam`);
+    }
+    
+    // ADDED 2017 EXAM QUESTIONS
+    if (window.exitExam2017 && window.exitExam2017.length > 0) {
+        allQuestions.push(...window.exitExam2017);
+        console.log(`✅ Added ${window.exitExam2017.length} questions from 2017 Exit Exam`);
+    }
+    
+    // Add more years as they become available
+    // if (window.exitExam2018 && window.exitExam2018.length > 0) {
+    //     allQuestions.push(...window.exitExam2018);
+    //     console.log(`✅ Added ${window.exitExam2018.length} questions from 2018 Exit Exam`);
+    // }
+    
     window.allQuestions = allQuestions;
     window.questionsLoaded = true;
     
-    console.log(`✅ Total questions loaded: ${allQuestions.length}`);
+    console.log(`✅ TOTAL questions loaded: ${allQuestions.length}`);
     
     // Log questions per course
     console.log("📚 Questions per course:");
@@ -113,6 +179,8 @@ function combineAllQuestions() {
     console.log(`   Network & System Administration: ${window.networkAdminQuestions?.length || 0}`);
     console.log(`   Automata & Complexity Theory: ${window.automataQuestions?.length || 0}`);
     console.log(`   Compiler Design: ${window.compilerDesignQuestions?.length || 0}`);
+    console.log(`   2016 Exit Exam: ${window.exitExam2016?.length || 0}`);
+    console.log(`   2017 Exit Exam: ${window.exitExam2017?.length || 0}`);
     
     // Notify all waiting callbacks
     window.questionsLoadCallbacks.forEach(callback => callback(window.allQuestions));

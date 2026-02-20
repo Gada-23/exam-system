@@ -49,6 +49,10 @@ const nextBtn = document.getElementById('nextBtn');
 const currentChapterSpan = document.getElementById('currentChapter');
 const totalChaptersSpan = document.getElementById('totalChapters');
 const backToCourses = document.getElementById('backToCourses');
+const readingProgress = document.getElementById('readingProgress');
+const tocButton = document.getElementById('tocButton');
+const tocPanel = document.getElementById('tocPanel');
+const tocList = document.getElementById('tocList');
 
 // Initialize
 document.addEventListener('DOMContentLoaded', function() {
@@ -65,9 +69,67 @@ document.addEventListener('DOMContentLoaded', function() {
         backToCourses.href = `../study.html?course=${courseId}`;
     }
     
+    // Setup TOC button
+    setupTOC();
+    
     // Discover available chapters
     discoverChapters();
+    
+    // Setup reading progress tracking
+    setupReadingProgress();
 });
+
+// Setup reading progress
+function setupReadingProgress() {
+    window.addEventListener('scroll', function() {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        if (readingProgress) {
+            readingProgress.style.width = scrolled + '%';
+        }
+    });
+}
+
+// Setup Table of Contents
+function setupTOC() {
+    if (tocButton) {
+        tocButton.addEventListener('click', function() {
+            tocPanel.classList.toggle('active');
+        });
+    }
+    
+    // Close TOC when clicking outside
+    document.addEventListener('click', function(e) {
+        if (tocButton && tocPanel) {
+            if (!tocButton.contains(e.target) && !tocPanel.contains(e.target)) {
+                tocPanel.classList.remove('active');
+            }
+        }
+    });
+}
+
+// Update TOC with section headings
+function updateTOC() {
+    if (!tocList) return;
+    
+    const headings = document.querySelectorAll('.chapter-content h2, .chapter-content h3');
+    tocList.innerHTML = '';
+    
+    headings.forEach((heading, index) => {
+        const li = document.createElement('li');
+        li.textContent = heading.textContent;
+        li.style.marginLeft = heading.tagName === 'H3' ? '20px' : '0';
+        li.style.fontWeight = heading.tagName === 'H2' ? '600' : '400';
+        
+        li.addEventListener('click', function() {
+            heading.scrollIntoView({ behavior: 'smooth' });
+            tocPanel.classList.remove('active');
+        });
+        
+        tocList.appendChild(li);
+    });
+}
 
 // Show loading state
 function showLoading(message = 'Loading...') {
@@ -75,6 +137,7 @@ function showLoading(message = 'Loading...') {
         <div class="loading-container">
             <i class="fas fa-circle-notch fa-spin"></i>
             <h3>${message}</h3>
+            <p style="color: #999; margin-top: 10px;">Please wait while we prepare your content...</p>
         </div>
     `;
 }
@@ -384,6 +447,9 @@ function displayContent(data) {
     // Update navigation buttons
     updateNavigationButtons();
     
+    // Update TOC
+    updateTOC();
+    
     // Scroll to top
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -422,13 +488,13 @@ function updateNavigationButtons() {
 function showNoContent() {
     viewerContent.innerHTML = `
         <div class="loading-container">
-            <i class="fas fa-book-open" style="color: #667eea;"></i>
+            <i class="fas fa-book-open" style="color: #2772a0;"></i>
             <h3>No Study Materials Available</h3>
             <p>No chapters found for this course yet.</p>
-            <p style="font-size: 14px; color: #999; margin-top: 10px;">
-                Check back soon for updates!
+            <p style="font-size: 14px; color: #999; margin-top: 15px;">
+                Study materials are being prepared. Please check back soon!
             </p>
-            <a href="../study.html" class="back-link" style="margin-top: 20px;">
+            <a href="../study.html" class="back-link" style="margin-top: 30px;">
                 <i class="fas fa-arrow-left"></i> Back to Courses
             </a>
         </div>

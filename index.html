@@ -4,289 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Online Exam System - Computer Science Exit Exam</title>
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='grad' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:%23667eea;stop-opacity:1' /><stop offset='100%' style='stop-color:%23764ba2;stop-opacity:1' /></linearGradient></defs><rect width='100' height='100' fill='url(%23grad)' rx='15'/><path d='M25 30 L25 75 Q25 80 30 80 L70 80 Q75 80 75 75 L75 30 Q75 25 70 25 L30 25 Q25 25 25 30' fill='white' opacity='0.9'/><path d='M45 35 L45 70' stroke='%23667eea' stroke-width='2' fill='none'/><circle cx='35' cy='45' r='3' fill='%23667eea'/><circle cx='55' cy='45' r='3' fill='%23667eea'/><circle cx='35' cy='58' r='3' fill='%23764ba2'/><circle cx='55' cy='58' r='3' fill='%23764ba2'/><path d='M40 20 L35 15 L30 20 L32 25 L38 25 Z' fill='white' stroke='%23764ba2' stroke-width='1.5'/></svg>">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='grad' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:%232772a0;stop-opacity:1' /><stop offset='100%' style='stop-color:%23ccddea;stop-opacity:1' /></linearGradient></defs><rect width='100' height='100' fill='url(%23grad)' rx='15'/><path d='M25 30 L25 75 Q25 80 30 80 L70 80 Q75 80 75 75 L75 30 Q75 25 70 25 L30 25 Q25 25 25 30' fill='white' opacity='0.9'/><path d='M45 35 L45 70' stroke='%232772a0' stroke-width='2' fill='none'/><circle cx='35' cy='45' r='3' fill='%232772a0'/><circle cx='55' cy='45' r='3' fill='%232772a0'/><circle cx='35' cy='58' r='3' fill='%23ccddea'/><circle cx='55' cy='58' r='3' fill='%23ccddea'/><path d='M40 20 L35 15 L30 20 L32 25 L38 25 Z' fill='white' stroke='%23ccddea' stroke-width='1.5'/></svg>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
-    <style>
-        /* Additional styles for question quantity selection */
-        .quantity-section {
-            margin: 25px 0;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 12px;
-            border: 2px solid #e0e0e0;
-        }
-        
-        .quantity-section h5 {
-            font-size: 16px;
-            color: #333;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .quantity-section h5 i {
-            color: #667eea;
-        }
-        
-        .quantity-options {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        
-        .quantity-option {
-            flex: 1;
-            min-width: 70px;
-            padding: 12px 8px;
-            background: white;
-            border: 2px solid #ddd;
-            border-radius: 10px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 600;
-            color: #555;
-        }
-        
-        .quantity-option:hover {
-            border-color: #667eea;
-            color: #667eea;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(102, 126, 234, 0.2);
-        }
-        
-        .quantity-option.selected {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            border-color: transparent;
-            color: white;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-        }
-        
-        .quantity-option:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            pointer-events: none;
-        }
-        
-        .quantity-note {
-            font-size: 12px;
-            color: #999;
-            margin-top: 12px;
-            text-align: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 5px;
-        }
-        
-        .quantity-note i {
-            color: #667eea;
-        }
-        
-        .selected-course-info {
-            background: #e8ebff;
-            padding: 15px;
-            border-radius: 10px;
-            margin: 15px 0;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        
-        .selected-course-name {
-            font-weight: 700;
-            color: #667eea;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .selected-course-stats {
-            display: flex;
-            gap: 15px;
-            font-size: 13px;
-        }
-        
-        .selected-course-stats span {
-            background: white;
-            padding: 5px 12px;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        
-        /* Loading indicator */
-        .loading-courses {
-            text-align: center;
-            padding: 50px;
-            color: #666;
-            grid-column: 1 / -1;
-        }
-        
-        .loading-courses i {
-            font-size: 50px;
-            color: #667eea;
-            margin-bottom: 15px;
-            animation: spin 1.5s linear infinite;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        /* No courses message */
-        .no-courses {
-            text-align: center;
-            padding: 50px;
-            color: #999;
-            font-style: italic;
-            grid-column: 1 / -1;
-        }
-        
-        /* Total Stats */
-        .total-stats {
-            background: linear-gradient(135deg, #667eea0d, #764ba20d);
-            padding: 20px;
-            border-radius: 12px;
-            margin: 0 0 20px 0;
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            gap: 20px;
-            border: 1px solid #667eea30;
-        }
-        
-        .total-stat-item {
-            text-align: center;
-            flex: 1;
-            min-width: 100px;
-        }
-        
-        .total-stat-value {
-            font-size: 28px;
-            font-weight: 700;
-            color: #667eea;
-            line-height: 1.2;
-        }
-        
-        .total-stat-label {
-            font-size: 12px;
-            color: #666;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            font-weight: 600;
-        }
-        
-        /* Course note */
-        .course-note {
-            font-size: 13px;
-            color: #666;
-            margin-top: 15px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 15px;
-            background: #f8f9fa;
-            border-radius: 10px;
-            border-left: 4px solid #667eea;
-        }
-        
-        .course-note i {
-            color: #667eea;
-            font-size: 16px;
-        }
-        
-        /* Action Buttons Container */
-        .action-buttons {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap;
-            margin-top: 25px;
-        }
-        
-        .action-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 14px 30px;
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 16px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            min-width: 180px;
-            justify-content: center;
-        }
-        
-        .action-btn.exam {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-        
-        .action-btn.study {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-        }
-        
-        .action-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
-        }
-        
-        .action-btn.study:hover {
-            box-shadow: 0 6px 20px rgba(245, 87, 108, 0.6);
-        }
-        
-        .action-btn:active {
-            transform: translateY(0);
-        }
-        
-        /* Responsive */
-        @media (max-width: 768px) {
-            .quantity-options {
-                gap: 8px;
-            }
-            
-            .quantity-option {
-                min-width: 50px;
-                padding: 10px 5px;
-                font-size: 14px;
-            }
-            
-            .selected-course-info {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            
-            .total-stats {
-                flex-direction: column;
-                gap: 15px;
-                padding: 15px;
-            }
-            
-            .total-stat-item {
-                min-width: auto;
-            }
-            
-            .action-buttons {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            
-            .action-btn {
-                width: 100%;
-            }
-        }
-    </style>
 </head>
 <body>
 
@@ -307,6 +27,54 @@
                 <h3>Comprehensive Mode</h3>
                 <p>100 random questions from ALL courses</p>
                 <div class="mode-badge" id="totalQuestionsCount">Loading...</div>
+            </div>
+
+            <div class="divider">
+                <span>OR</span>
+            </div>
+
+            <!-- Previous Exams Section -->
+            <div class="course-selection">
+                <h4><i class="fas fa-history"></i> Previous Exit Exams</h4>
+                
+                <div class="previous-exam-grid" id="previousExamGrid">
+                    <div class="exam-card" data-year="2016" id="exam2016Card">
+                        <div class="exam-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="exam-info">
+                            <h4>2016 Exit Exam</h4>
+                            <span class="exam-count">100 Questions</span>
+                        </div>
+                    </div>
+                    <!-- 2017 EXAM CARD -->
+                    <div class="exam-card" data-year="2017" id="exam2017Card">
+                        <div class="exam-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="exam-info">
+                            <h4>2017 Exit Exam</h4>
+                            <span class="exam-count">100 Questions</span>
+                        </div>
+                    </div>
+                    <!-- Add more years as they become available -->
+                    <!--
+                    <div class="exam-card" data-year="2018" id="exam2018Card">
+                        <div class="exam-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="exam-info">
+                            <h4>2018 Exit Exam</h4>
+                            <span class="exam-count">100 Questions</span>
+                        </div>
+                    </div>
+                    -->
+                </div>
+                
+                <div class="course-note">
+                    <i class="fas fa-info-circle"></i>
+                    <span>Practice with actual previous exit exam questions to familiarize yourself with the exam format.</span>
+                </div>
             </div>
 
             <div class="divider">
@@ -406,17 +174,21 @@
                     <span>2 Hours</span>
                 </div>
                 <div class="feature-item">
-                    <i class="fas fa-sliders-h"></i>
-                    <span>10-50 Q/Exam</span>
+                    <i class="fas fa-history"></i>
+                    <span>Previous Exams</span>
                 </div>
             </div>
             
             <div class="action-buttons">
                 <button id="startBtn" class="action-btn exam">
-                    <i class="fas fa-play"></i> Start Exam
+                    <i class="fas fa-play"></i> 
+                    <span class="btn-text">Start Exam</span>
+                    <span class="btn-subtext">Test your knowledge</span>
                 </button>
                 <a href="study.html" class="action-btn study">
-                    <i class="fas fa-book-open"></i> Study Materials
+                    <i class="fas fa-book-open"></i> 
+                    <span class="btn-text">Study Materials</span>
+                    <span class="btn-subtext">Learn the concepts</span>
                 </a>
             </div>
             
@@ -446,22 +218,45 @@
             </div>
         </div>
 
-        <div class="exam-content">
-            <div id="questionBox" class="question-card"></div>
-            <div class="question-counter">
-                <span id="questionNum"></span>
+        <!-- Main content area with question and navigator side by side -->
+        <div class="exam-main-content">
+            <!-- Left side: Question Area -->
+            <div class="question-area">
+                <div class="question-header">
+                    <h3>Question <span id="currentQNum">1</span> of <span id="totalQCount">0</span></h3>
+                </div>
+                <div id="questionBox" class="question-card"></div>
+                
+                <!-- Navigation Buttons - Now placed below the question -->
+                <div class="question-navigation-buttons">
+                    <button id="prevBtn" class="btn-secondary">
+                        <i class="fas fa-chevron-left"></i> < Previous
+                    </button>
+                    <button id="checkAnswerBtn" class="btn-primary check-btn" disabled>
+                        <i class="fas fa-check"></i> Check Answer
+                    </button>
+                    <button id="nextBtn" class="btn-secondary">
+                        Next > <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right side: Question Navigator -->
+            <div class="navigator-sidebar">
+                <div class="question-navigator-container">
+                    <h3><i class="fas fa-th"></i> Question Navigator</h3>
+                    <div class="question-navigator" id="questionNavigator">
+                        <!-- Grid will be populated by JavaScript -->
+                    </div>
+                    <p class="navigator-hint">Click any number to jump to that question</p>
+                </div>
             </div>
         </div>
 
-        <div class="navigation-buttons">
-            <button id="prevBtn" class="btn-secondary">
-                <i class="fas fa-chevron-left"></i> Previous
-            </button>
+        <!-- Submit Button at bottom (outside the flex container) -->
+        <div class="submit-section">
             <button id="submitBtn" class="btn-danger">
                 <i class="fas fa-paper-plane"></i> Submit Exam
-            </button>
-            <button id="nextBtn" class="btn-secondary">
-                Next <i class="fas fa-chevron-right"></i>
             </button>
         </div>
     </div>
@@ -500,6 +295,7 @@
         </div>
     </div>
 </section>
+
 <!-- Add this right before the questions.js script -->
 <script>
 // Store questions in session storage when leaving the page
@@ -537,11 +333,8 @@ window.addEventListener('beforeunload', function() {
 <!-- IMPORTANT: questions first -->
 <script src="questions.js"></script>
 <script src="script.js"></script>
-<!-- IMPORTANT: questions first -->
-<script src="questions.js"></script>
-<script src="script.js"></script>
 
-<!-- Quick verification on load (console only) -->
+<!-- Updated verification on load (console only) -->
 <script>
     setTimeout(function() {
         console.log("=== VERIFICATION ===");
@@ -549,26 +342,80 @@ window.addEventListener('beforeunload', function() {
         if (typeof allQuestions !== 'undefined') {
             console.log("Total questions:", allQuestions.length);
             
-            // Get unique courses
-            const courses = [...new Set(allQuestions.map(q => q.course).filter(c => c))];
-            console.log("Courses found:", courses);
+            // Define the 15 main courses with exact names matching the questions
+            const mainCourses = [
+                'Computer Programming',
+                'Database Systems',
+                'Object Oriented Programming',
+                'Computer Organization & Architecture',
+                'Data Communication & Networking',
+                'Data Structures & Algorithms',
+                'Web Programming',
+                'Operating System',
+                'Software Engineering',
+                'Design & Analysis of Algorithms',
+                'Artificial Intelligence',
+                'Computer Security',
+                'Network and System Administration', // Fixed: Changed from 'Network & System Administration' to match actual course name
+                'Automata & Complexity Theory',
+                'Compiler Design'
+            ];
             
-            if (courses.length === 0) {
-                console.warn("⚠️ No courses found! Check that questions have a 'course' property.");
+            // Count how many main courses have questions
+            const coursesWithQuestions = mainCourses.filter(course => 
+                allQuestions.some(q => q.course === course)
+            );
+            
+            console.log("Main courses with questions:", coursesWithQuestions.length);
+            console.log("Expected courses: 15");
+            
+            if (coursesWithQuestions.length === 15) {
+                console.log("✅ All 15 courses loaded successfully!");
             } else {
-                console.log("✅ Courses loaded successfully!");
+                console.warn(`⚠️ Only ${coursesWithQuestions.length} out of 15 courses have questions`);
+                console.log("Missing courses:", mainCourses.filter(c => !coursesWithQuestions.includes(c)));
             }
+            
+            // Also check by alternative name formats
+            const networkCourses = allQuestions.filter(q => 
+                q.course && q.course.includes('Network')
+            );
+            if (networkCourses.length > 0) {
+                console.log(`📊 Network courses found: ${networkCourses.length} questions with course name: "${networkCourses[0].course}"`);
+            }
+            
+            // Check if previous exams are loaded
+            const exam2016Count = allQuestions.filter(q => q.year === 2016).length;
+            const exam2017Count = allQuestions.filter(q => q.year === 2017).length;
+            
+            console.log(`📅 2016 Exam: ${exam2016Count} questions`);
+            console.log(`📅 2017 Exam: ${exam2017Count} questions`);
+            
+            // Log total including previous exams
+            console.log(`📚 Total questions (including previous exams): ${allQuestions.length}`);
+            
+            // Show top 5 courses by question count
+            const courseCounts = {};
+            allQuestions.forEach(q => {
+                if (q.course) {
+                    courseCounts[q.course] = (courseCounts[q.course] || 0) + 1;
+                }
+            });
+            console.log("📊 Top courses by question count:", Object.entries(courseCounts)
+                .sort((a,b) => b[1] - a[1])
+                .slice(0, 5)
+                .map(([course, count]) => `${course}: ${count}`)
+                .join(', '));
         }
         console.log("===================");
         
-        // Update feature counts
+        // Update feature counts to show only 15 courses
         if (typeof allQuestions !== 'undefined') {
             const totalQuestions = document.getElementById('totalQuestionsFeature');
             const totalCourses = document.getElementById('totalCoursesFeature');
-            const courses = [...new Set(allQuestions.map(q => q.course).filter(c => c))];
             
             if (totalQuestions) totalQuestions.textContent = allQuestions.length + ' Questions';
-            if (totalCourses) totalCourses.textContent = courses.length + ' Courses';
+            if (totalCourses) totalCourses.textContent = '15 Courses'; // Fixed to 15
         }
     }, 1000);
 </script>

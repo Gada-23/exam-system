@@ -1,38 +1,54 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Path Test</title>
+    <title>Test Questions</title>
 </head>
 <body>
-    <h1>Testing File Paths</h1>
+    <h1>Testing Question Loading</h1>
     <div id="output"></div>
-    
+
+    <script src="questions.js"></script>
     <script>
-        const output = document.getElementById('output');
-        
-        function testPath(path) {
-            const script = document.createElement('script');
-            script.src = path + '?t=' + Date.now();
+        setTimeout(function() {
+            let output = document.getElementById('output');
+            let html = '<h2>Course Questions Loaded:</h2><ul>';
             
-            script.onload = function() {
-                output.innerHTML += `<p style="color: green;">✅ FOUND: ${path}</p>`;
-            };
+            const courses = [
+                { name: 'Computer Programming', var: window.computerProgrammingQuestions },
+                { name: 'Database Systems', var: window.databaseSystemsQuestions },
+                { name: 'Object Oriented Programming', var: window.oopQuestions },
+                { name: 'Computer Organization', var: window.computerOrganizationQuestions },
+                { name: 'Data Communication & Networking', var: window.networkingQuestions },
+                { name: 'Data Structures & Algorithms', var: window.dataStructuresQuestions },
+                { name: 'Web Programming', var: window.webProgrammingQuestions },
+                { name: 'Operating System', var: window.operatingSystemQuestions },
+                { name: 'Software Engineering', var: window.softwareEngineeringQuestions },
+                { name: 'Design & Analysis of Algorithms', var: window.algorithmQuestions },
+                { name: 'Artificial Intelligence', var: window.aiQuestions },
+                { name: 'Computer Security', var: window.computerSecurityQuestions },
+                { name: 'Network & System Administration', var: window.networkAdminQuestions },
+                { name: 'Automata & Complexity Theory', var: window.automataQuestions },
+                { name: 'Compiler Design', var: window.compilerDesignQuestions }
+            ];
             
-            script.onerror = function() {
-                output.innerHTML += `<p style="color: red;">❌ NOT FOUND: ${path}</p>`;
-            };
+            let allGood = true;
+            courses.forEach(c => {
+                let count = c.var ? c.var.length : 0;
+                let color = count > 0 ? 'green' : 'red';
+                html += `<li style="color: ${color}">${c.name}: ${count} questions</li>`;
+                if (count === 0) allGood = false;
+            });
             
-            document.head.appendChild(script);
-        }
-        
-        output.innerHTML = '<h3>Testing different paths:</h3>';
-        
-        // Test different possible locations
-        testPath('ch1-1.js');
-        testPath('studyCourses/computer-programming/chapter1/ch1-1.js');
-        testPath('computer-programming/chapter1/ch1-1.js');
-        testPath('./ch1-1.js');
-        testPath('./studyCourses/computer-programming/chapter1/ch1-1.js');
+            html += '</ul>';
+            html += `<h2>Previous Exams:</h2><ul>`;
+            html += `<li>2016 Exit Exam: ${window.exitExam2016 ? window.exitExam2016.length : 0} questions</li>`;
+            html += `<li>2017 Exit Exam: ${window.exitExam2017 ? window.exitExam2017.length : 0} questions</li>`;
+            html += '</ul>';
+            html += `<h3>Total Questions: ${window.allQuestions ? window.allQuestions.length : 0}</h3>`;
+            html += `<h3 style="color: ${allGood ? 'green' : 'red'}">Status: ${allGood ? '✅ ALL COURSES LOADED!' : '❌ Some courses missing'}</h3>`;
+            
+            output.innerHTML = html;
+        }, 2000);
     </script>
 </body>
 </html>

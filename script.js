@@ -4,9 +4,11 @@
 let examQuestions = [];
 let userAnswers = {};
 let currentQuestion = 0;
-let currentExamMode = 'random'; // 'random' or 'course'
+let currentExamMode = 'random'; // 'random', 'course', or 'previous-exam'
 let selectedCourse = null;
+let selectedPreviousExam = null; // For previous exam selection
 let selectedQuantity = 20; // Default quantity
+let answerFeedback = {}; // Store feedback for each question (correct/incorrect)
 
 let timeLeft = 60 * 60 * 2; // 2 hours in seconds (7200 seconds)
 let timerInterval;
@@ -14,8 +16,28 @@ let timerInterval;
 // Available quantity options
 const quantityOptions = [10, 20, 30, 40, 50];
 
-// Available courses (will be extracted from questions)
+// Available courses (will be populated from course question files only)
 let availableCourses = [];
+
+// Previous exams data - with 2016 and 2017
+const previousExams = [
+    {
+        year: 2016,
+        name: '2016 Exit Exam',
+        questionCount: 100,
+        color: '#2772a0',
+        icon: 'fa-calendar-alt'
+    },
+    {
+        year: 2017,
+        name: '2017 Exit Exam',
+        questionCount: 100,
+        color: '#1a5a80',
+        icon: 'fa-calendar-alt'
+    }
+    // Add more years as they become available
+    // { year: 2018, name: '2018 Exit Exam', questionCount: 100, color: '#0f4a60', icon: 'fa-calendar-alt' },
+];
 
 // ===============================
 // Initialize
@@ -54,8 +76,20 @@ function showLoadingState() {
     if (homeStats) {
         homeStats.innerHTML = `
             <div style="padding: 20px; text-align: center;">
-                <i class="fas fa-circle-notch fa-spin" style="font-size: 30px; color: #667eea;"></i>
+                <i class="fas fa-circle-notch fa-spin" style="font-size: 30px; color: #2772a0;"></i>
                 <p style="margin-top: 10px;">Loading questions...</p>
+            </div>
+        `;
+    }
+}
+
+function showError(message) {
+    const homeStats = document.getElementById('homeStats');
+    if (homeStats) {
+        homeStats.innerHTML = `
+            <div style="color: #f5576c; padding: 20px; text-align: center;">
+                <i class="fas fa-exclamation-triangle"></i>
+                <p>${message}</p>
             </div>
         `;
     }
@@ -71,11 +105,21 @@ function initializeApp() {
     
     console.log(`✅ Loaded ${window.allQuestions.length} questions successfully`);
     
-    // Extract unique courses from questions
-    extractCourses();
+    // DEBUG: Show all unique course names from questions
+    const uniqueCourses = new Set();
+    window.allQuestions.forEach(q => {
+        if (q.course) uniqueCourses.add(q.course);
+    });
+    console.log("🔍 EXACT course names found in questions:", [...uniqueCourses].sort());
+    
+    // Extract unique courses from course question files only
+    extractCoursesFromCourseFiles();
     
     // Populate course grid
     populateCourseGrid();
+    
+    // Setup previous exam cards
+    setupPreviousExams();
     
     // Update home stats
     updateHomeStats();
@@ -90,70 +134,174 @@ function initializeApp() {
     updateTotalQuestionsCount();
 }
 
-// ... rest of your script.js code remains the same ...
-
 // ===============================
-// Error Handling
+// Extract unique courses from course question files only
 // ===============================
-function showError(message) {
-    const homeStats = document.getElementById('homeStats');
-    if (homeStats) {
-        homeStats.innerHTML = `
-            <div style="color: #f5576c; padding: 20px; text-align: center;">
-                <i class="fas fa-exclamation-triangle"></i>
-                <p>${message}</p>
-            </div>
-        `;
+function extractCoursesFromCourseFiles() {
+    const courses = new Set();
+    
+    // Add courses from each course-specific array with EXACT names matching your question files
+    if (window.computerProgrammingQuestions && window.computerProgrammingQuestions.length > 0) {
+        // Get the actual course name from the first question
+        const actualName = window.computerProgrammingQuestions[0]?.course;
+        if (actualName) {
+            courses.add(actualName);
+            console.log(`📘 Computer Programming actual name: "${actualName}"`);
+        } else {
+            courses.add('Computer Programming');
+        }
+    }
+    if (window.databaseSystemsQuestions && window.databaseSystemsQuestions.length > 0) {
+        const actualName = window.databaseSystemsQuestions[0]?.course;
+        if (actualName) {
+            courses.add(actualName);
+            console.log(`📘 Database Systems actual name: "${actualName}"`);
+        } else {
+            courses.add('Database Systems');
+        }
+    }
+    if (window.oopQuestions && window.oopQuestions.length > 0) {
+        const actualName = window.oopQuestions[0]?.course;
+        if (actualName) {
+            courses.add(actualName);
+            console.log(`📘 Object Oriented Programming actual name: "${actualName}"`);
+        } else {
+            courses.add('Object Oriented Programming');
+        }
+    }
+    if (window.computerOrganizationQuestions && window.computerOrganizationQuestions.length > 0) {
+        const actualName = window.computerOrganizationQuestions[0]?.course;
+        if (actualName) {
+            courses.add(actualName);
+            console.log(`📘 Computer Organization actual name: "${actualName}"`);
+        } else {
+            courses.add('Computer Organization & Architecture');
+        }
+    }
+    if (window.networkingQuestions && window.networkingQuestions.length > 0) {
+        const actualName = window.networkingQuestions[0]?.course;
+        if (actualName) {
+            courses.add(actualName);
+            console.log(`📘 Data Communication & Networking actual name: "${actualName}"`);
+        } else {
+            courses.add('Data Communication & Networking');
+        }
+    }
+    if (window.dataStructuresQuestions && window.dataStructuresQuestions.length > 0) {
+        const actualName = window.dataStructuresQuestions[0]?.course;
+        if (actualName) {
+            courses.add(actualName);
+            console.log(`📘 Data Structures & Algorithms actual name: "${actualName}"`);
+        } else {
+            courses.add('Data Structures & Algorithms');
+        }
+    }
+    if (window.webProgrammingQuestions && window.webProgrammingQuestions.length > 0) {
+        const actualName = window.webProgrammingQuestions[0]?.course;
+        if (actualName) {
+            courses.add(actualName);
+            console.log(`📘 Web Programming actual name: "${actualName}"`);
+        } else {
+            courses.add('Web Programming');
+        }
+    }
+    if (window.operatingSystemQuestions && window.operatingSystemQuestions.length > 0) {
+        const actualName = window.operatingSystemQuestions[0]?.course;
+        if (actualName) {
+            courses.add(actualName);
+            console.log(`📘 Operating System actual name: "${actualName}"`);
+        } else {
+            courses.add('Operating System');
+        }
+    }
+    if (window.softwareEngineeringQuestions && window.softwareEngineeringQuestions.length > 0) {
+        const actualName = window.softwareEngineeringQuestions[0]?.course;
+        if (actualName) {
+            courses.add(actualName);
+            console.log(`📘 Software Engineering actual name: "${actualName}"`);
+        } else {
+            courses.add('Software Engineering');
+        }
+    }
+    if (window.algorithmQuestions && window.algorithmQuestions.length > 0) {
+        const actualName = window.algorithmQuestions[0]?.course;
+        if (actualName) {
+            courses.add(actualName);
+            console.log(`📘 Design & Analysis of Algorithms actual name: "${actualName}"`);
+        } else {
+            courses.add('Design & Analysis of Algorithms');
+        }
+    }
+    if (window.aiQuestions && window.aiQuestions.length > 0) {
+        const actualName = window.aiQuestions[0]?.course;
+        if (actualName) {
+            courses.add(actualName);
+            console.log(`📘 Artificial Intelligence actual name: "${actualName}"`);
+        } else {
+            courses.add('Artificial Intelligence');
+        }
+    }
+    if (window.computerSecurityQuestions && window.computerSecurityQuestions.length > 0) {
+        const actualName = window.computerSecurityQuestions[0]?.course;
+        if (actualName) {
+            courses.add(actualName);
+            console.log(`📘 Computer Security actual name: "${actualName}"`);
+        } else {
+            courses.add('Computer Security');
+        }
+    }
+    if (window.networkAdminQuestions && window.networkAdminQuestions.length > 0) {
+        const actualName = window.networkAdminQuestions[0]?.course;
+        if (actualName) {
+            courses.add(actualName);
+            console.log(`📘 Network & System Administration actual name: "${actualName}"`);
+        } else {
+            courses.add('Network and System Administration');
+        }
+    }
+    if (window.automataQuestions && window.automataQuestions.length > 0) {
+        const actualName = window.automataQuestions[0]?.course;
+        if (actualName) {
+            courses.add(actualName);
+            console.log(`📘 Automata & Complexity Theory actual name: "${actualName}"`);
+        } else {
+            courses.add('Automata & Complexity Theory');
+        }
+    }
+    if (window.compilerDesignQuestions && window.compilerDesignQuestions.length > 0) {
+        const actualName = window.compilerDesignQuestions[0]?.course;
+        if (actualName) {
+            courses.add(actualName);
+            console.log(`📘 Compiler Design actual name: "${actualName}"`);
+        } else {
+            courses.add('Compiler Design');
+        }
     }
     
-    // Also show error in course grid
-    const courseGrid = document.getElementById('courseGrid');
-    if (courseGrid) {
-        courseGrid.innerHTML = `
-            <div class="no-courses">
-                <i class="fas fa-exclamation-triangle" style="color: #f5576c;"></i>
-                <p>${message}</p>
-            </div>
-        `;
-    }
+    availableCourses = Array.from(courses).sort();
+    console.log("📚 Available courses (after mapping):", availableCourses);
 }
 
 // ===============================
-// Extract unique courses from questions
+// Setup Previous Exams - with 2016 and 2017
 // ===============================
-function extractCourses() {
-    const courses = new Set();
-    let questionsWithCourse = 0;
-    let questionsWithoutCourse = 0;
+function setupPreviousExams() {
+    const exam2016Card = document.getElementById('exam2016Card');
+    const exam2017Card = document.getElementById('exam2017Card');
     
-    allQuestions.forEach((q, index) => {
-        if (q.course) {
-            courses.add(q.course);
-            questionsWithCourse++;
-        } else {
-            questionsWithoutCourse++;
-            console.warn(`⚠️ Question ${index + 1} missing course:`, q.question.substring(0, 50) + "...");
-        }
-    });
-    
-    availableCourses = Array.from(courses).sort();
-    
-    console.log("📚 Course extraction complete:");
-    console.log(`   - Total questions: ${allQuestions.length}`);
-    console.log(`   - Questions with course: ${questionsWithCourse}`);
-    console.log(`   - Questions without course: ${questionsWithoutCourse}`);
-    console.log(`   - Unique courses found: ${availableCourses.length}`);
-    console.log("   - Courses:", availableCourses);
-    
-    if (availableCourses.length === 0) {
-        console.error("❌ No courses found! Check that questions have a 'course' property.");
-        
-        // Try to debug by looking at the first question
-        if (allQuestions.length > 0) {
-            console.log("First question structure:", Object.keys(allQuestions[0]));
-            console.log("First question course value:", allQuestions[0].course);
-        }
+    if (exam2016Card) {
+        exam2016Card.addEventListener('click', function() {
+            selectPreviousExam(this, 2016);
+        });
     }
+    
+    if (exam2017Card) {
+        exam2017Card.addEventListener('click', function() {
+            selectPreviousExam(this, 2017);
+        });
+    }
+    
+    // Add more exam cards as they become available
 }
 
 // ===============================
@@ -212,8 +360,7 @@ function populateCourseGrid() {
         courseGrid.innerHTML = `
             <div class="no-courses">
                 <i class="fas fa-frown"></i>
-                <p>No courses found. Please check that questions have a 'course' property.</p>
-                <p style="font-size: 12px; margin-top: 10px;">Expected courses: Computer Programming, Database Systems, Object Oriented Programming, etc.</p>
+                <p>No courses found. Please check the questions file.</p>
             </div>
         `;
         return;
@@ -222,8 +369,8 @@ function populateCourseGrid() {
     courseGrid.innerHTML = '';
     
     availableCourses.forEach(course => {
-        // Count questions for this course
-        const count = allQuestions.filter(q => q.course === course).length;
+        // Count questions for this course from all questions
+        const count = window.allQuestions.filter(q => q.course === course).length;
         
         const courseCard = document.createElement('div');
         courseCard.className = 'course-card';
@@ -260,7 +407,7 @@ function updateTotalStats() {
     const totalStats = document.getElementById('totalStats');
     if (!totalStats) return;
     
-    const totalQuestions = allQuestions.length;
+    const totalQuestions = window.allQuestions.length;
     const totalCourses = availableCourses.length;
     
     totalStats.innerHTML = `
@@ -281,8 +428,43 @@ function updateTotalStats() {
 function updateTotalQuestionsCount() {
     const totalQuestionsSpan = document.getElementById('totalQuestionsCount');
     if (totalQuestionsSpan) {
-        totalQuestionsSpan.textContent = `${allQuestions.length} Total Questions`;
+        totalQuestionsSpan.textContent = `${window.allQuestions.length} Total Questions`;
     }
+}
+
+// ===============================
+// Update Home Stats
+// ===============================
+function updateHomeStats() {
+    const statsDiv = document.getElementById('homeStats');
+    if (!statsDiv) return;
+    
+    const totalQuestions = window.allQuestions.length;
+    const totalCourses = availableCourses.length;
+    
+    // Count unique years from previousExams array
+    const examYears = previousExams.length;
+    
+    statsDiv.innerHTML = `
+        <div class="home-stats-grid">
+            <div class="stat-item">
+                <i class="fas fa-database"></i>
+                <span>${totalQuestions} Questions</span>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-book"></i>
+                <span>${totalCourses} Courses</span>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-history"></i>
+                <span>${examYears} Previous Exams</span>
+            </div>
+            <div class="stat-item">
+                <i class="fas fa-clock"></i>
+                <span>2 Hours</span>
+            </div>
+        </div>
+    `;
 }
 
 // ===============================
@@ -302,13 +484,19 @@ function selectCourse(element, course) {
         randomModeCard.classList.remove('selected');
     }
     
+    // Deselect previous exams if selected
+    document.querySelectorAll('.exam-card').forEach(c => {
+        c.classList.remove('selected');
+    });
+    
     // Select this course
     element.classList.add('selected');
     const icon = element.querySelector('.course-check i');
     if (icon) icon.className = 'fas fa-check-circle';
     
-    // Update selected course
+    // Update selected course and clear previous exam
     selectedCourse = course;
+    selectedPreviousExam = null;
     
     // Show selected course info
     showSelectedCourseInfo(course);
@@ -323,6 +511,53 @@ function selectCourse(element, course) {
 }
 
 // ===============================
+// Select Previous Exam
+// ===============================
+function selectPreviousExam(element, year) {
+    // Deselect all previous exams
+    document.querySelectorAll('.exam-card').forEach(c => {
+        c.classList.remove('selected');
+    });
+    
+    // Deselect all courses
+    document.querySelectorAll('.course-card').forEach(c => {
+        c.classList.remove('selected');
+        const icon = c.querySelector('.course-check i');
+        if (icon) icon.className = 'far fa-circle';
+    });
+    
+    // Deselect random mode if selected
+    const randomModeCard = document.getElementById('randomModeCard');
+    if (randomModeCard) {
+        randomModeCard.classList.remove('selected');
+    }
+    
+    // Select this exam
+    element.classList.add('selected');
+    
+    // Hide selected course info
+    const selectedCourseInfo = document.getElementById('selectedCourseInfo');
+    if (selectedCourseInfo) {
+        selectedCourseInfo.style.display = 'none';
+    }
+    
+    // Hide quantity section (previous exams have fixed number of questions)
+    const quantitySection = document.getElementById('quantitySection');
+    if (quantitySection) {
+        quantitySection.style.display = 'none';
+    }
+    
+    // Update selected previous exam and clear course
+    selectedPreviousExam = year;
+    selectedCourse = null;
+    
+    // Enable start button
+    document.getElementById('startSelectedBtn').disabled = false;
+    
+    console.log("✅ Selected previous exam:", year);
+}
+
+// ===============================
 // Show Selected Course Info
 // ===============================
 function showSelectedCourseInfo(course) {
@@ -332,7 +567,7 @@ function showSelectedCourseInfo(course) {
     
     if (!infoDiv || !nameSpan || !totalSpan) return;
     
-    const totalQuestions = allQuestions.filter(q => q.course === course).length;
+    const totalQuestions = window.allQuestions.filter(q => q.course === course).length;
     
     nameSpan.textContent = course;
     totalSpan.textContent = totalQuestions;
@@ -407,12 +642,19 @@ function hideCourseModal() {
 }
 
 function resetModalSelections() {
+    // Reset courses
     document.querySelectorAll('.course-card').forEach(c => {
         c.classList.remove('selected');
         const icon = c.querySelector('.course-check i');
         if (icon) icon.className = 'far fa-circle';
     });
     
+    // Reset previous exams
+    document.querySelectorAll('.exam-card').forEach(c => {
+        c.classList.remove('selected');
+    });
+    
+    // Reset random mode
     const randomModeCard = document.getElementById('randomModeCard');
     if (randomModeCard) {
         randomModeCard.classList.remove('selected');
@@ -452,34 +694,7 @@ function resetModalSelections() {
     }
     
     selectedCourse = null;
-}
-
-// ===============================
-// Update Home Stats
-// ===============================
-function updateHomeStats() {
-    const statsDiv = document.getElementById('homeStats');
-    if (!statsDiv) return;
-    
-    const totalQuestions = allQuestions.length;
-    const totalCourses = availableCourses.length;
-    
-    statsDiv.innerHTML = `
-        <div class="home-stats-grid">
-            <div class="stat-item">
-                <i class="fas fa-database"></i>
-                <span>${totalQuestions} Questions</span>
-            </div>
-            <div class="stat-item">
-                <i class="fas fa-book"></i>
-                <span>${totalCourses} Courses</span>
-            </div>
-            <div class="stat-item">
-                <i class="fas fa-clock"></i>
-                <span>2 Hours</span>
-            </div>
-        </div>
-    `;
+    selectedPreviousExam = null;
 }
 
 // ===============================
@@ -531,6 +746,11 @@ function setupEventListeners() {
         prevBtn.addEventListener('click', prevQuestion);
     }
     
+    const checkAnswerBtn = document.getElementById('checkAnswerBtn');
+    if (checkAnswerBtn) {
+        checkAnswerBtn.addEventListener('click', checkAnswer);
+    }
+    
     const submitBtn = document.getElementById('submitBtn');
     if (submitBtn) {
         submitBtn.addEventListener('click', submitExam);
@@ -556,6 +776,11 @@ function selectRandomMode(element) {
         if (icon) icon.className = 'far fa-circle';
     });
     
+    // Deselect all previous exams
+    document.querySelectorAll('.exam-card').forEach(c => {
+        c.classList.remove('selected');
+    });
+    
     // Hide selected course info
     const selectedCourseInfo = document.getElementById('selectedCourseInfo');
     if (selectedCourseInfo) {
@@ -575,8 +800,9 @@ function selectRandomMode(element) {
     // Enable start button
     document.getElementById('startSelectedBtn').disabled = false;
     
-    // Clear selected course
+    // Clear selected course and previous exam
     selectedCourse = null;
+    selectedPreviousExam = null;
     
     console.log("🎲 Selected random mode");
 }
@@ -590,7 +816,7 @@ function startSelectedExam() {
         currentExamMode = 'course';
         
         // Get all questions for this course
-        const courseQuestions = allQuestions.filter(q => q.course === selectedCourse);
+        const courseQuestions = window.allQuestions.filter(q => q.course === selectedCourse);
         
         if (courseQuestions.length === 0) {
             alert(`No questions found for ${selectedCourse}. Please try another course.`);
@@ -617,12 +843,47 @@ function startSelectedExam() {
         }
         
         console.log(`📝 Starting ${selectedCourse} exam with ${examQuestions.length} questions`);
-    } else {
+    } 
+    else if (selectedPreviousExam) {
+        // Previous exam mode
+        currentExamMode = 'previous-exam';
+        
+        // Get questions for the selected year
+        let yearQuestions = [];
+        
+        if (selectedPreviousExam === 2016 && window.exitExam2016) {
+            yearQuestions = window.exitExam2016;
+        } 
+        else if (selectedPreviousExam === 2017 && window.exitExam2017) {
+            yearQuestions = window.exitExam2017;
+        }
+        else {
+            // Fallback: filter all questions by year if they have a year property
+            yearQuestions = window.allQuestions.filter(q => q.year === selectedPreviousExam);
+        }
+        
+        if (yearQuestions.length === 0) {
+            alert(`No questions found for the ${selectedPreviousExam} Exit Exam.`);
+            return;
+        }
+        
+        // Shuffle but keep all questions
+        examQuestions = shuffleArray(yearQuestions);
+        
+        // Update exam title
+        const examTitle = document.getElementById('examModeTitle');
+        if (examTitle) {
+            examTitle.innerHTML = `${selectedPreviousExam} Exit Exam <span>${examQuestions.length} Questions</span>`;
+        }
+        
+        console.log(`📝 Starting ${selectedPreviousExam} Exit Exam with ${examQuestions.length} questions`);
+    } 
+    else {
         // Random mode - 100 questions from all courses
         currentExamMode = 'random';
         
         // Shuffle all questions and take 100
-        examQuestions = shuffleArray([...allQuestions]).slice(0, 100);
+        examQuestions = shuffleArray([...window.allQuestions]).slice(0, 100);
         
         // Update exam title
         const examTitle = document.getElementById('examModeTitle');
@@ -635,6 +896,7 @@ function startSelectedExam() {
     
     // Reset user answers and current question
     userAnswers = {};
+    answerFeedback = {};
     currentQuestion = 0;
     
     // Reset timer to 2 hours
@@ -642,8 +904,130 @@ function startSelectedExam() {
     
     hideCourseModal();
     showPage('exam');
+    
+    // Update total question count display
+    document.getElementById('totalQCount').textContent = examQuestions.length;
+    
     loadQuestion();
+    buildQuestionNavigator();
     startTimer();
+}
+
+// ===============================
+// Build Question Navigator
+// ===============================
+function buildQuestionNavigator() {
+    const navigator = document.getElementById('questionNavigator');
+    if (!navigator) return;
+    
+    navigator.innerHTML = '';
+    
+    for (let i = 0; i < examQuestions.length; i++) {
+        const questionNum = i + 1;
+        const navItem = document.createElement('div');
+        navItem.className = 'nav-question';
+        
+        // Set appropriate class based on status
+        if (i === currentQuestion) {
+            navItem.classList.add('current');
+        }
+        
+        if (userAnswers[i] !== undefined) {
+            navItem.classList.add('answered');
+        }
+        
+        navItem.textContent = questionNum;
+        navItem.dataset.index = i;
+        
+        navItem.addEventListener('click', function() {
+            const index = parseInt(this.dataset.index);
+            if (!isNaN(index) && index !== currentQuestion) {
+                currentQuestion = index;
+                loadQuestion();
+                updateNavigatorHighlight();
+            }
+        });
+        
+        navigator.appendChild(navItem);
+    }
+}
+
+// ===============================
+// Update Navigator Highlight
+// ===============================
+function updateNavigatorHighlight() {
+    const navItems = document.querySelectorAll('.nav-question');
+    
+    navItems.forEach((item, index) => {
+        item.classList.remove('current');
+        
+        if (index === currentQuestion) {
+            item.classList.add('current');
+        }
+        
+        if (userAnswers[index] !== undefined) {
+            item.classList.add('answered');
+        } else {
+            item.classList.remove('answered');
+        }
+    });
+}
+
+// ===============================
+// Check Answer
+// ===============================
+function checkAnswer() {
+    const selectedAnswer = userAnswers[currentQuestion];
+    
+    if (selectedAnswer === undefined) {
+        alert('Please select an answer first!');
+        return;
+    }
+    
+    const question = examQuestions[currentQuestion];
+    const isCorrect = (selectedAnswer === question.answer);
+    
+    // Store feedback
+    answerFeedback[currentQuestion] = isCorrect;
+    
+    // Show feedback
+    showAnswerFeedback(isCorrect, question);
+    
+    // Update navigator
+    updateNavigatorHighlight();
+}
+
+// ===============================
+// Show Answer Feedback
+// ===============================
+function showAnswerFeedback(isCorrect, question) {
+    // Remove any existing feedback
+    const existingFeedback = document.querySelector('.answer-feedback');
+    if (existingFeedback) {
+        existingFeedback.remove();
+    }
+    
+    const questionBox = document.getElementById('questionBox');
+    const feedbackDiv = document.createElement('div');
+    feedbackDiv.className = `answer-feedback ${isCorrect ? 'correct' : 'incorrect'}`;
+    
+    if (isCorrect) {
+        feedbackDiv.innerHTML = `
+            <i class="fas fa-check-circle"></i>
+            <div>
+                <strong>Correct!</strong> Well done!
+            </div>
+        `;
+    } else {
+        feedbackDiv.innerHTML = `
+            <i class="fas fa-times-circle"></i>
+            <div>
+                <strong>Incorrect.</strong> The correct answer is: ${question.options[question.answer]}
+            </div>
+        `;
+    }
+    
+    questionBox.appendChild(feedbackDiv);
 }
 
 // ===============================
@@ -679,15 +1063,8 @@ function loadQuestion() {
     
     if (!box) return;
     
-    const progress = document.getElementById("progress");
-    if (progress) {
-        progress.textContent = `Question ${currentQuestion + 1} of ${examQuestions.length}`;
-    }
-    
-    const questionNum = document.getElementById("questionNum");
-    if (questionNum) {
-        questionNum.textContent = `${currentQuestion + 1} / ${examQuestions.length}`;
-    }
+    // Update question number
+    document.getElementById('currentQNum').textContent = currentQuestion + 1;
     
     // Build options HTML
     let optionsHtml = '';
@@ -701,9 +1078,14 @@ function loadQuestion() {
         `;
     });
     
-    // Show course tag if in random mode
-    const courseTag = currentExamMode === 'random' && q.course ? 
-        `<small><i class="fas fa-tag"></i> ${q.course}</small>` : '';
+    // Show course tag if in random mode or previous exam mode
+    let courseTag = '';
+    if (currentExamMode === 'random' && q.course) {
+        courseTag = `<small><i class="fas fa-tag"></i> ${q.course}</small>`;
+    } else if (currentExamMode === 'previous-exam') {
+        // For previous exams, show a special badge
+        courseTag = `<small><i class="fas fa-history"></i> ${selectedPreviousExam} Exit Exam</small>`;
+    }
     
     box.innerHTML = `
         <p><b>${currentQuestion + 1}. ${q.question}</b></p>
@@ -711,15 +1093,31 @@ function loadQuestion() {
         ${optionsHtml}
     `;
     
+    // Remove any existing feedback
+    const existingFeedback = document.querySelector('.answer-feedback');
+    if (existingFeedback) {
+        existingFeedback.remove();
+    }
+    
     // Save answer when clicked
     document.querySelectorAll('input[name="answer"]').forEach(radio => {
         radio.addEventListener("change", (e) => {
             userAnswers[currentQuestion] = Number(e.target.value);
             console.log(`✅ Answer saved for Q${currentQuestion + 1}: Option ${Number(e.target.value) + 1}`);
+            
+            // Enable check answer button
+            document.getElementById('checkAnswerBtn').disabled = false;
+            
+            // Update navigator
+            updateNavigatorHighlight();
         });
     });
     
+    // Enable/disable check answer button based on whether answer exists
+    document.getElementById('checkAnswerBtn').disabled = (userAnswers[currentQuestion] === undefined);
+    
     updateNavButtons();
+    updateNavigatorHighlight();
 }
 
 // ===============================
@@ -889,9 +1287,13 @@ function loadReview() {
         const userAnswerText = user !== undefined ? q.options[user] : "Not answered";
         const correctAnswerText = q.options[correct];
         
-        // Course tag
-        const courseTag = q.course ? 
-            `<small><i class="fas fa-tag"></i> ${q.course}</small>` : '';
+        // Course tag or previous exam tag
+        let courseTag = '';
+        if (q.course) {
+            courseTag = `<small><i class="fas fa-tag"></i> ${q.course}</small>`;
+        } else if (selectedPreviousExam) {
+            courseTag = `<small><i class="fas fa-history"></i> ${selectedPreviousExam} Exit Exam</small>`;
+        }
         
         div.innerHTML = `
             <p>
@@ -938,6 +1340,13 @@ document.addEventListener('keydown', function(e) {
                 e.preventDefault();
             }
             break;
+        case 'Enter':
+            // Check answer
+            if (!document.getElementById('checkAnswerBtn').disabled) {
+                checkAnswer();
+                e.preventDefault();
+            }
+            break;
         case '1':
         case '2':
         case '3':
@@ -957,20 +1366,5 @@ document.addEventListener('keydown', function(e) {
     }
 });
 
-// Debug function to check course names
-window.debugCourses = function() {
-    console.log("=== DEBUG COURSES ===");
-    console.log("allQuestions length:", allQuestions.length);
-    
-    const courses = new Set();
-    allQuestions.forEach(q => {
-        if (q.course) courses.add(q.course);
-    });
-    
-    console.log("Unique courses found:", Array.from(courses));
-    console.log("====================");
-};
-
 // Log initialization
 console.log("🚀 Script.js loaded successfully");
-console.log("ℹ️ Type 'debugCourses()' in console to check course names");
