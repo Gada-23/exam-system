@@ -38,6 +38,7 @@
                 <h4><i class="fas fa-history"></i> Previous Exit Exams</h4>
                 
                 <div class="previous-exam-grid" id="previousExamGrid">
+                    <!-- 2016 Exam Card -->
                     <div class="exam-card" data-year="2016" id="exam2016Card">
                         <div class="exam-icon">
                             <i class="fas fa-calendar-alt"></i>
@@ -47,16 +48,29 @@
                             <span class="exam-count">100 Questions</span>
                         </div>
                     </div>
-                    <!-- 2017 EXAM CARD -->
-                    <div class="exam-card" data-year="2017" id="exam2017Card">
+                    
+                    <!-- January 2017 Exam Card -->
+                    <div class="exam-card" data-year="2017" data-month="January" id="exam2017JanCard">
                         <div class="exam-icon">
                             <i class="fas fa-calendar-alt"></i>
                         </div>
                         <div class="exam-info">
-                            <h4>2017 Exit Exam</h4>
+                            <h4>2017 Exit Exam (Jan)</h4>
                             <span class="exam-count">100 Questions</span>
                         </div>
                     </div>
+                    
+                    <!-- June 2017 Exam Card -->
+                    <div class="exam-card" data-year="2017" data-month="June" id="exam2017JuneCard">
+                        <div class="exam-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                        <div class="exam-info">
+                            <h4>2017 Exit Exam (June)</h4>
+                            <span class="exam-count">11 Questions</span>
+                        </div>
+                    </div>
+                    
                     <!-- Add more years as they become available -->
                     <!--
                     <div class="exam-card" data-year="2018" id="exam2018Card">
@@ -111,25 +125,21 @@
                     </div>
                 </div>
                 
-                <!-- Question Quantity Selection (hidden initially) -->
+                <!-- Question Quantity Selection (hidden initially) - DYNAMIC VERSION -->
                 <div id="quantitySection" class="quantity-section" style="display: none;">
                     <h5><i class="fas fa-sliders-h"></i> Number of Questions:</h5>
                     <div class="quantity-options" id="quantityOptions">
-                        <div class="quantity-option" data-quantity="10">10</div>
-                        <div class="quantity-option" data-quantity="20">20</div>
-                        <div class="quantity-option" data-quantity="30">30</div>
-                        <div class="quantity-option" data-quantity="40">40</div>
-                        <div class="quantity-option" data-quantity="50">50</div>
+                        <!-- Options will be generated dynamically by JavaScript -->
                     </div>
                     <div class="quantity-note">
                         <i class="fas fa-info-circle"></i>
-                        <span>Select how many questions you want to practice</span>
+                        <span id="quantityNoteText">Select how many questions you want to practice</span>
                     </div>
                 </div>
                 
                 <div class="course-note">
                     <i class="fas fa-info-circle"></i>
-                    <span>Select a course to practice specific topics, then choose the number of questions (max available).</span>
+                    <span>Select a course to practice specific topics, then choose the number of questions (up to the available questions).</span>
                 </div>
             </div>
         </div>
@@ -356,7 +366,7 @@ window.addEventListener('beforeunload', function() {
                 'Design & Analysis of Algorithms',
                 'Artificial Intelligence',
                 'Computer Security',
-                'Network and System Administration', // Fixed: Changed from 'Network & System Administration' to match actual course name
+                'Network and System Administration',
                 'Automata & Complexity Theory',
                 'Compiler Design'
             ];
@@ -376,20 +386,14 @@ window.addEventListener('beforeunload', function() {
                 console.log("Missing courses:", mainCourses.filter(c => !coursesWithQuestions.includes(c)));
             }
             
-            // Also check by alternative name formats
-            const networkCourses = allQuestions.filter(q => 
-                q.course && q.course.includes('Network')
-            );
-            if (networkCourses.length > 0) {
-                console.log(`📊 Network courses found: ${networkCourses.length} questions with course name: "${networkCourses[0].course}"`);
-            }
-            
             // Check if previous exams are loaded
             const exam2016Count = allQuestions.filter(q => q.year === 2016).length;
-            const exam2017Count = allQuestions.filter(q => q.year === 2017).length;
+            const exam2017JanCount = allQuestions.filter(q => q.year === 2017 && q.month === 'January').length;
+            const exam2017JuneCount = allQuestions.filter(q => q.year === 2017 && q.month === 'June').length;
             
             console.log(`📅 2016 Exam: ${exam2016Count} questions`);
-            console.log(`📅 2017 Exam: ${exam2017Count} questions`);
+            console.log(`📅 2017 Exam (January): ${exam2017JanCount} questions`);
+            console.log(`📅 2017 Exam (June): ${exam2017JuneCount} questions`);
             
             // Log total including previous exams
             console.log(`📚 Total questions (including previous exams): ${allQuestions.length}`);

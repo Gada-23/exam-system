@@ -6,38 +6,65 @@ let userAnswers = {};
 let currentQuestion = 0;
 let currentExamMode = 'random'; // 'random', 'course', or 'previous-exam'
 let selectedCourse = null;
-let selectedPreviousExam = null; // For previous exam selection
+let selectedPreviousExam = null; // For previous exam selection { year, month }
 let selectedQuantity = 20; // Default quantity
 let answerFeedback = {}; // Store feedback for each question (correct/incorrect)
 
 let timeLeft = 60 * 60 * 2; // 2 hours in seconds (7200 seconds)
 let timerInterval;
 
-// Available quantity options
-const quantityOptions = [10, 20, 30, 40, 50];
+// Available quantity options (will be generated dynamically)
+let quantityOptions = [];
 
 // Available courses (will be populated from course question files only)
 let availableCourses = [];
 
-// Previous exams data - with 2016 and 2017
+// Previous exams data - with 2016, January 2017, and June 2017
 const previousExams = [
     {
         year: 2016,
         name: '2016 Exit Exam',
         questionCount: 100,
         color: '#2772a0',
+        icon: 'fa-calendar-alt',
+        month: null
+    },
+    {
+        year: 2017,
+        month: 'January',
+        name: '2017 Exit Exam (January)',
+        questionCount: 100,
+        color: '#1a5a80',
         icon: 'fa-calendar-alt'
     },
     {
         year: 2017,
-        name: '2017 Exit Exam',
-        questionCount: 100,
-        color: '#1a5a80',
+        month: 'June',
+        name: '2017 Exit Exam (June)',
+        questionCount: 11,
+        color: '#0f4a60',
         icon: 'fa-calendar-alt'
     }
-    // Add more years as they become available
-    // { year: 2018, name: '2018 Exit Exam', questionCount: 100, color: '#0f4a60', icon: 'fa-calendar-alt' },
 ];
+
+// Course name mapping - UPDATED with exact matches from your questions
+const courseNameMapping = {
+    'Computer Programming': ['Computer Programming'],
+    'Database Systems': ['Database Systems'],
+    'Object Oriented Programming': ['Object Oriented Programming'],
+    'Computer Organization & Architecture': ['Computer Organization and Architecture'],
+    'Data Communication & Networking': ['Data Communication and Computer Networking'],
+    'Data Structures & Algorithms': ['Data Structures and Algorithms'],
+    'Web Programming': ['Web Programming'],
+    'Operating System': ['Operating System'],
+    'Software Engineering': ['Software Engineering'],
+    'Design & Analysis of Algorithms': ['Design and Analysis of Algorithms'],
+    'Artificial Intelligence': ['Introduction to Artificial Intelligence'],
+    'Computer Security': ['Computer Security'],
+    'Network and System Administration': ['Network and System Administration'],
+    'Automata & Complexity Theory': ['Automata and Complexity Theory'],
+    'Compiler Design': ['Compiler Design']
+};
 
 // ===============================
 // Initialize
@@ -124,9 +151,6 @@ function initializeApp() {
     // Update home stats
     updateHomeStats();
     
-    // Setup quantity options
-    setupQuantityOptions();
-    
     // Add event listeners
     setupEventListeners();
     
@@ -140,185 +164,120 @@ function initializeApp() {
 function extractCoursesFromCourseFiles() {
     const courses = new Set();
     
-    // Add courses from each course-specific array with EXACT names matching your question files
-    if (window.computerProgrammingQuestions && window.computerProgrammingQuestions.length > 0) {
-        // Get the actual course name from the first question
-        const actualName = window.computerProgrammingQuestions[0]?.course;
-        if (actualName) {
-            courses.add(actualName);
-            console.log(`📘 Computer Programming actual name: "${actualName}"`);
+    // Log all available window properties that might contain questions
+    console.log("🔍 Checking all window properties for question arrays:");
+    const possibleArrays = [
+        'computerProgrammingQuestions',
+        'databaseSystemsQuestions',
+        'oopQuestions',
+        'computerOrganizationQuestions',
+        'networkingQuestions',
+        'dataStructuresQuestions',
+        'webProgrammingQuestions',
+        'operatingSystemQuestions',
+        'softwareEngineeringQuestions',
+        'algorithmQuestions',
+        'aiQuestions',
+        'computerSecurityQuestions',
+        'networkAdminQuestions',
+        'automataQuestions',
+        'compilerDesignQuestions'
+    ];
+    
+    possibleArrays.forEach(arrayName => {
+        if (window[arrayName]) {
+            console.log(`   ✅ ${arrayName} exists with ${window[arrayName].length} questions`);
+            if (window[arrayName].length > 0) {
+                // Log the first question's course name to see what it actually is
+                console.log(`      First question course: "${window[arrayName][0]?.course}"`);
+            }
         } else {
-            courses.add('Computer Programming');
+            console.log(`   ❌ ${arrayName} is undefined`);
         }
-    }
-    if (window.databaseSystemsQuestions && window.databaseSystemsQuestions.length > 0) {
-        const actualName = window.databaseSystemsQuestions[0]?.course;
-        if (actualName) {
-            courses.add(actualName);
-            console.log(`📘 Database Systems actual name: "${actualName}"`);
-        } else {
-            courses.add('Database Systems');
-        }
-    }
-    if (window.oopQuestions && window.oopQuestions.length > 0) {
-        const actualName = window.oopQuestions[0]?.course;
-        if (actualName) {
-            courses.add(actualName);
-            console.log(`📘 Object Oriented Programming actual name: "${actualName}"`);
-        } else {
-            courses.add('Object Oriented Programming');
-        }
-    }
-    if (window.computerOrganizationQuestions && window.computerOrganizationQuestions.length > 0) {
-        const actualName = window.computerOrganizationQuestions[0]?.course;
-        if (actualName) {
-            courses.add(actualName);
-            console.log(`📘 Computer Organization actual name: "${actualName}"`);
-        } else {
-            courses.add('Computer Organization & Architecture');
-        }
-    }
-    if (window.networkingQuestions && window.networkingQuestions.length > 0) {
-        const actualName = window.networkingQuestions[0]?.course;
-        if (actualName) {
-            courses.add(actualName);
-            console.log(`📘 Data Communication & Networking actual name: "${actualName}"`);
-        } else {
-            courses.add('Data Communication & Networking');
-        }
-    }
-    if (window.dataStructuresQuestions && window.dataStructuresQuestions.length > 0) {
-        const actualName = window.dataStructuresQuestions[0]?.course;
-        if (actualName) {
-            courses.add(actualName);
-            console.log(`📘 Data Structures & Algorithms actual name: "${actualName}"`);
-        } else {
-            courses.add('Data Structures & Algorithms');
-        }
-    }
-    if (window.webProgrammingQuestions && window.webProgrammingQuestions.length > 0) {
-        const actualName = window.webProgrammingQuestions[0]?.course;
-        if (actualName) {
-            courses.add(actualName);
-            console.log(`📘 Web Programming actual name: "${actualName}"`);
-        } else {
-            courses.add('Web Programming');
-        }
-    }
-    if (window.operatingSystemQuestions && window.operatingSystemQuestions.length > 0) {
-        const actualName = window.operatingSystemQuestions[0]?.course;
-        if (actualName) {
-            courses.add(actualName);
-            console.log(`📘 Operating System actual name: "${actualName}"`);
-        } else {
-            courses.add('Operating System');
-        }
-    }
-    if (window.softwareEngineeringQuestions && window.softwareEngineeringQuestions.length > 0) {
-        const actualName = window.softwareEngineeringQuestions[0]?.course;
-        if (actualName) {
-            courses.add(actualName);
-            console.log(`📘 Software Engineering actual name: "${actualName}"`);
-        } else {
-            courses.add('Software Engineering');
-        }
-    }
-    if (window.algorithmQuestions && window.algorithmQuestions.length > 0) {
-        const actualName = window.algorithmQuestions[0]?.course;
-        if (actualName) {
-            courses.add(actualName);
-            console.log(`📘 Design & Analysis of Algorithms actual name: "${actualName}"`);
-        } else {
-            courses.add('Design & Analysis of Algorithms');
-        }
-    }
-    if (window.aiQuestions && window.aiQuestions.length > 0) {
-        const actualName = window.aiQuestions[0]?.course;
-        if (actualName) {
-            courses.add(actualName);
-            console.log(`📘 Artificial Intelligence actual name: "${actualName}"`);
-        } else {
-            courses.add('Artificial Intelligence');
-        }
-    }
-    if (window.computerSecurityQuestions && window.computerSecurityQuestions.length > 0) {
-        const actualName = window.computerSecurityQuestions[0]?.course;
-        if (actualName) {
-            courses.add(actualName);
-            console.log(`📘 Computer Security actual name: "${actualName}"`);
-        } else {
-            courses.add('Computer Security');
-        }
-    }
-    if (window.networkAdminQuestions && window.networkAdminQuestions.length > 0) {
-        const actualName = window.networkAdminQuestions[0]?.course;
-        if (actualName) {
-            courses.add(actualName);
-            console.log(`📘 Network & System Administration actual name: "${actualName}"`);
-        } else {
-            courses.add('Network and System Administration');
-        }
-    }
-    if (window.automataQuestions && window.automataQuestions.length > 0) {
-        const actualName = window.automataQuestions[0]?.course;
-        if (actualName) {
-            courses.add(actualName);
-            console.log(`📘 Automata & Complexity Theory actual name: "${actualName}"`);
-        } else {
-            courses.add('Automata & Complexity Theory');
-        }
-    }
-    if (window.compilerDesignQuestions && window.compilerDesignQuestions.length > 0) {
-        const actualName = window.compilerDesignQuestions[0]?.course;
-        if (actualName) {
-            courses.add(actualName);
-            console.log(`📘 Compiler Design actual name: "${actualName}"`);
-        } else {
-            courses.add('Compiler Design');
-        }
+    });
+    
+    // Count questions for each display name by matching against actual course names
+    const displayCounts = {};
+    
+    // Initialize counts
+    for (const displayName of Object.keys(courseNameMapping)) {
+        displayCounts[displayName] = 0;
     }
     
+    // Count questions by matching actual course names to display names
+    window.allQuestions.forEach(q => {
+        if (q.course) {
+            for (const [displayName, possibleNames] of Object.entries(courseNameMapping)) {
+                // Check if the course name matches exactly (case-insensitive)
+                for (const possibleName of possibleNames) {
+                    if (q.course.toLowerCase() === possibleName.toLowerCase()) {
+                        displayCounts[displayName]++;
+                        break;
+                    }
+                }
+            }
+        }
+    });
+    
+    console.log("📊 Questions by display name (after exact matching):");
+    Object.entries(displayCounts)
+        .sort((a, b) => b[1] - a[1])
+        .forEach(([course, count]) => {
+            console.log(`   ${course}: ${count} questions`);
+            if (count > 0) {
+                courses.add(course);
+            }
+        });
+    
     availableCourses = Array.from(courses).sort();
-    console.log("📚 Available courses (after mapping):", availableCourses);
+    console.log("📚 Available courses for display:", availableCourses);
 }
 
 // ===============================
-// Setup Previous Exams - with 2016 and 2017
+// Setup Previous Exams - with 2016, January 2017, and June 2017
 // ===============================
 function setupPreviousExams() {
     const exam2016Card = document.getElementById('exam2016Card');
-    const exam2017Card = document.getElementById('exam2017Card');
+    const exam2017JanCard = document.getElementById('exam2017JanCard');
+    const exam2017JuneCard = document.getElementById('exam2017JuneCard');
     
     if (exam2016Card) {
         exam2016Card.addEventListener('click', function() {
-            selectPreviousExam(this, 2016);
+            selectPreviousExam(this, 2016, null);
         });
     }
     
-    if (exam2017Card) {
-        exam2017Card.addEventListener('click', function() {
-            selectPreviousExam(this, 2017);
+    if (exam2017JanCard) {
+        exam2017JanCard.addEventListener('click', function() {
+            selectPreviousExam(this, 7, 'January');
         });
     }
     
-    // Add more exam cards as they become available
+    if (exam2017JuneCard) {
+        exam2017JuneCard.addEventListener('click', function() {
+            selectPreviousExam(this, 2017, 'June');
+        });
+    }
 }
 
 // ===============================
-// Setup Quantity Options
+// Setup Quantity Options - DYNAMIC version
 // ===============================
-function setupQuantityOptions() {
+function setupQuantityOptions(maxAvailable) {
     const quantityOptionsContainer = document.getElementById('quantityOptions');
     if (!quantityOptionsContainer) return;
     
     // Clear existing options
     quantityOptionsContainer.innerHTML = '';
     
+    // Generate quantity options based on available questions
+    const options = generateQuantityOptions(maxAvailable);
+    
     // Create quantity options
-    quantityOptions.forEach(qty => {
+    options.forEach(qty => {
         const option = document.createElement('div');
         option.className = 'quantity-option';
-        if (qty === 20) option.classList.add('selected'); // Default to 20
+        if (qty === Math.min(20, maxAvailable)) option.classList.add('selected'); // Default to 20 or max
         option.dataset.quantity = qty;
         option.textContent = qty;
         
@@ -328,6 +287,43 @@ function setupQuantityOptions() {
         
         quantityOptionsContainer.appendChild(option);
     });
+    
+    // Update the note text
+    const quantityNote = document.getElementById('quantityNoteText');
+    if (quantityNote) {
+        quantityNote.textContent = `Select number of questions (up to ${maxAvailable} available)`;
+    }
+}
+
+// ===============================
+// Generate Quantity Options Dynamically
+// ===============================
+function generateQuantityOptions(maxAvailable) {
+    const options = [];
+    
+    if (maxAvailable <= 0) return options;
+    
+    // Always include 5, 10, 15, 20 if within range
+    const baseOptions = [5, 10, 15, 20, 25, 30, 35, 40, 45, 50];
+    
+    // Add options that are less than or equal to maxAvailable
+    for (const opt of baseOptions) {
+        if (opt <= maxAvailable) {
+            options.push(opt);
+        }
+    }
+    
+    // Always include maxAvailable if it's not already in options
+    if (!options.includes(maxAvailable)) {
+        options.push(maxAvailable);
+    }
+    
+    // Always include 1 (for very small courses)
+    if (maxAvailable >= 1 && !options.includes(1)) {
+        options.unshift(1);
+    }
+    
+    return options.sort((a, b) => a - b);
 }
 
 // ===============================
@@ -369,8 +365,8 @@ function populateCourseGrid() {
     courseGrid.innerHTML = '';
     
     availableCourses.forEach(course => {
-        // Count questions for this course from all questions
-        const count = window.allQuestions.filter(q => q.course === course).length;
+        // Get the actual count from our matching function
+        const count = getCourseQuestionCount(course);
         
         const courseCard = document.createElement('div');
         courseCard.className = 'course-card';
@@ -398,6 +394,52 @@ function populateCourseGrid() {
     
     // Update total stats
     updateTotalStats();
+}
+
+// ===============================
+// Get Course Question Count - UPDATED with exact matching
+// ===============================
+function getCourseQuestionCount(displayName) {
+    if (!displayName || !courseNameMapping[displayName]) return 0;
+    
+    const possibleNames = courseNameMapping[displayName];
+    let count = 0;
+    
+    window.allQuestions.forEach(q => {
+        if (q.course) {
+            for (const possibleName of possibleNames) {
+                if (q.course.toLowerCase() === possibleName.toLowerCase()) {
+                    count++;
+                    break;
+                }
+            }
+        }
+    });
+    
+    return count;
+}
+
+// ===============================
+// Get Course Questions - UPDATED with exact matching
+// ===============================
+function getCourseQuestions(displayName) {
+    if (!displayName || !courseNameMapping[displayName]) return [];
+    
+    const possibleNames = courseNameMapping[displayName];
+    const questions = [];
+    
+    window.allQuestions.forEach(q => {
+        if (q.course) {
+            for (const possibleName of possibleNames) {
+                if (q.course.toLowerCase() === possibleName.toLowerCase()) {
+                    questions.push(q);
+                    break;
+                }
+            }
+        }
+    });
+    
+    return questions;
 }
 
 // ===============================
@@ -513,7 +555,7 @@ function selectCourse(element, course) {
 // ===============================
 // Select Previous Exam
 // ===============================
-function selectPreviousExam(element, year) {
+function selectPreviousExam(element, year, month) {
     // Deselect all previous exams
     document.querySelectorAll('.exam-card').forEach(c => {
         c.classList.remove('selected');
@@ -548,13 +590,13 @@ function selectPreviousExam(element, year) {
     }
     
     // Update selected previous exam and clear course
-    selectedPreviousExam = year;
+    selectedPreviousExam = { year, month };
     selectedCourse = null;
     
     // Enable start button
     document.getElementById('startSelectedBtn').disabled = false;
     
-    console.log("✅ Selected previous exam:", year);
+    console.log(`✅ Selected previous exam: ${year} ${month || ''}`);
 }
 
 // ===============================
@@ -567,58 +609,25 @@ function showSelectedCourseInfo(course) {
     
     if (!infoDiv || !nameSpan || !totalSpan) return;
     
-    const totalQuestions = window.allQuestions.filter(q => q.course === course).length;
+    const totalQuestions = getCourseQuestionCount(course);
     
     nameSpan.textContent = course;
     totalSpan.textContent = totalQuestions;
     
     infoDiv.style.display = 'flex';
     
-    // Update quantity options max based on available questions
-    updateQuantityOptionsMax(totalQuestions);
-}
-
-// ===============================
-// Update Quantity Options Max
-// ===============================
-function updateQuantityOptionsMax(maxQuestions) {
-    const quantityOptions = document.querySelectorAll('.quantity-option');
+    // Setup dynamic quantity options based on available questions
+    setupQuantityOptions(totalQuestions);
     
-    quantityOptions.forEach(option => {
-        const qty = parseInt(option.dataset.quantity);
-        if (qty > maxQuestions) {
-            option.style.opacity = '0.5';
-            option.style.cursor = 'not-allowed';
-            option.classList.remove('selected');
-            option.title = `Only ${maxQuestions} questions available`;
-        } else {
-            option.style.opacity = '1';
-            option.style.cursor = 'pointer';
-            option.title = '';
+    // Reset selected quantity to default (min(20, totalQuestions))
+    selectedQuantity = Math.min(20, totalQuestions);
+    
+    // Highlight the default selected quantity
+    document.querySelectorAll('.quantity-option').forEach(opt => {
+        if (parseInt(opt.dataset.quantity) === selectedQuantity) {
+            opt.classList.add('selected');
         }
     });
-    
-    // If current selected quantity is greater than max, reset to max
-    if (selectedQuantity > maxQuestions) {
-        // Find the largest available quantity that's <= maxQuestions
-        const availableOptions = Array.from(quantityOptions)
-            .map(opt => parseInt(opt.dataset.quantity))
-            .filter(qty => qty <= maxQuestions);
-        
-        if (availableOptions.length > 0) {
-            const availableQty = Math.max(...availableOptions);
-            selectedQuantity = availableQty;
-            
-            // Update UI to select this quantity
-            document.querySelectorAll('.quantity-option').forEach(opt => {
-                if (parseInt(opt.dataset.quantity) === availableQty) {
-                    opt.classList.add('selected');
-                } else {
-                    opt.classList.remove('selected');
-                }
-            });
-        }
-    }
 }
 
 // ===============================
@@ -672,20 +681,12 @@ function resetModalSelections() {
         quantitySection.style.display = 'none';
     }
     
-    // Reset quantity options opacity
-    document.querySelectorAll('.quantity-option').forEach(opt => {
-        opt.style.opacity = '1';
-        opt.style.cursor = 'pointer';
-        opt.title = '';
-    });
+    // Reset quantity options (will be regenerated when needed)
+    const quantityOptionsContainer = document.getElementById('quantityOptions');
+    if (quantityOptionsContainer) {
+        quantityOptionsContainer.innerHTML = '';
+    }
     
-    // Reset quantity selection to default
-    document.querySelectorAll('.quantity-option').forEach(q => {
-        q.classList.remove('selected');
-        if (q.dataset.quantity == 20) {
-            q.classList.add('selected');
-        }
-    });
     selectedQuantity = 20;
     
     const startBtn = document.getElementById('startSelectedBtn');
@@ -815,8 +816,8 @@ function startSelectedExam() {
         // Course-specific mode
         currentExamMode = 'course';
         
-        // Get all questions for this course
-        const courseQuestions = window.allQuestions.filter(q => q.course === selectedCourse);
+        // Get all questions for this course using our matching function
+        const courseQuestions = getCourseQuestions(selectedCourse);
         
         if (courseQuestions.length === 0) {
             alert(`No questions found for ${selectedCourse}. Please try another course.`);
@@ -848,22 +849,26 @@ function startSelectedExam() {
         // Previous exam mode
         currentExamMode = 'previous-exam';
         
-        // Get questions for the selected year
+        // Get questions for the selected year and month
         let yearQuestions = [];
+        const { year, month } = selectedPreviousExam;
         
-        if (selectedPreviousExam === 2016 && window.exitExam2016) {
+        if (year === 2016 && window.exitExam2016) {
             yearQuestions = window.exitExam2016;
         } 
-        else if (selectedPreviousExam === 2017 && window.exitExam2017) {
+        else if (year === 2017 && month === 'January' && window.exitExam2017) {
             yearQuestions = window.exitExam2017;
+        }
+        else if (year === 2017 && month === 'June' && window.exitExam2017June) {
+            yearQuestions = window.exitExam2017June;
         }
         else {
             // Fallback: filter all questions by year if they have a year property
-            yearQuestions = window.allQuestions.filter(q => q.year === selectedPreviousExam);
+            yearQuestions = window.allQuestions.filter(q => q.year === year);
         }
         
         if (yearQuestions.length === 0) {
-            alert(`No questions found for the ${selectedPreviousExam} Exit Exam.`);
+            alert(`No questions found for the ${year} ${month || ''} Exit Exam.`);
             return;
         }
         
@@ -873,10 +878,10 @@ function startSelectedExam() {
         // Update exam title
         const examTitle = document.getElementById('examModeTitle');
         if (examTitle) {
-            examTitle.innerHTML = `${selectedPreviousExam} Exit Exam <span>${examQuestions.length} Questions</span>`;
+            examTitle.innerHTML = `${year} Exit Exam ${month ? '(' + month + ')' : ''} <span>${examQuestions.length} Questions</span>`;
         }
         
-        console.log(`📝 Starting ${selectedPreviousExam} Exit Exam with ${examQuestions.length} questions`);
+        console.log(`📝 Starting ${year} ${month || ''} Exit Exam with ${examQuestions.length} questions`);
     } 
     else {
         // Random mode - 100 questions from all courses
@@ -1084,7 +1089,8 @@ function loadQuestion() {
         courseTag = `<small><i class="fas fa-tag"></i> ${q.course}</small>`;
     } else if (currentExamMode === 'previous-exam') {
         // For previous exams, show a special badge
-        courseTag = `<small><i class="fas fa-history"></i> ${selectedPreviousExam} Exit Exam</small>`;
+        const { year, month } = selectedPreviousExam || {};
+        courseTag = `<small><i class="fas fa-history"></i> ${year} Exit Exam ${month ? '(' + month + ')' : ''}</small>`;
     }
     
     box.innerHTML = `
@@ -1292,7 +1298,8 @@ function loadReview() {
         if (q.course) {
             courseTag = `<small><i class="fas fa-tag"></i> ${q.course}</small>`;
         } else if (selectedPreviousExam) {
-            courseTag = `<small><i class="fas fa-history"></i> ${selectedPreviousExam} Exit Exam</small>`;
+            const { year, month } = selectedPreviousExam;
+            courseTag = `<small><i class="fas fa-history"></i> ${year} Exit Exam ${month ? '(' + month + ')' : ''}</small>`;
         }
         
         div.innerHTML = `

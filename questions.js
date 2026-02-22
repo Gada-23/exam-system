@@ -57,10 +57,11 @@ const courseFiles = [
     'courseQuestions/compiler-design.js'
 ];
 
-// List of previous exam files - UPDATED with 2017
+// List of previous exam files - UPDATED with January 2017 and June 2017
 const previousExamFiles = [
     'previous-exam/2016/exit-exam-2016.js',
-    'previous-exam/2017/exit-exam-2017.js'
+    'previous-exam/2017/exit-exam-2017.js',      // January 2017
+    'previous-exam/2017-june/exit-exam-2017-june.js' // June 2017
     // Add more years here as they become available:
     // 'previous-exam/2018/exit-exam-2018.js',
     // etc.
@@ -145,10 +146,16 @@ function combineAllQuestions() {
         console.log(`✅ Added ${window.exitExam2016.length} questions from 2016 Exit Exam`);
     }
     
-    // ADDED 2017 EXAM QUESTIONS
+    // ADDED JANUARY 2017 EXAM QUESTIONS
     if (window.exitExam2017 && window.exitExam2017.length > 0) {
         allQuestions.push(...window.exitExam2017);
-        console.log(`✅ Added ${window.exitExam2017.length} questions from 2017 Exit Exam`);
+        console.log(`✅ Added ${window.exitExam2017.length} questions from January 2017 Exit Exam`);
+    }
+    
+    // ADDED JUNE 2017 EXAM QUESTIONS
+    if (window.exitExam2017June && window.exitExam2017June.length > 0) {
+        allQuestions.push(...window.exitExam2017June);
+        console.log(`✅ Added ${window.exitExam2017June.length} questions from June 2017 Exit Exam`);
     }
     
     // Add more years as they become available
@@ -180,7 +187,8 @@ function combineAllQuestions() {
     console.log(`   Automata & Complexity Theory: ${window.automataQuestions?.length || 0}`);
     console.log(`   Compiler Design: ${window.compilerDesignQuestions?.length || 0}`);
     console.log(`   2016 Exit Exam: ${window.exitExam2016?.length || 0}`);
-    console.log(`   2017 Exit Exam: ${window.exitExam2017?.length || 0}`);
+    console.log(`   2017 Exit Exam (January): ${window.exitExam2017?.length || 0}`);
+    console.log(`   2017 Exit Exam (June): ${window.exitExam2017June?.length || 0}`);
     
     // Notify all waiting callbacks
     window.questionsLoadCallbacks.forEach(callback => callback(window.allQuestions));
