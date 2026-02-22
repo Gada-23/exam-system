@@ -1919,7 +1919,12 @@ button {
         margin-bottom: 20px;
     }
 }
+/* google ad*/
 
+.adsbygoogle {
+  margin: 20px 0;
+  text-align: center;
+}
 /* Accessibility */
 @media (prefers-reduced-motion: reduce) {
     * {
