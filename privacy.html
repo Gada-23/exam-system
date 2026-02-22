@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy - Computer Science Exit Exam Practice</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='grad' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:%232772a0;stop-opacity:1' /><stop offset='100%' style='stop-color:%23ccddea;stop-opacity:1' /></linearGradient></defs><rect width='100' height='100' fill='url(%23grad)' rx='15'/><path d='M25 30 L25 75 Q25 80 30 80 L70 80 Q75 80 75 75 L75 30 Q75 25 70 25 L30 25 Q25 25 25 30' fill='white' opacity='0.9'/><path d='M45 35 L45 70' stroke='%232772a0' stroke-width='2' fill='none'/><circle cx='35' cy='45' r='3' fill='%232772a0'/><circle cx='55' cy='45' r='3' fill='%232772a0'/><circle cx='35' cy='58' r='3' fill='%23ccddea'/><circle cx='55' cy='58' r='3' fill='%23ccddea'/><path d='M40 20 L35 15 L30 20 L32 25 L38 25 Z' fill='white' stroke='%23ccddea' stroke-width='1.5'/></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Privacy Policy Specific Styles */
+        .privacy-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .privacy-header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+            animation: fadeIn 0.6s ease-in;
+        }
+
+        .privacy-header h1 {
+            font-size: 36px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .privacy-header .subtitle {
+            font-size: 18px;
+            opacity: 0.95;
+            font-weight: 300;
+            color: white;
+        }
+
+        .privacy-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(39, 114, 160, 0.2);
+            animation: slideUp 0.6s ease-out;
+        }
+
+        .last-updated {
+            color: #666;
+            font-style: italic;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f0f2f5;
+        }
+
+        .privacy-section {
+            margin-bottom: 35px;
+        }
+
+        .privacy-section h2 {
+            color: #2772a0;
+            font-size: 22px;
+            margin-bottom: 15px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .privacy-section h2 i {
+            color: #2772a0;
+            font-size: 24px;
+        }
+
+        .privacy-section h3 {
+            color: #333;
+            font-size: 18px;
+            margin: 20px 0 10px;
+            font-weight: 600;
+        }
+
+        .privacy-section p {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .privacy-section ul {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+
+        .privacy-section li {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+
+        .privacy-section li i {
+            color: #2772a0;
+            margin-right: 10px;
+            width: 20px;
+        }
+
+        .highlight-box {
+            background: #f8f9fa;
+            border-left: 4px solid #2772a0;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .highlight-box p {
+            margin-bottom: 0;
+        }
+
+        .cookie-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .cookie-table th {
+            background: #2772a0;
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .cookie-table td {
+            padding: 12px;
+            border-bottom: 1px solid #e0e0e0;
+            color: #555;
+        }
+
+        .cookie-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .cookie-table tr:hover {
+            background: #f0f2f5;
+        }
+
+        .contact-info {
+            background: linear-gradient(135deg, #2772a0 0%, #1a5a80 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 20px 0;
+        }
+
+        .contact-info p {
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .contact-info i {
+            margin-right: 10px;
+            color: #ffd700;
+        }
+
+        .contact-info a {
+            color: #ffd700;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+
+        .privacy-navigation {
+            display: flex;
+            gap: 15px;
+            margin-top: 40px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .back-button {
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #2772a0 0%, #1a5a80 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(39, 114, 160, 0.4);
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(39, 114, 160, 0.6);
+        }
+
+        @media (max-width: 768px) {
+            .privacy-container {
+                padding: 20px 15px;
+            }
+
+            .privacy-header h1 {
+                font-size: 28px;
+            }
+
+            .privacy-content {
+                padding: 25px;
+            }
+
+            .privacy-section h2 {
+                font-size: 20px;
+            }
+
+            .cookie-table {
+                font-size: 14px;
+            }
+
+            .cookie-table th,
+            .cookie-table td {
+                padding: 8px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .privacy-header h1 {
+                font-size: 24px;
+            }
+
+            .privacy-content {
+                padding: 20px;
+            }
+
+            .privacy-section h2 {
+                font-size: 18px;
+            }
+
+            .cookie-table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+
+            .back-button {
+                padding: 12px 25px;
+                font-size: 14px;
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- PRIVACY POLICY PAGE -->
+<section class="page" style="display: block; padding: 0;">
+    <div class="privacy-container">
+        
+        <!-- Header -->
+        <div class="privacy-header">
+            <h1><i class="fas fa-shield-alt"></i> Privacy Policy</h1>
+            <p class="subtitle">Computer Science Exit Exam Practice Platform</p>
+        </div>
+
+        <!-- Main Content -->
+        <div class="privacy-content">
+            <div class="last-updated">
+                <i class="fas fa-calendar-alt"></i> Last Updated: February 22, 2026
+            </div>
+
+            <!-- Introduction -->
+            <div class="privacy-section">
+                <h2><i class="fas fa-info-circle"></i> Introduction</h2>
+                <p>Welcome to the Computer Science Exit Exam Practice Platform ("I," "me," or "my"). I am committed to protecting your privacy and ensuring you have a positive experience on my website. This Privacy Policy explains how I collect, use, disclose, and safeguard your information when you visit my website, including any other media form, media channel, mobile website, or mobile application related or connected thereto.</p>
+                <p>Please read this privacy policy carefully. If you do not agree with the terms of this privacy policy, please do not access the site.</p>
+            </div>
+
+            <!-- Google AdSense Section -->
+            <div class="privacy-section">
+                <h2><i class="fas fa-ad"></i> Google AdSense</h2>
+                <p>I use Google AdSense to display advertisements on my website. Google AdSense uses cookies to serve ads based on a user's prior visits to my website or other websites. Google's use of advertising cookies enables it and its partners to serve ads to your users based on their visit to your sites and/or other sites on the Internet.</p>
+                
+                <div class="highlight-box">
+                    <p><i class="fas fa-info-circle"></i> <strong>Third Party Vendors:</strong> Third party vendors, including Google, use cookies to serve ads based on a user's prior visits to your website or other websites.</p>
+                </div>
+
+                <h3>How Google Uses Your Data</h3>
+                <ul>
+                    <li><i class="fas fa-check-circle"></i> Google's use of advertising cookies enables it and its partners to serve ads based on your visit to my site and/or other sites on the Internet.</li>
+                    <li><i class="fas fa-check-circle"></i> You may opt out of personalized advertising by visiting <a href="https://www.google.com/settings/ads" target="_blank" style="color: #2772a0;">Google Ads Settings</a>.</li>
+                    <li><i class="fas fa-check-circle"></i> You can also opt out of third-party vendor's use of cookies for personalized advertising by visiting <a href="https://www.aboutads.info" target="_blank" style="color: #2772a0;">www.aboutads.info</a>.</li>
+                </ul>
+            </div>
+
+            <!-- Information Collection -->
+            <div class="privacy-section">
+                <h2><i class="fas fa-database"></i> Information I Collect</h2>
+                <p>I collect minimal information to provide and improve my service to you:</p>
+                
+                <h3>Automatically Collected Information</h3>
+                <ul>
+                    <li><i class="fas fa-check-circle"></i> <strong>Cookies and Usage Data:</strong> I may use cookies and similar tracking technologies to track activity on my service and hold certain information.</li>
+                    <li><i class="fas fa-check-circle"></i> <strong>Device Information:</strong> I may collect information about the device you're using, including browser type, operating system, and IP address.</li>
+                    <li><i class="fas fa-check-circle"></i> <strong>Session Data:</strong> I temporarily store your exam progress locally in your browser's session storage. This data is automatically cleared when you close your browser.</li>
+                </ul>
+
+                <h3>Information You Provide</h3>
+                <ul>
+                    <li><i class="fas fa-check-circle"></i> <strong>Email:</strong> If you contact me, I may collect your email address to respond to your inquiry.</li>
+                    <li><i class="fas fa-check-circle"></i> <strong>Exam Responses:</strong> Your answers to practice questions are stored locally on your device and are not transmitted to my servers.</li>
+                </ul>
+            </div>
+
+            <!-- Cookies Section -->
+            <div class="privacy-section">
+                <h2><i class="fas fa-cookie-bite"></i> Cookies and Tracking Technologies</h2>
+                <p>I use cookies and similar tracking technologies to track activity on my service and hold certain information. Cookies are files with a small amount of data which may include an anonymous unique identifier.</p>
+                
+                <p>I use the following types of cookies:</p>
+                
+                <table class="cookie-table">
+                    <thead>
+                        <tr>
+                            <th>Cookie Type</th>
+                            <th>Purpose</th>
+                            <th>Duration</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Session Cookies</strong></td>
+                            <td>Store your exam progress temporarily</td>
+                            <td>Session (cleared when browser closes)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Preference Cookies</strong></td>
+                            <td>Remember your course and quantity selections</td>
+                            <td>Session</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Advertising Cookies</strong></td>
+                            <td>Used by Google AdSense to personalize ads</td>
+                            <td>Varies (controlled by Google)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Analytics Cookies</strong></td>
+                            <td>Help me understand how visitors use my site</td>
+                            <td>Persistent (up to 2 years)</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <p>You can instruct your browser to refuse all cookies or to indicate when a cookie is being sent. However, if you do not accept cookies, you may not be able to use some portions of my service.</p>
+            </div>
+
+            <!-- How I Use Information -->
+            <div class="privacy-section">
+                <h2><i class="fas fa-tasks"></i> How I Use Your Information</h2>
+                <p>I use the collected information for various purposes:</p>
+                <ul>
+                    <li><i class="fas fa-check-circle"></i> To provide and maintain my service</li>
+                    <li><i class="fas fa-check-circle"></i> To notify you about changes to my service</li>
+                    <li><i class="fas fa-check-circle"></i> To allow you to participate in interactive features of my service</li>
+                    <li><i class="fas fa-check-circle"></i> To provide customer support</li>
+                    <li><i class="fas fa-check-circle"></i> To gather analysis or valuable information so that I can improve my service</li>
+                    <li><i class="fas fa-check-circle"></i> To monitor the usage of my service</li>
+                    <li><i class="fas fa-check-circle"></i> To detect, prevent and address technical issues</li>
+                    <li><i class="fas fa-check-circle"></i> To display advertisements through Google AdSense</li>
+                </ul>
+            </div>
+
+            <!-- Data Storage -->
+            <div class="privacy-section">
+                <h2><i class="fas fa-server"></i> Data Storage and Security</h2>
+                <p>I take the security of your data seriously:</p>
+                <ul>
+                    <li><i class="fas fa-check-circle"></i> <strong>Local Storage:</strong> Your exam progress and answers are stored locally in your browser's session storage and are not transmitted to my servers.</li>
+                    <li><i class="fas fa-check-circle"></i> <strong>No Account Required:</strong> You can use my service without creating an account, meaning I don't store personal information like your name or email.</li>
+                    <li><i class="fas fa-check-circle"></i> <strong>No Database:</strong> I do not maintain a database of user information or exam responses.</li>
+                </ul>
+                <p>However, remember that no method of transmission over the Internet or method of electronic storage is 100% secure. While I strive to use commercially acceptable means to protect your personal information, I cannot guarantee its absolute security.</p>
+            </div>
+
+            <!-- Third-Party Services -->
+            <div class="privacy-section">
+                <h2><i class="fas fa-external-link-alt"></i> Third-Party Services</h2>
+                <p>I may employ third-party companies and individuals due to the following reasons:</p>
+                <ul>
+                    <li><i class="fas fa-check-circle"></i> <strong>Google AdSense:</strong> To serve advertisements</li>
+                    <li><i class="fas fa-check-circle"></i> <strong>Google Analytics:</strong> To monitor and analyze the use of my service</li>
+                    <li><i class="fas fa-check-circle"></i> <strong>Font Awesome:</strong> To provide icons on my website</li>
+                </ul>
+                <p>These third parties have access to your personal information only to perform these tasks on my behalf and are obligated not to disclose or use it for any other purpose.</p>
+            </div>
+
+            <!-- Children's Privacy -->
+            <div class="privacy-section">
+                <h2><i class="fas fa-child"></i> Children's Privacy</h2>
+                <p>My service does not address anyone under the age of 13. I do not knowingly collect personally identifiable information from children under 13. If you are a parent or guardian and you are aware that your child has provided me with personal information, please contact me. If I become aware that I have collected personal information from children without verification of parental consent, I take steps to remove that information from my servers.</p>
+            </div>
+
+            <!-- Your Rights -->
+            <div class="privacy-section">
+                <h2><i class="fas fa-gavel"></i> Your Rights</h2>
+                <p>Depending on your location, you may have the following rights regarding your personal information:</p>
+                <ul>
+                    <li><i class="fas fa-check-circle"></i> The right to access – You have the right to request copies of your personal data.</li>
+                    <li><i class="fas fa-check-circle"></i> The right to rectification – You have the right to request that I correct any information you believe is inaccurate.</li>
+                    <li><i class="fas fa-check-circle"></i> The right to erasure – You have the right to request that I erase your personal data, under certain conditions.</li>
+                    <li><i class="fas fa-check-circle"></i> The right to restrict processing – You have the right to request that I restrict the processing of your personal data, under certain conditions.</li>
+                    <li><i class="fas fa-check-circle"></i> The right to object to processing – You have the right to object to my processing of your personal data, under certain conditions.</li>
+                    <li><i class="fas fa-check-circle"></i> The right to data portability – You have the right to request that I transfer the data that I have collected to another organization, or directly to you, under certain conditions.</li>
+                </ul>
+                <p>To exercise any of these rights, please contact me using the information provided below.</p>
+            </div>
+
+            <!-- Opt-Out Options -->
+            <div class="privacy-section">
+                <h2><i class="fas fa-user-slash"></i> Opt-Out Options</h2>
+                <p>You have several options to control how your data is used:</p>
+                <ul>
+                    <li><i class="fas fa-check-circle"></i> <strong>Browser Settings:</strong> You can configure your browser to reject cookies or to alert you when cookies are being sent.</li>
+                    <li><i class="fas fa-check-circle"></i> <strong>Google Ads Settings:</strong> Visit <a href="https://adssettings.google.com" target="_blank" style="color: #2772a0;">Google Ads Settings</a> to opt out of personalized advertising.</li>
+                    <li><i class="fas fa-check-circle"></i> <strong>Network Advertising Initiative:</strong> Visit <a href="https://optout.networkadvertising.org" target="_blank" style="color: #2772a0;">NAI Opt-Out</a> to opt out of interest-based advertising from participating companies.</li>
+                    <li><i class="fas fa-check-circle"></i> <strong>Digital Advertising Alliance:</strong> Visit <a href="https://optout.aboutads.info" target="_blank" style="color: #2772a0;">DAA Opt-Out</a> to opt out of interest-based advertising.</li>
+                </ul>
+            </div>
+
+            <!-- Changes to Policy -->
+            <div class="privacy-section">
+                <h2><i class="fas fa-history"></i> Changes to This Privacy Policy</h2>
+                <p>I may update my Privacy Policy from time to time. I will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last Updated" date at the top of this page.</p>
+                <p>You are advised to review this Privacy Policy periodically for any changes. Changes to this Privacy Policy are effective when they are posted on this page.</p>
+            </div>
+
+            <!-- Contact Me -->
+            <div class="privacy-section">
+                <h2><i class="fas fa-envelope"></i> Contact Me</h2>
+                <div class="contact-info">
+                    <p><i class="fas fa-user"></i> <strong>Developer:</strong> Gada Solomon</p>
+                    <p><i class="fas fa-university"></i> <strong>Institution:</strong> Ambo University, Computer Science Department</p>
+                    <p><i class="fas fa-envelope"></i> <strong>Email:</strong> <a href="mailto:gadaakiyya003@gmail.com">gadaakiyya003@gmail.com</a></p>
+                    <p><i class="fas fa-phone"></i> <strong>Phone:</strong> <a href="tel:+251938606726">+251-938-606-726</a></p>
+                    <p><i class="fab fa-telegram"></i> <strong>Telegram:</strong> <a href="https://t.me/gadaa003">@gadaa003</a></p>
+                    <p><i class="fab fa-github"></i> <strong>GitHub:</strong> <a href="https://github.com/Gada-23" target="_blank">Gada-23</a></p>
+                    <p><i class="fab fa-linkedin"></i> <strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/gada-solomon-81142b24a/" target="_blank">Gada Solomon</a></p>
+                    <p style="margin-top: 15px;"><i class="fas fa-clock"></i> I aim to respond to all inquiries within 24-48 hours.</p>
+                </div>
+            </div>
+
+            <!-- Consent -->
+            <div class="privacy-section">
+                <h2><i class="fas fa-check-double"></i> Consent</h2>
+                <p>By using my website, you hereby consent to my Privacy Policy and agree to its terms.</p>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="privacy-navigation">
+            <a href="index.html" class="back-button">
+                <i class="fas fa-home"></i> Back to Home
+            </a>
+            <a href="about.html" class="back-button" style="background: linear-gradient(135deg, #1a5a80 0%, #0f4a60 100%);">
+                <i class="fas fa-user-circle"></i> About Me
+            </a>
+            <a href="contact.html" class="back-button" style="background: linear-gradient(135deg, #0f4a60 0%, #0a3a4a 100%);">
+                <i class="fas fa-envelope"></i> Contact Me
+            </a>
+            <a href="terms.html" class="back-button" style="background: linear-gradient(135deg, #0a3a4a 0%, #052a35 100%);">
+                <i class="fas fa-file-contract"></i> Terms of Service
+            </a>
+        </div>
+
+    </div>
+</section>
+
+</body>
+</html>

@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Service - Computer Science Exit Exam Practice</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='grad' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:%232772a0;stop-opacity:1' /><stop offset='100%' style='stop-color:%23ccddea;stop-opacity:1' /></linearGradient></defs><rect width='100' height='100' fill='url(%23grad)' rx='15'/><path d='M25 30 L25 75 Q25 80 30 80 L70 80 Q75 80 75 75 L75 30 Q75 25 70 25 L30 25 Q25 25 25 30' fill='white' opacity='0.9'/><path d='M45 35 L45 70' stroke='%232772a0' stroke-width='2' fill='none'/><circle cx='35' cy='45' r='3' fill='%232772a0'/><circle cx='55' cy='45' r='3' fill='%232772a0'/><circle cx='35' cy='58' r='3' fill='%23ccddea'/><circle cx='55' cy='58' r='3' fill='%23ccddea'/><path d='M40 20 L35 15 L30 20 L32 25 L38 25 Z' fill='white' stroke='%23ccddea' stroke-width='1.5'/></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Terms Page Specific Styles */
+        .terms-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .terms-header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+            animation: fadeIn 0.6s ease-in;
+        }
+
+        .terms-header h1 {
+            font-size: 36px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .terms-header .subtitle {
+            font-size: 18px;
+            opacity: 0.95;
+            font-weight: 300;
+            color: white;
+        }
+
+        .terms-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(39, 114, 160, 0.2);
+            animation: slideUp 0.6s ease-out;
+        }
+
+        .last-updated {
+            color: #666;
+            font-style: italic;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #f0f2f5;
+        }
+
+        .terms-section {
+            margin-bottom: 40px;
+        }
+
+        .terms-section h2 {
+            color: #2772a0;
+            font-size: 24px;
+            margin-bottom: 20px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .terms-section h2 i {
+            color: #2772a0;
+            font-size: 24px;
+        }
+
+        .terms-section h3 {
+            color: #333;
+            font-size: 20px;
+            margin: 25px 0 15px;
+            font-weight: 600;
+        }
+
+        .terms-section h4 {
+            color: #2772a0;
+            font-size: 18px;
+            margin: 20px 0 10px;
+            font-weight: 600;
+        }
+
+        .terms-section p {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .terms-section ul, .terms-section ol {
+            margin: 15px 0;
+            padding-left: 30px;
+        }
+
+        .terms-section li {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .terms-section li i {
+            color: #2772a0;
+            margin-right: 10px;
+            width: 20px;
+        }
+
+        .highlight-box {
+            background: #f8f9fa;
+            border-left: 4px solid #2772a0;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .highlight-box p {
+            margin-bottom: 0;
+        }
+
+        .terms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 25px 0;
+        }
+
+        .terms-card {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .terms-card:hover {
+            border-color: #2772a0;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(39, 114, 160, 0.2);
+        }
+
+        .terms-card i {
+            font-size: 40px;
+            color: #2772a0;
+            margin-bottom: 15px;
+        }
+
+        .terms-card h3 {
+            color: #333;
+            font-size: 18px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .terms-card p {
+            color: #666;
+            line-height: 1.6;
+            font-size: 14px;
+            margin-bottom: 0;
+        }
+
+        .agreement-box {
+            background: linear-gradient(135deg, #2772a0 0%, #1a5a80 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .agreement-box p {
+            color: white;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .agreement-box i {
+            font-size: 48px;
+            margin-bottom: 15px;
+            color: #ffd700;
+        }
+
+        .terms-navigation {
+            display: flex;
+            gap: 15px;
+            margin-top: 40px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-button {
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #2772a0 0%, #1a5a80 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(39, 114, 160, 0.4);
+        }
+
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(39, 114, 160, 0.6);
+        }
+
+        .accept-btn {
+            background: linear-gradient(135deg, #28a745 0%, #218838 100%);
+            padding: 15px 40px;
+            font-size: 18px;
+            margin: 20px 0;
+        }
+
+        @media (max-width: 768px) {
+            .terms-content {
+                padding: 25px;
+            }
+
+            .terms-section h2 {
+                font-size: 22px;
+            }
+
+            .terms-section h3 {
+                font-size: 18px;
+            }
+
+            .terms-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .terms-header h1 {
+                font-size: 28px;
+            }
+
+            .terms-content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- TERMS OF SERVICE PAGE -->
+<section class="page" style="display: block; padding: 0;">
+    <div class="terms-container">
+        
+        <!-- Header -->
+        <div class="terms-header">
+            <h1><i class="fas fa-file-contract"></i> Terms of Service</h1>
+            <p class="subtitle">Please read these terms carefully before using my platform</p>
+        </div>
+
+        <!-- Main Content -->
+        <div class="terms-content">
+            <div class="last-updated">
+                <i class="fas fa-calendar-alt"></i> Last Updated: February 22, 2026
+            </div>
+
+            <!-- Introduction -->
+            <div class="terms-section">
+                <h2><i class="fas fa-info-circle"></i> 1. Introduction</h2>
+                <p>Welcome to the Computer Science Exit Exam Practice Platform ("I," "me," "my," or "the Platform"). By accessing or using my website at <a href="index.html" style="color: #2772a0;">csexamprep.com</a> (the "Site"), you agree to be bound by these Terms of Service (the "Terms"). If you do not agree to these Terms, please do not use my Site.</p>
+                <p>These Terms apply to all visitors, users, and others who access or use the Site. Your access to and use of the Site is conditioned on your acceptance of and compliance with these Terms.</p>
+            </div>
+
+            <!-- Acceptance -->
+            <div class="agreement-box">
+                <i class="fas fa-check-circle"></i>
+                <p>By using this website, you acknowledge that you have read, understood, and agree to be bound by these Terms of Service.</p>
+            </div>
+
+            <!-- Eligibility -->
+            <div class="terms-section">
+                <h2><i class="fas fa-user-check"></i> 2. Eligibility</h2>
+                <p>By using my Site, you represent and warrant that:</p>
+                <ul>
+                    <li><i class="fas fa-check-circle"></i> You are at least 13 years of age. If you are under 13, you may only use the Site with the consent of a parent or guardian.</li>
+                    <li><i class="fas fa-check-circle"></i> You have the full power and authority to enter into this agreement.</li>
+                    <li><i class="fas fa-check-circle"></i> You are not located in a country that is subject to a U.S. government embargo.</li>
+                    <li><i class="fas fa-check-circle"></i> You will comply with these Terms and all applicable local, state, national, and international laws, rules, and regulations.</li>
+                </ul>
+            </div>
+
+            <!-- Account Registration -->
+            <div class="terms-section">
+                <h2><i class="fas fa-id-card"></i> 3. Account Registration</h2>
+                <p>Currently, my Site does not require account registration to access practice questions and study materials. However, I may introduce optional account features in the future. If you choose to create an account:</p>
+                <ul>
+                    <li><i class="fas fa-check-circle"></i> You must provide accurate, current, and complete information.</li>
+                    <li><i class="fas fa-check-circle"></i> You are responsible for safeguarding your password and for all activities under your account.</li>
+                    <li><i class="fas fa-check-circle"></i> You must immediately notify me of any unauthorized use of your account.</li>
+                    <li><i class="fas fa-check-circle"></i> I reserve the right to refuse service, terminate accounts, or remove content at my sole discretion.</li>
+                </ul>
+            </div>
+
+            <!-- Content Usage -->
+            <div class="terms-section">
+                <h2><i class="fas fa-copyright"></i> 4. Content and Intellectual Property</h2>
+                
+                <h3>4.1 My Content</h3>
+                <p>All content on this Site, including but not limited to text, graphics, logos, questions, explanations, software, and the compilation thereof (collectively, "Content"), is my property or that of my content suppliers and is protected by Ethiopian and international copyright laws.</p>
+                
+                <h3>4.2 Limited License</h3>
+                <p>I grant you a limited, non-exclusive, non-transferable, revocable license to access and use my Content for personal, non-commercial educational purposes. You may not:</p>
+                <ul>
+                    <li><i class="fas fa-times-circle" style="color: #dc3545;"></i> Copy, modify, or distribute my Content without written permission</li>
+                    <li><i class="fas fa-times-circle" style="color: #dc3545;"></i> Use my Content for commercial purposes</li>
+                    <li><i class="fas fa-times-circle" style="color: #dc3545;"></i> Scrape, crawl, or use automated means to access my Content</li>
+                    <li><i class="fas fa-times-circle" style="color: #dc3545;"></i> Remove any copyright or proprietary notices from my Content</li>
+                </ul>
+
+                <h3>4.3 User-Generated Content</h3>
+                <p>If you submit feedback, suggestions, or other content to me (collectively, "User Content"), you grant me a perpetual, irrevocable, worldwide, royalty-free license to use, reproduce, modify, and distribute that User Content for any purpose.</p>
+            </div>
+
+            <!-- Acceptable Use -->
+            <div class="terms-section">
+                <h2><i class="fas fa-gavel"></i> 5. Acceptable Use Policy</h2>
+                <p>You agree not to use the Site to:</p>
+                
+                <div class="terms-grid">
+                    <div class="terms-card">
+                        <i class="fas fa-ban"></i>
+                        <h3>Illegal Activities</h3>
+                        <p>Engage in any unlawful or fraudulent activities</p>
+                    </div>
+                    <div class="terms-card">
+                        <i class="fas fa-bug"></i>
+                        <h3>Harmful Code</h3>
+                        <p>Upload viruses, malware, or other harmful code</p>
+                    </div>
+                    <div class="terms-card">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <h3>Harassment</h3>
+                        <p>Harass, abuse, or harm others</p>
+                    </div>
+                    <div class="terms-card">
+                        <i class="fas fa-eye-slash"></i>
+                        <h3>Impersonation</h3>
+                        <p>Impersonate any person or entity</p>
+                    </div>
+                    <div class="terms-card">
+                        <i class="fas fa-server"></i>
+                        <h3>Interference</h3>
+                        <p>Interfere with the proper functioning of the Site</p>
+                    </div>
+                    <div class="terms-card">
+                        <i class="fas fa-database"></i>
+                        <h3>Data Mining</h3>
+                        <p>Use automated means to extract data from the Site</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Third-Party Links and Ads -->
+            <div class="terms-section">
+                <h2><i class="fas fa-ad"></i> 6. Third-Party Links and Advertising</h2>
+                <p>My Site may contain links to third-party websites and advertisements (including Google AdSense). I am not responsible for:</p>
+                <ul>
+                    <li><i class="fas fa-external-link-alt"></i> The content or practices of any third-party websites</li>
+                    <li><i class="fas fa-ad"></i> The products or services advertised by third parties</li>
+                    <li><i class="fas fa-cookie-bite"></i> The privacy practices of third-party advertisers</li>
+                </ul>
+                <p>Your interactions with third-party websites and advertisers are solely between you and the third party. I encourage you to review the terms and privacy policies of any third-party websites you visit.</p>
+                
+                <div class="highlight-box">
+                    <p><i class="fas fa-info-circle"></i> <strong>Google AdSense:</strong> I use Google AdSense to serve advertisements. Google's use of advertising cookies enables it and its partners to serve ads based on your visit to my site and/or other sites on the Internet. You may opt out of personalized advertising by visiting <a href="https://www.google.com/settings/ads" target="_blank" style="color: #2772a0;">Google Ads Settings</a>.</p>
+                </div>
+            </div>
+
+            <!-- Disclaimer of Warranties -->
+            <div class="terms-section">
+                <h2><i class="fas fa-exclamation-circle"></i> 7. Disclaimer of Warranties</h2>
+                <p>THE SITE AND ALL CONTENT ARE PROVIDED "AS IS" AND "AS AVAILABLE" WITHOUT WARRANTIES OF ANY KIND, EITHER EXPRESS OR IMPLIED. TO THE FULLEST EXTENT PERMITTED BY LAW, I DISCLAIM ALL WARRANTIES, INCLUDING:</p>
+                <ul>
+                    <li><i class="fas fa-times"></i> Implied warranties of merchantability, fitness for a particular purpose, and non-infringement</li>
+                    <li><i class="fas fa-times"></i> Warranties that the Site will be uninterrupted, error-free, secure, or free from viruses</li>
+                    <li><i class="fas fa-times"></i> Warranties regarding the accuracy, reliability, or completeness of any Content</li>
+                </ul>
+                <p>I do not guarantee that exam questions accurately reflect actual exit exams or that using my Site will lead to any particular exam results.</p>
+            </div>
+
+            <!-- Limitation of Liability -->
+            <div class="terms-section">
+                <h2><i class="fas fa-shield-alt"></i> 8. Limitation of Liability</h2>
+                <p>TO THE MAXIMUM EXTENT PERMITTED BY LAW, IN NO EVENT SHALL I, MY AFFILIATES, OFFICERS, EMPLOYEES, AGENTS, OR LICENSORS BE LIABLE FOR:</p>
+                <ul>
+                    <li><i class="fas fa-times"></i> Any indirect, incidental, special, consequential, or punitive damages</li>
+                    <li><i class="fas fa-times"></i> Loss of profits, data, use, goodwill, or other intangible losses</li>
+                    <li><i class="fas fa-times"></i> Damages resulting from your use or inability to use the Site</li>
+                    <li><i class="fas fa-times"></i> Damages from unauthorized access to or alteration of your transmissions or data</li>
+                </ul>
+                <p>This limitation applies whether the alleged liability is based on contract, tort, negligence, strict liability, or any other basis, even if I have been advised of the possibility of such damage.</p>
+            </div>
+
+            <!-- Indemnification -->
+            <div class="terms-section">
+                <h2><i class="fas fa-balance-scale"></i> 9. Indemnification</h2>
+                <p>You agree to defend, indemnify, and hold harmless me and my affiliates, and their respective officers, directors, employees, and agents from and against any claims, liabilities, damages, judgments, awards, losses, costs, expenses, or fees (including reasonable attorneys' fees) arising out of or relating to:</p>
+                <ul>
+                    <li><i class="fas fa-check-circle"></i> Your violation of these Terms</li>
+                    <li><i class="fas fa-check-circle"></i> Your use of the Site</li>
+                    <li><i class="fas fa-check-circle"></i> Your violation of any third-party rights, including intellectual property rights</li>
+                </ul>
+            </div>
+
+            <!-- Termination -->
+            <div class="terms-section">
+                <h2><i class="fas fa-power-off"></i> 10. Termination</h2>
+                <p>I may terminate or suspend your access to the Site immediately, without prior notice or liability, for any reason whatsoever, including without limitation if you breach these Terms.</p>
+                <p>Upon termination, your right to use the Site will immediately cease. All provisions of these Terms which by their nature should survive termination shall survive, including ownership provisions, warranty disclaimers, indemnity, and limitations of liability.</p>
+            </div>
+
+            <!-- Governing Law -->
+            <div class="terms-section">
+                <h2><i class="fas fa-gavel"></i> 11. Governing Law</h2>
+                <p>These Terms shall be governed and construed in accordance with the laws of the Federal Democratic Republic of Ethiopia, without regard to its conflict of law provisions. Any legal action or proceeding arising under these Terms will be brought exclusively in the courts located in Addis Ababa, Ethiopia.</p>
+            </div>
+
+            <!-- Changes to Terms -->
+            <div class="terms-section">
+                <h2><i class="fas fa-history"></i> 12. Changes to Terms</h2>
+                <p>I reserve the right, at my sole discretion, to modify or replace these Terms at any time. If a revision is material, I will try to provide at least 30 days' notice prior to any new terms taking effect. What constitutes a material change will be determined at my sole discretion.</p>
+                <p>By continuing to access or use my Site after any revisions become effective, you agree to be bound by the revised terms. If you do not agree to the new terms, you must stop using the Site.</p>
+            </div>
+
+            <!-- Entire Agreement -->
+            <div class="terms-section">
+                <h2><i class="fas fa-file-signature"></i> 13. Entire Agreement</h2>
+                <p>These Terms constitute the entire agreement between you and me regarding your use of the Site and supersede all prior agreements and understandings, whether written or oral.</p>
+            </div>
+
+            <!-- Contact Information -->
+            <div class="terms-section">
+                <h2><i class="fas fa-envelope"></i> 14. Contact Information</h2>
+                <p>If you have any questions about these Terms, please contact me at:</p>
+                <div style="background: #f8f9fa; padding: 20px; border-radius: 12px; margin-top: 15px;">
+                    <p><i class="fas fa-user"></i> <strong>Gada Solomon</strong></p>
+                    <p><i class="fas fa-university"></i> Ambo University, Computer Science Department</p>
+                    <p><i class="fas fa-envelope"></i> <a href="mailto:gadaakiyya003@gmail.com" style="color: #2772a0;">gadaakiyya003@gmail.com</a></p>
+                    <p><i class="fas fa-phone"></i> <a href="tel:+251938606726" style="color: #2772a0;">+251-938-606-726</a></p>
+                    <p><i class="fab fa-telegram"></i> <a href="https://t.me/gadaa003" target="_blank" style="color: #2772a0;">@gadaa003</a></p>
+                    <p><i class="fab fa-github"></i> <a href="https://github.com/Gada-23" target="_blank" style="color: #2772a0;">Gada-23</a></p>
+                    <p><i class="fab fa-linkedin"></i> <a href="https://www.linkedin.com/in/gada-solomon-81142b24a/" target="_blank" style="color: #2772a0;">Gada Solomon</a></p>
+                    <p><i class="fas fa-globe"></i> <a href="contact.html" style="color: #2772a0;">Contact Page</a></p>
+                </div>
+            </div>
+
+            <!-- Acknowledgment -->
+            <div class="agreement-box" style="margin-top: 30px;">
+                <i class="fas fa-handshake"></i>
+                <p>By using this website, you acknowledge that you have read these Terms of Service and agree to be bound by them.</p>
+                <a href="index.html" class="nav-button accept-btn" style="display: inline-block; margin-top: 15px;">
+                    <i class="fas fa-check"></i> I Accept & Continue to Site
+                </a>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="terms-navigation">
+            <a href="index.html" class="nav-button">
+                <i class="fas fa-home"></i> Home
+            </a>
+            <a href="about.html" class="nav-button" style="background: linear-gradient(135deg, #1a5a80 0%, #0f4a60 100%);">
+                <i class="fas fa-info-circle"></i> About Me
+            </a>
+            <a href="contact.html" class="nav-button" style="background: linear-gradient(135deg, #0f4a60 0%, #0a3a4a 100%);">
+                <i class="fas fa-envelope"></i> Contact Me
+            </a>
+            <a href="privacy.html" class="nav-button" style="background: linear-gradient(135deg, #0a3a4a 0%, #052a35 100%);">
+                <i class="fas fa-shield-alt"></i> Privacy Policy
+            </a>
+        </div>
+
+    </div>
+</section>
+
+</body>
+</html>

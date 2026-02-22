@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Computer Science Exit Exam Practice</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='grad' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' style='stop-color:%232772a0;stop-opacity:1' /><stop offset='100%' style='stop-color:%23ccddea;stop-opacity:1' /></linearGradient></defs><rect width='100' height='100' fill='url(%23grad)' rx='15'/><path d='M25 30 L25 75 Q25 80 30 80 L70 80 Q75 80 75 75 L75 30 Q75 25 70 25 L30 25 Q25 25 25 30' fill='white' opacity='0.9'/><path d='M45 35 L45 70' stroke='%232772a0' stroke-width='2' fill='none'/><circle cx='35' cy='45' r='3' fill='%232772a0'/><circle cx='55' cy='45' r='3' fill='%232772a0'/><circle cx='35' cy='58' r='3' fill='%23ccddea'/><circle cx='55' cy='58' r='3' fill='%23ccddea'/><path d='M40 20 L35 15 L30 20 L32 25 L38 25 Z' fill='white' stroke='%23ccddea' stroke-width='1.5'/></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Contact Page Specific Styles */
+        .contact-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .contact-header {
+            text-align: center;
+            color: white;
+            margin-bottom: 50px;
+            animation: fadeIn 0.6s ease-in;
+        }
+
+        .contact-header h1 {
+            font-size: 36px;
+            margin-bottom: 15px;
+            font-weight: 700;
+        }
+
+        .contact-header .subtitle {
+            font-size: 18px;
+            opacity: 0.95;
+            font-weight: 300;
+            color: white; /* Changed to white */
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .contact-info-section {
+            background: white;
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 10px 40px rgba(39, 114, 160, 0.2);
+            animation: slideUp 0.6s ease-out;
+        }
+
+        .contact-info-section h2 {
+            color: #2772a0;
+            font-size: 24px;
+            margin-bottom: 25px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .contact-info-section h2 i {
+            color: #2772a0;
+        }
+
+        .contact-details {
+            margin-bottom: 30px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(39, 114, 160, 0.2);
+        }
+
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #2772a0 0%, #1a5a80 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+
+        .contact-text h3 {
+            color: #2772a0;
+            font-size: 18px;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .contact-text p {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 3px;
+        }
+
+        .contact-text a {
+            color: #2772a0;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-text a:hover {
+            color: #1a5a80;
+            text-decoration: underline;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            width: 45px;
+            height: 45px;
+            background: #f0f2f5;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #2772a0;
+            font-size: 20px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+
+        .social-link:hover {
+            background: #2772a0;
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        .contact-form-section {
+            background: white;
+            border-radius: 20px;
+            padding: 35px;
+            box-shadow: 0 10px 40px rgba(39, 114, 160, 0.2);
+            animation: slideUp 0.6s ease-out;
+        }
+
+        .contact-form-section h2 {
+            color: #2772a0;
+            font-size: 24px;
+            margin-bottom: 25px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .form-group label i {
+            color: #2772a0;
+            margin-right: 8px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            font-family: inherit;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #2772a0;
+            box-shadow: 0 0 0 3px rgba(39, 114, 160, 0.2);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #2772a0 0%, #1a5a80 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(39, 114, 160, 0.6);
+        }
+
+        .submit-btn i {
+            font-size: 18px;
+        }
+
+        .faq-section {
+            background: white;
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(39, 114, 160, 0.2);
+        }
+
+        .faq-section h2 {
+            color: #2772a0;
+            font-size: 24px;
+            margin-bottom: 25px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .faq-item {
+            border-bottom: 1px solid #e0e0e0;
+            padding: 20px 0;
+        }
+
+        .faq-item:last-child {
+            border-bottom: none;
+        }
+
+        .faq-question {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .faq-question i {
+            color: #2772a0;
+            font-size: 18px;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-question h3 {
+            color: #333;
+            font-size: 18px;
+            font-weight: 600;
+            flex: 1;
+        }
+
+        .faq-answer {
+            margin-top: 15px;
+            padding-left: 28px;
+            color: #666;
+            line-height: 1.8;
+            display: none;
+        }
+
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+
+        .faq-item.active .faq-question i {
+            transform: rotate(90deg);
+        }
+
+        .contact-navigation {
+            display: flex;
+            gap: 15px;
+            margin-top: 40px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .nav-button {
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #2772a0 0%, #1a5a80 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            box-shadow: 0 4px 15px rgba(39, 114, 160, 0.4);
+        }
+
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(39, 114, 160, 0.6);
+        }
+
+        @media (max-width: 768px) {
+            .contact-content {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- CONTACT PAGE -->
+<section class="page" style="display: block; padding: 0;">
+    <div class="contact-container">
+        
+        <!-- Header -->
+        <div class="contact-header">
+            <h1><i class="fas fa-envelope"></i> Contact Us</h1>
+            <p class="subtitle">We'd love to hear from you! Get in touch with any questions or feedback.</p>
+        </div>
+
+        <!-- Main Content -->
+        <div class="contact-content">
+            <!-- Contact Information -->
+            <div class="contact-info-section">
+                <h2><i class="fas fa-info-circle"></i> Get in Touch</h2>
+                
+                <div class="contact-details">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="contact-text">
+                            <h3>Location</h3>
+                            <p>Ambo University</p>
+                            <p>College of Computing and Informatics</p>
+                            <p>Ambo, Oromia, Ethiopia</p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <div class="contact-text">
+                            <h3>Call Me</h3>
+                            <p><a href="tel:+251938606726">+251-938-606-726</a></p>
+                            <p><small>Available via call or WhatsApp</small></p>
+                        </div>
+                    </div>
+
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-text">
+                            <h3>Email Me</h3>
+                            <p><a href="mailto:gadaakiyya003@gmail.com">gadaakiyya003@gmail.com</a></p>
+                            <p><a href="mailto:gada.solomon@ambou.edu.et">gada.solomon@ambou.edu.et</a></p>
+                            <p><small>I reply within 24-48 hours</small></p>
+                        </div>
+                    </div>
+                </div>
+
+                <h3 style="color: #2772a0; margin: 20px 0 15px;">Follow Me</h3>
+                <div class="social-links">
+                    <a href="https://www.linkedin.com/in/gada-solomon-81142b24a/" target="_blank" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://github.com/Gada-23" target="_blank" class="social-link"><i class="fab fa-github"></i></a>
+                    <a href="https://t.me/gadaa003" target="_blank" class="social-link"><i class="fab fa-telegram-plane"></i></a>
+                    <a href="mailto:gadaakiyya003@gmail.com" class="social-link"><i class="fas fa-envelope"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+
+            <!-- Contact Form -->
+            <div class="contact-form-section">
+                <h2><i class="fas fa-paper-plane"></i> Send a Message</h2>
+                
+                <form id="contactForm" onsubmit="return submitForm(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="fas fa-user"></i> First Name *</label>
+                            <input type="text" class="form-control" id="firstName" required>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-user"></i> Last Name</label>
+                            <input type="text" class="form-control" id="lastName">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fas fa-envelope"></i> Email Address *</label>
+                        <input type="email" class="form-control" id="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fas fa-phone"></i> Phone Number</label>
+                        <input type="tel" class="form-control" id="phone" placeholder="+251 ...">
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fas fa-tag"></i> Subject *</label>
+                        <select class="form-control" id="subject" required>
+                            <option value="">Select a subject</option>
+                            <option value="general">General Inquiry</option>
+                            <option value="feedback">Feedback</option>
+                            <option value="bug">Report a Bug</option>
+                            <option value="question">Question about Content</option>
+                            <option value="suggestion">Feature Suggestion</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label><i class="fas fa-comment"></i> Message *</label>
+                        <textarea class="form-control" id="message" rows="5" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label style="display: flex; align-items: center; gap: 10px;">
+                            <input type="checkbox" id="consent" required>
+                            <span>I consent to having this website store my submitted information for contact purposes. <a href="privacy.html" style="color: #2772a0;">Privacy Policy</a></span>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="submit-btn">
+                        <i class="fas fa-paper-plane"></i> Send Message
+                    </button>
+
+                    <div id="formMessage" style="margin-top: 15px; text-align: center;"></div>
+                </form>
+            </div>
+        </div>
+
+        <!-- FAQ Section -->
+        <div class="faq-section">
+            <h2><i class="fas fa-question-circle"></i> Frequently Asked Questions</h2>
+            
+            <div class="faq-item active">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <i class="fas fa-chevron-right"></i>
+                    <h3>How quickly will I receive a response?</h3>
+                </div>
+                <div class="faq-answer">
+                    I aim to respond to all inquiries within 24-48 hours. For urgent matters, please include "URGENT" in your subject line or contact me via Telegram.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <i class="fas fa-chevron-right"></i>
+                    <h3>Can I report an error in a question?</h3>
+                </div>
+                <div class="faq-answer">
+                    Absolutely! I appreciate your help in improving the content. Please use the contact form and select "Report a Bug" as the subject, and include the specific question and what you believe the correction should be.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <i class="fas fa-chevron-right"></i>
+                    <h3>How can I contribute questions?</h3>
+                </div>
+                <div class="faq-answer">
+                    I welcome contributions from students and educators. Please contact me with "Content Contribution" in the subject line, and I'll provide guidelines for formatting and submission.
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <i class="fas fa-chevron-right"></i>
+                    <h3>Is this service really free?</h3>
+                </div>
+                <div class="faq-answer">
+                    Yes! The platform is completely free for all students. I support the site through Google AdSense ads, which allows me to keep all content accessible without any cost to users.
+                </div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <div class="contact-navigation">
+            <a href="index.html" class="nav-button">
+                <i class="fas fa-home"></i> Home
+            </a>
+            <a href="about.html" class="nav-button" style="background: linear-gradient(135deg, #1a5a80 0%, #0f4a60 100%);">
+                <i class="fas fa-info-circle"></i> About Me
+            </a>
+            <a href="privacy.html" class="nav-button" style="background: linear-gradient(135deg, #0f4a60 0%, #0a3a4a 100%);">
+                <i class="fas fa-shield-alt"></i> Privacy Policy
+            </a>
+            <a href="terms.html" class="nav-button" style="background: linear-gradient(135deg, #0a3a4a 0%, #052a35 100%);">
+                <i class="fas fa-file-contract"></i> Terms of Service
+            </a>
+        </div>
+
+    </div>
+</section>
+
+<script>
+    function toggleFAQ(element) {
+        const faqItem = element.closest('.faq-item');
+        faqItem.classList.toggle('active');
+    }
+
+    function submitForm(event) {
+        event.preventDefault();
+        
+        // Get form values
+        const firstName = document.getElementById('firstName').value;
+        const email = document.getElementById('email').value;
+        const subject = document.getElementById('subject').value;
+        
+        // Here you would typically send the form data to a server
+        // For now, we'll just show a success message
+        
+        const formMessage = document.getElementById('formMessage');
+        formMessage.innerHTML = '<div style="background: #d4edda; color: #155724; padding: 15px; border-radius: 8px;"><i class="fas fa-check-circle"></i> Thank you for contacting me! I\'ll get back to you soon.</div>';
+        
+        // Reset form
+        document.getElementById('contactForm').reset();
+        
+        return false;
+    }
+</script>
+
+</body>
+</html>
