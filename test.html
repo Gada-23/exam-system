@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Paths</title>
+</head>
+<body>
+    <h1>Testing File Paths</h1>
+    <div id="output"></div>
+    
+    <script>
+        const output = document.getElementById('output');
+        
+        function testFile(path) {
+            return new Promise((resolve) => {
+                const xhr = new XMLHttpRequest();
+                xhr.open('HEAD', path, true);
+                xhr.onload = function() {
+                    resolve({path, exists: xhr.status !== 404});
+                };
+                xhr.onerror = function() {
+                    resolve({path, exists: false});
+                };
+                xhr.send();
+            });
+        }
+        
+        const filesToTest = [
+            'FocusAreaOfExitExam/artificial-intelligence/chapter1.js',
+            'FocusAreaOfExitExam/artificial-intelligence/chapter2.js',
+            'FocusAreaOfExitExam/artificial-intelligence/chapter3.js',
+            'FocusAreaOfExitExam/artificial-intelligence/chapter4.js',
+            'FocusAreaOfExitExam/computer-security/chapter1.js',
+            'FocusAreaOfExitExam/computer-security/chapter2.js',
+            'FocusAreaOfExitExam/computer-security/chapter3.js',
+            'FocusAreaOfExitExam/computer-security/chapter4.js',
+            'FocusAreaOfExitExam/loader.js'
+        ];
+        
+        Promise.all(filesToTest.map(testFile)).then(results => {
+            let html = '<table border="1" cellpadding="8"><tr><th>File</th><th>Exists?</th></tr>';
+            results.forEach(r => {
+                html += `<tr><td>${r.path}</td><td style="color: ${r.exists ? 'green' : 'red'}">${r.exists ? '✅ YES' : '❌ NO'}</td></tr>`;
+            });
+            html += '</table>';
+            output.innerHTML = html;
+        });
+    </script>
+</body>
+</html>
