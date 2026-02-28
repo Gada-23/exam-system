@@ -347,6 +347,159 @@
             font-size: 24px;
         }
 
+        /* Study Options Modal Styles */
+        .study-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .study-modal.active {
+            display: flex;
+        }
+
+        .study-modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: modalSlideIn 0.4s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .study-modal-content h2 {
+            color: #2772a0;
+            font-size: 28px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .study-modal-content p {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .study-options {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .study-option {
+            flex: 1;
+            min-width: 180px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+        }
+
+        .study-option:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(39, 114, 160, 0.2);
+        }
+
+        .study-option.focus-area {
+            border-color: #ffd700;
+            background: linear-gradient(135deg, #fff9e6, #fff);
+        }
+
+        .study-option.focus-area:hover {
+            background: #ffd70020;
+            border-color: #ffaa00;
+        }
+
+        .study-option.module {
+            border-color: #2772a0;
+            background: linear-gradient(135deg, #e8f0f5, #fff);
+        }
+
+        .study-option.module:hover {
+            background: #2772a020;
+            border-color: #1a5a80;
+        }
+
+        .study-option i {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .study-option.focus-area i {
+            color: #ffd700;
+        }
+
+        .study-option.module i {
+            color: #2772a0;
+        }
+
+        .study-option h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .study-option.focus-area h3 {
+            color: #2772a0;
+        }
+
+        .study-option.module h3 {
+            color: #2772a0;
+        }
+
+        .study-option p {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 0;
+        }
+
+        .modal-close {
+            padding: 10px 25px;
+            background: #f0f2f5;
+            border: none;
+            border-radius: 30px;
+            color: #666;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .modal-close:hover {
+            background: #e0e2e5;
+            color: #333;
+        }
+
         @media (max-width: 992px) {
             .steps-grid {
                 grid-template-columns: repeat(2, 1fr);
@@ -377,10 +530,66 @@
             .stat-highlight-number {
                 font-size: 22px;
             }
+
+            .study-options {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
 <body>
+
+<!-- STUDY OPTIONS MODAL -->
+<div id="studyModal" class="study-modal">
+    <div class="study-modal-content">
+        <h2><i class="fas fa-graduation-cap"></i> Choose Study Mode</h2>
+        <p>Select how you want to access study materials</p>
+        
+        <div class="study-options">
+            <a href="focus-viewer.html" class="study-option focus-area">
+                <i class="fas fa-bullseye"></i>
+                <h3>Focus Areas</h3>
+                <p>Quick revision notes, key concepts, important formulas, and common mistakes</p>
+            </a>
+            
+            <a href="study.html" class="study-option module">
+                <i class="fas fa-book-open"></i>
+                <h3>Study from Module</h3>
+                <p>Detailed chapter-by-chapter study materials with comprehensive explanations</p>
+            </a>
+        </div>
+        
+        <button class="modal-close" onclick="closeStudyModal()">
+            <i class="fas fa-times"></i> Cancel
+        </button>
+    </div>
+</div>
+<script>
+// Debug code to check if elements exist
+document.addEventListener('DOMContentLoaded', function() {
+    console.log("Index.html DOM loaded");
+    
+    const studyBtn = document.getElementById('studyBtn');
+    const studyModal = document.getElementById('studyModal');
+    
+    console.log("Study button found:", studyBtn ? "✅ YES" : "❌ NO");
+    console.log("Study modal found:", studyModal ? "✅ YES" : "❌ NO");
+    
+    if (studyBtn) {
+        // Add a direct click handler here as a backup
+        studyBtn.addEventListener('click', function(e) {
+            console.log("Study button clicked (direct handler)");
+            e.preventDefault();
+            if (studyModal) {
+                studyModal.classList.add('active');
+                console.log("Modal should now be visible");
+            } else {
+                console.error("Modal not found!");
+            }
+        });
+    }
+});
+</script>
 
 <!-- COURSE SELECTION MODAL -->
 <div id="courseModal" class="modal">
@@ -579,11 +788,11 @@
                     <span class="btn-text">Start Exam</span>
                     <span class="btn-subtext">Test your knowledge</span>
                 </button>
-                <a href="study.html" class="action-btn study">
+                <button id="studyBtn" class="action-btn study">
                     <i class="fas fa-book-open"></i> 
                     <span class="btn-text">Study Materials</span>
                     <span class="btn-subtext">Learn the concepts</span>
-                </a>
+                </button>
             </div>
             
             <div class="home-stats" id="homeStats">
@@ -927,6 +1136,29 @@ window.addEventListener('beforeunload', function() {
         }
     }
 })();
+
+// Study Modal Functions - Make them globally accessible
+window.showStudyModal = function() {
+    const modal = document.getElementById('studyModal');
+    if (modal) {
+        modal.classList.add('active');
+    }
+}
+
+window.closeStudyModal = function() {
+    const modal = document.getElementById('studyModal');
+    if (modal) {
+        modal.classList.remove('active');
+    }
+}
+
+// Close modal when clicking outside
+document.addEventListener('click', function(event) {
+    const modal = document.getElementById('studyModal');
+    if (event.target === modal) {
+        window.closeStudyModal();
+    }
+});
 </script>
 
 <!-- IMPORTANT: questions first -->

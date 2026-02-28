@@ -49,85 +49,6 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        /* Focus Area Section */
-        .focus-section {
-            background: linear-gradient(135deg, #2772a0, #1a5a80);
-            border-radius: 20px;
-            padding: 40px;
-            margin-bottom: 50px;
-            text-align: center;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
-            animation: slideUp 0.8s ease-out;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .focus-section h2 {
-            color: white;
-            font-size: 32px;
-            margin-bottom: 15px;
-            font-weight: 700;
-        }
-
-        .focus-section h2 i {
-            color: #ffd700;
-            margin-right: 10px;
-        }
-
-        .focus-section p {
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 18px;
-            margin-bottom: 30px;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .focus-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
-            background: linear-gradient(135deg, #ffd700, #ffaa00);
-            color: #2772a0;
-            text-decoration: none;
-            padding: 18px 45px;
-            border-radius: 50px;
-            font-size: 22px;
-            font-weight: 700;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s ease;
-            border: 2px solid white;
-        }
-
-        .focus-btn:hover {
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 15px 40px rgba(255, 215, 0, 0.4);
-        }
-
-        .focus-btn i {
-            font-size: 28px;
-        }
-
-        .focus-features {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            margin-top: 40px;
-            color: white;
-            flex-wrap: wrap;
-        }
-
-        .focus-feature {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 16px;
-        }
-
-        .focus-feature i {
-            color: #ffd700;
-            font-size: 20px;
-        }
-
         /* Section Divider */
         .section-divider {
             text-align: center;
@@ -398,23 +319,6 @@
             .course-grid-study {
                 grid-template-columns: 1fr;
             }
-
-            .focus-section {
-                padding: 30px 20px;
-            }
-
-            .focus-section h2 {
-                font-size: 26px;
-            }
-
-            .focus-btn {
-                padding: 15px 30px;
-                font-size: 18px;
-            }
-
-            .focus-features {
-                gap: 20px;
-            }
         }
     </style>
 </head>
@@ -427,32 +331,6 @@
     <div class="study-header">
         <h1><i class="fas fa-book-open"></i> Study Materials</h1>
         <p class="subtitle">Comprehensive course notes for Computer Science Exit Exam</p>
-    </div>
-
-    <!-- NEW: Focus Area Section -->
-    <div class="focus-section">
-        <h2><i class="fas fa-bullseye"></i> Focus Areas of Exit Exam</h2>
-        <p>Quick revision notes highlighting key concepts, important formulas, and common mistakes for each course. Perfect for last-minute preparation!</p>
-        
-        <a href="focus-viewer.html" class="focus-btn">
-            <i class="fas fa-bullseye"></i> Explore Focus Areas
-            <i class="fas fa-arrow-right"></i>
-        </a>
-        
-        <div class="focus-features">
-            <div class="focus-feature">
-                <i class="fas fa-check-circle"></i> 15 Courses
-            </div>
-            <div class="focus-feature">
-                <i class="fas fa-lightbulb"></i> Key Points
-            </div>
-            <div class="focus-feature">
-                <i class="fas fa-exclamation-triangle"></i> Common Mistakes
-            </div>
-            <div class="focus-feature">
-                <i class="fas fa-square-root-alt"></i> Important Formulas
-            </div>
-        </div>
     </div>
 
     <!-- Section Divider -->
@@ -733,10 +611,10 @@
                 card.classList.add('coming-soon');
                 card.onclick = (e) => {
                     e.preventDefault();
-                    // Optional: Show a toast or alert
-                    // alert(`Study materials for ${course.name} are coming soon!`);
+                    alert(`Study materials for ${course.name} are coming soon!`);
                 };
             } else {
+                // Direct link to study viewer - no modal!
                 card.onclick = () => {
                     window.location.href = `study-viewer/viewer.html?course=${course.id}&chapter=1&subsection=1`;
                 };

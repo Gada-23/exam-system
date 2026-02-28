@@ -699,6 +699,19 @@ function resetModalSelections() {
 }
 
 // ===============================
+// Study Modal Functions (defined in index.html)
+// ===============================
+function showStudyModal() {
+    // This function is defined in index.html
+    // We'll call it if it exists
+    if (typeof window.showStudyModal === 'function') {
+        window.showStudyModal();
+    } else {
+        console.warn("showStudyModal not found in window object");
+    }
+}
+
+// ===============================
 // Setup Event Listeners
 // ===============================
 function setupEventListeners() {
@@ -706,6 +719,22 @@ function setupEventListeners() {
     const startBtn = document.getElementById('startBtn');
     if (startBtn) {
         startBtn.addEventListener('click', showCourseModal);
+    }
+    
+    // Study button - show study options modal
+    const studyBtn = document.getElementById('studyBtn');
+    if (studyBtn) {
+        studyBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            // Call the function defined in index.html
+            if (typeof window.showStudyModal === 'function') {
+                window.showStudyModal();
+            } else {
+                console.warn("showStudyModal function not found");
+                // Fallback: direct navigation to study.html
+                window.location.href = 'study.html';
+            }
+        });
     }
     
     // Random mode selection
