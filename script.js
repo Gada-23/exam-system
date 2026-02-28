@@ -979,6 +979,34 @@ function updateNavigatorHighlight() {
 }
 
 // ===============================
+// Format Code for Display
+// ===============================
+function formatCode(code) {
+    if (!code) return '';
+    
+    // Remove leading/trailing whitespace and normalize indentation
+    const lines = code.split('\n');
+    
+    // Remove empty first/last lines if they exist
+    if (lines.length > 0 && lines[0].trim() === '') lines.shift();
+    if (lines.length > 0 && lines[lines.length-1].trim() === '') lines.pop();
+    
+    // Find minimum indentation
+    const indent = lines.reduce((min, line) => {
+        if (line.trim().length === 0) return min;
+        const leading = line.match(/^\s*/)[0].length;
+        return Math.min(min, leading);
+    }, Infinity);
+    
+    // Remove that indentation from all lines
+    const formattedLines = lines.map(line => 
+        line.length >= indent ? line.substring(indent) : line
+    );
+    
+    return formattedLines.join('\n');
+}
+
+// ===============================
 // Check Answer
 // ===============================
 function checkAnswer() {
@@ -1071,6 +1099,17 @@ function loadQuestion() {
     // Update question number
     document.getElementById('currentQNum').textContent = currentQuestion + 1;
     
+    // Build question HTML with code if present
+    let questionHtml = `<p><b>${currentQuestion + 1}. ${q.question}</b></p>`;
+    
+    // Add formatted code snippet if it exists
+    if (q.code) {
+        const formattedCode = formatCode(q.code);
+        questionHtml += `
+            <pre style="background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; margin: 15px 0; border-left: 4px solid #2772a0; font-family: 'Courier New', monospace; font-size: 14px; line-height: 1.5;">${formattedCode}</pre>
+        `;
+    }
+    
     // Build options HTML
     let optionsHtml = '';
     q.options.forEach((opt, i) => {
@@ -1093,11 +1132,7 @@ function loadQuestion() {
         courseTag = `<small><i class="fas fa-history"></i> ${year} Exit Exam ${month ? '(' + month + ')' : ''}</small>`;
     }
     
-    box.innerHTML = `
-        <p><b>${currentQuestion + 1}. ${q.question}</b></p>
-        ${courseTag}
-        ${optionsHtml}
-    `;
+    box.innerHTML = questionHtml + courseTag + optionsHtml;
     
     // Remove any existing feedback
     const existingFeedback = document.querySelector('.answer-feedback');
@@ -1302,10 +1337,20 @@ function loadReview() {
             courseTag = `<small><i class="fas fa-history"></i> ${year} Exit Exam ${month ? '(' + month + ')' : ''}</small>`;
         }
         
+        // Build question HTML with code if present
+        let questionHtml = `<span style="margin-left: 8px;">${i + 1}. ${q.question}</span>`;
+        
+        if (q.code) {
+            const formattedCode = formatCode(q.code);
+            questionHtml += `
+                <pre style="background: #f4f4f4; padding: 10px; border-radius: 5px; overflow-x: auto; margin: 10px 0; border-left: 4px solid #2772a0; font-size: 13px;">${formattedCode}</pre>
+            `;
+        }
+        
         div.innerHTML = `
             <p>
                 ${statusIcon}
-                <span style="margin-left: 8px;">${i + 1}. ${q.question}</span>
+                ${questionHtml}
             </p>
             ${courseTag}
             <p>
